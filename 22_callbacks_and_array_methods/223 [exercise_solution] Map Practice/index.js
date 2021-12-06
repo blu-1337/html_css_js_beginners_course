@@ -1,0 +1,1 @@
+const cleanNames = names => names.map((name) => name.trim());

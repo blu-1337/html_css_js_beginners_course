@@ -1,0 +1,15 @@
+What We Will Cover
+
+How The Web Works
+HTML5
+Semantic HTML
+Accessibility
+CSS3 Essentials
+Flexbox & Layout
+CSS Animations
+Responsive Design
+CSS Frameworks
+Bootstrap 4 & 5
+JavaScript Basics
+All Modern JS Syntax
+DOM Manipulation
