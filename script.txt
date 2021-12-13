@@ -38,12 +38,12 @@ here you can remove the CSS and JS parts to see what it looks like without
 add CSS back in, and comment that the JS functionality is not present
 
 
-HTML is the what of the page, CSS describes that structure and makes it look good, the verbs and functionality of the web page
+HTML is the what of the page, CSS describes that structure and makes it look good, JS is the verb/action and functionality of the web page
 
 
 We now need to install our tools for development: https://www.google.com/chrome/
 We also need VS Code
-For macos it can be nice to have Spectacle to rearrange your windows faster: https://www.spectacleapp.com/
+For macos it can be nice to have Spectacle (App) to rearrange your windows faster: https://www.spectacleapp.com/
 
 To setup theme for VS Code: Settings>Workbench>Appearance
 Extensions>install material theme
@@ -74,101 +74,145 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Element BOOKMARK THIS ONE!
 Use google search for html together with MDN, for example: html form mdn
 We will use mdn very often.
 
+Let's now have a look at the <p> tag. This can be seen on mozilla mdn. Let's now put some text in a file and try to display it as two paragraphs.
+We could take something from here: https://en.wikipedia.org/wiki/Car
+*inserts text in file*
+We notice that we should have a paragraph at some point. We don't have it like we want it in the .html file, so let's format it with <p> because normal return spaces do not work. We leave the heading alone for now, this will be covered in the next demo.
 
-am rămas la video 022
-
-
-
-____________________________________________________________________________
-04_html_essentials________________________________________________________04
-____________________________________________________________________________
-
-____________________________________________________________________________
-05_html_essentials________________________________________________________05
-____________________________________________________________________________
+Next up we have six very similar elements: heading elements - h1, h2 through to h6. h1 is a top level heading for the entire page, usually just one used. Do not use these just by the size they carry. There should be a certain structure to it: there should be at most one h1 on the page and it should be the top-level main heading.
+We can add some text from above wiki page car and try to mimick the website. We can do lorem ipsum as text for now.
+lorem*5+TAB
 
 
-____________________________________________________________________________
-06_html_essentials________________________________________________________06
-____________________________________________________________________________
+Let's have a look at the chrome inspector tool. Right click on a webpage and select inpsect. We can look here at all the underlying HTML on the page. We can now click the arrow at the top left corner of the inspector window "select an element in the page to inspect it" and we can click and highlight the element we clicked on. What are those elments: head body etc. We'll talk about that next.
+
+HTML Boilerplate aka HTML Skeleton - we have to write our HTML in a standard skeleton
+the doctype: a flag to your browser that says that we want to use the latest version of html -> HTML 5 with its latest features.
+HTML element is the root element and represents the top level element of the page. The permitted elements of html are one head element followed by one body element. You can see the definition of HTML on mdn https://developer.mozilla.org/en-US/docs/Web/HTML/Element/html
+The <title> element is used in the <head> element and controls what will be displayed in the tab of our browser. This is also used by google when we search for items > it displays the title; the title from google is the same as the title of the page when you click on the page.
+The next element we add to the html element is the body. The body represents all the content of the document. There is where we put everything that we typed, our content. That's it!
+We have to do this for every page we want to make. It is so often used that we even have a special shortcut for it in VS Code: ! + TAB generates what we just went through.
+
+
+We can make our code look pretty, ident it. You can do it yourself or you can let vscode do it.
+CMD + SHIFT + P and we write format document. Here we can see the shortcut for the auto format which is SHIFT + OPT + F in my case on a macbook. You can also go to settings (CMD + , in my case) or click on the wheel at the bottom left side. You can write "format" and it will give you all the settings for formatting. You can click for example on "Format HTML on save" so it formats it and makes it look nice when you press CMD+S.
+
+Let's now go over lists. We have two kinds of lists: ordered and unordered, here we can have a look on wikipedia to see if we can find some examples. If we inspect the elements we can see the tag exactly. If we go to https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol we can see that the permitted elements for content are <li>'s <script> and <template> but we will only focus on <li>'s for now. Let's do an example in an .html file and see it in action
+*here you do an example in index.html to showcase an ul and ol - change inbetween them to show both of them in action*
+In VSCode you can use CMD+SHIFT+UP/DOWN and copy the current line to that place
+We can also nest our ul ol, let's make an example of that too. *makes example*
+
+Up next is one of the most used elements: the anchor tag. This is used to create hyperlinks: to another page, to an email address, another location to a page, a file etc. If we try writing something like <a>I AM A LINK</a> it does not seem to be working. This means that we need to add something more to our anchor tag. If we look here https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a we can see that the anchor tag needs an attribute which mentions the path that the link should redirect to. An attribute are like little pieces of information that you can pass in to a tag. So not in between but inside the tag. Our firs example of this is the href which is the hypertext reference. It looks like this <a href="google.com">click me</a> But this is wrong. Why? Because it is trying to find a file named google.com. We need to write instead <a href="www.google.com">Click me</a>. 
+We can now try to reference a page that is in the same folder as our first one. Let's quickly make an about.html page and reference it in our previous file. <a href="about.html">about me</a>. We can also add a link on the about page to go back "home" to the page we left off from.	
+
+Let's now have a look at the next element: the image element. This is the first element that we've seen so far that does not have an opening and closing tag https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img 
+Inside the image we have to add an attribute called source: src="". We can download an image and put it in the same folder and add it to the website. For example src="my_car.jpg". If the picture is too large you can also add the attribute width="200px" but this is generally bad practice as you want to add this through CSS - which we will see later - so let's remove it for now.
+Let's add another image, let's take it from an external website, an image that we don't have locally on our computer. If we put our files in a folder we can reference that folder something like: /pictures/pic.jpg in the src attribute. If for some reason the image cannot load: like the external url does not load anymore or the file moves from your designated path in your computer, we can use the attribute alt="image description" so that this can be displayed in case the image cannot load. Also if someone is using a screen reader, it will read this part aloud.
+
+Let's now have a look at how we can add comments to our HTML. This helps us identify parts of our code without having it displayed on the actual website. The syntax for it is <!-- your commment text here -->. A shortcut for this is CMD+/ on macos to comment out automatically in VS Code if you do not want to use the clunky syntax for it.
+
 
 ____________________________________________________________________________
-07_html_essentials________________________________________________________07
+04_html_next_steps_and_semantics__________________________________________04
 ____________________________________________________________________________
 
-____________________________________________________________________________
-08_html_essentials________________________________________________________08
-____________________________________________________________________________
+What exactly is HTML5? https://developer.mozilla.org/en-US/docs/Glossary/HTML5
+It contains newer html features like video player, audio player and so on.
+
+Let's now have a look at div's and span's. Consequently we'll look at block and inline elements. This means how the elements will fit inside our page. For example if we put two <a href></a> after another, we will see that they are happy to coexist together on the same line. These are inline elements. If we put a <p> tag between those two anchor tags, it will force them to split, having the paragraph on its separate line. <p> tags are block elements. If we inspect the webpage, we can see that the inspector highlights also empty space to the right of the <p> tag element, which indicates that it is a block element and has some extra space to the right side because it was not filled but was just reserved for it. The <a> tags do not have extra space and are highlighted.
+
+<div> is the content division element and it is a generic container to group elements together. It is a block level element. In this example here https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div it can group together an image and a paragraph. This will make more sense when we will begin with CSS. In the leopard frame we see that the border is not around only the image or text but around both, because they are grouped together in a div.
+
+For a very similar purpose we have the <span> which is an inline container element as opposed to <div> which is a block container element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span The <span> does not require a new line and can be used when we want to change elements that are on the same line.
+
+AM RĂMAS LA 034
 
 ____________________________________________________________________________
-09_html_essentials________________________________________________________09
+05_html_forms_and_tables__________________________________________________05
 ____________________________________________________________________________
 
-____________________________________________________________________________
-10_html_essentials________________________________________________________10
-____________________________________________________________________________
 
 ____________________________________________________________________________
-11_html_essentials________________________________________________________11
-____________________________________________________________________________
-
-____________________________________________________________________________
-12_html_essentials________________________________________________________12
-____________________________________________________________________________
-
-____________________________________________________________________________
-13_html_essentials________________________________________________________13
-____________________________________________________________________________
-
-____________________________________________________________________________
-14_html_essentials________________________________________________________14
-____________________________________________________________________________
-
-____________________________________________________________________________
-15_html_essentials________________________________________________________15
-____________________________________________________________________________
-
-____________________________________________________________________________
-16_html_essentials________________________________________________________16
-____________________________________________________________________________
-
-____________________________________________________________________________
-17_html_essentials________________________________________________________17
-____________________________________________________________________________
-
-____________________________________________________________________________
-18_html_essentials________________________________________________________18
+06_css_basics_____________________________________________________________06
 ____________________________________________________________________________
 
 ____________________________________________________________________________
-19_html_essentials________________________________________________________20
+07_css_selectors__________________________________________________________07
 ____________________________________________________________________________
 
 ____________________________________________________________________________
-20_html_essentials________________________________________________________20
+08_css_box_model__________________________________________________________08
 ____________________________________________________________________________
 
 ____________________________________________________________________________
-21_html_essentials________________________________________________________21
+09_other_assorted_useful_css_properties___________________________________09
 ____________________________________________________________________________
 
 ____________________________________________________________________________
-22_html_essentials________________________________________________________22
+10_responsive_css_and_flexbox_____________________________________________10
 ____________________________________________________________________________
 
 ____________________________________________________________________________
-23_html_essentials________________________________________________________23
+11_pricing_panel_project__________________________________________________11
 ____________________________________________________________________________
 
 ____________________________________________________________________________
-24_html_essentials________________________________________________________24
+12_css_frameworks_bootstrap_______________________________________________12
 ____________________________________________________________________________
 
 ____________________________________________________________________________
-25_html_essentials________________________________________________________25
+13_museum_of_candy_project________________________________________________13
 ____________________________________________________________________________
 
 ____________________________________________________________________________
-26_html_essentials________________________________________________________26
+14_javascript_basics______________________________________________________14
+____________________________________________________________________________
+
+____________________________________________________________________________
+15_javascript_strings_and_more____________________________________________15
+____________________________________________________________________________
+
+____________________________________________________________________________
+16_javascript_booleans____________________________________________________16
+____________________________________________________________________________
+
+____________________________________________________________________________
+17_javascript_arrays______________________________________________________17
+____________________________________________________________________________
+
+____________________________________________________________________________
+18_javascript_object_literals_____________________________________________18
+____________________________________________________________________________
+
+____________________________________________________________________________
+19_repeatinig_stuff_with_loops____________________________________________19
+____________________________________________________________________________
+
+____________________________________________________________________________
+20_intro_functions________________________________________________________20
+____________________________________________________________________________
+
+____________________________________________________________________________
+21_leveling_up_our_functions______________________________________________21
+____________________________________________________________________________
+
+____________________________________________________________________________
+22_callbacks_and_array_methods____________________________________________22
+____________________________________________________________________________
+
+____________________________________________________________________________
+23_newer_javascript_features______________________________________________23
+____________________________________________________________________________
+
+____________________________________________________________________________
+24_intro_dom______________________________________________________________24
+____________________________________________________________________________
+
+____________________________________________________________________________
+25_dom_events_____________________________________________________________25
+____________________________________________________________________________
+
+____________________________________________________________________________
+26_score_keeper_code_along________________________________________________26
 ____________________________________________________________________________
 
