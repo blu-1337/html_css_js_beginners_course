@@ -2,4 +2,279 @@ ____________________________________________________________________________
 15_javascript_strings_and_more____________________________________________15
 ____________________________________________________________________________
 
-Now we'll have a look at strings.
+[s3] So we've seen two of the basic primitve types, the fundamentla building block in JavaScript: we've seen number and boolean. Now we're going to focus on string. Strings are really commonly used, as our numbers and booleans. These three are the most important to understand right now. A string is a textual information, a string of characters. [s4] They are just another primitive type and they represent text. The first thing we need to know is that they need to be wrapped in quotes. This is how we indicate to JavaScript that we're working with a string. So if we had some text and we wanted to store it in a variable, like sombody's name we can do:
+
+let username = "Andy";
+
+If we don't have those quotes, we're going to get an error. Now we have an username variable set to a string.
+
+[s5] So we can use double quotes but we can also use single quotes. There are some situations where one makes more sense over the other, but what's important is that we remain consistent. So in a single JavaScript file we should not be switching from double to single quotes for our basic strings. We should remain consistent. Let's see another example: 
+
+let favAnimal = "Grizzly Bear Q@WR#@ 1234";
+
+so we can put spaces in there, symbols and we can also have numbers. We can also make a string called:
+
+"23"
+
+this will be interpreted by JavaScript as a string. Even though it is a number, when you look at it. It is not the same as typing 23 without quotes. The most important thing to recognize is that we cannot mix the quotes up like: 
+
+'23"
+
+this causes a syntax error. It's waiting for a closing single quote. So single quotes or double quotes, totallt up to you. The type string contains textual information which is very useful because we have a lot of textual data that we might have to work with in a browser, things like username, address, city, messages and so on. We're going to spend some more time on strings, because there's actually more than what we've covered. There's more to them than numbers. Strings have some nice little features, we're going to talk about some things called methods, but just to recap, strings are just another primitive type, they have textual information, they can be a single character long, they can also be empty:
+
+""
+
+and they can also be very long. We can store them in a variable, we can use single quotes or double quotes and we should not mix them up. The only time when we could mix them together is when we wanted to use one inside of the other for example:
+
+"I told him 'come here!'"
+
+we can also do the other way around:
+
+'she said "I like you"'
+
+but we cannot do 
+
+"she said "I like you""
+
+Now beyond the basic idea of making a string with quotes, the next concept we need to understand is that strings are indexed. [s6] What this means is that every character in a string has a corresponding number associated with it. A positional number that goes in order from the beginning of the string starting at zero. Strings are not the only thing that are indexed in JavaScript. We'll learn later about arrays which are also indexed collections. So we start from 0 and we work our way up from left to right. In this example we have the string "CAR" - three letters. Each letter, although it doesn't have to be a letter as we saw, it can be a number, period, symbol, space or something else, each character has this associated index. So "R" has an index of 2. "C" has an index of 0. So why does this matter? Well we can actually access individual indices, individual characters based upon that index. So if we have a string
+
+let animal = "Grizzly Bear";
+
+So we have these indeces that we've mentioned but what we haven't seen is that we have these square brackets after our string and we can put a number inside it. So for example we can have
+
+animal[0];
+
+This will access the index with number 0, the character that has index 0 which is capital "G" in this case. So if we did 
+
+animal[2];
+
+we would get "i". What if we wanted the capital "B", what is the index we would need for that? Think about it for a moment. Well, we're going to need to start counting from the beginning so that would be:
+
+animal[8];
+
+If we put a number in there that does not exist like 
+
+animal[99];
+
+we don't get an error, we get something called undefined, which is a special value, a primitive that we'll cover later. It's basically JavaScript's way of telling us that it doesn't have anything there and it doesn't know what we want, there's nothing. So we usually don't use these indices in this way of showing where the exact character lies and we want to know the magic number to find that character. Typically we'll do things like check the first character of a string and once we learn how to do some basic logic, we could do something like: let's say we have a phone number where we have an area code and then the rest of the number:
+
+let phone = "(123)123-12334";
+
+some people might enter their phone number like that, some might enter it without paranthesis. So maybe we want to make some logic that can check if the first character is a paranthesis, an opening paranthesis. We can access that character with phone[0] and then compare that to an opening paranthesis character to see if they match. So normally we're not trying to find something, instead we're trying to figure out what's the first character, what's the last character, what's the first half of the string and so on. We can do that using square brackets and an index. The other string we should now is that every string has a built-in magical property. We'll learn more about properties. It has this thing called length. So we have:
+
+animal
+animal.length
+
+so we use .length and it will tell us the length of the string, the number of characters. This is not the highest index. The highest index is always one less because length is sort of how we would count: 1, 2, 3, 4 and so on, and the index count begins at 0 unlike us, who begin with 1. We can also use legnth on a string directly:
+
+"hey".length
+
+we don't have to put it in a variable. It's just the fact that it is a string it means that it has a length property. And it means that we have index characters too so we can do
+
+"hey"[1]
+
+Alright, that's important to understand. The other thing that we should know is that we can add strings together. So the addition operator works a bit differently, right? 
+
+1 + 2;
+
+but if we have two strings: 
+
+"hey" + "You"
+
+we get "heyYou". This is called concatenation, we're smushing together two strings so that we can get a new string. So we can make two variables:
+
+let firstName = "Johnny";
+
+let lastName = "Cash";
+
+and then we can add them together
+
+firstName + lastName
+
+and get one new string "JohnnyCash". This is a new string. The firstName and lastName remain unchanged. In fact we cannot change a string. What this means is that is that we cannot update one character at a time because it becomes a completely different string in memory, we can only overwrite that entire string and give it a new value if we wanted to. This is not that important to understand at this point though. Now for the above example, let's say we wanted to add some space inbetween firstName and lastName, we can do something like:
+
+firstName + " " + lastName
+
+we can also save that to a variable:
+
+let fullName = firstName + " " + lastName;
+
+now we have a fullName with space between the first and last names. What do you think will happen if we do 1 + "hi". A number plus a string:
+
+1 + "hi"
+
+This give us "1hi". We can also put it in a variable let's say result
+
+let result = 1 + "hi"
+
+we saw earlier the typeof operator. Let's use it on result:
+
+typeof result
+
+it says that it is a string. In contrast to
+
+typeof 1
+
+which gives us a number. So why did we get that? Why did it give us a string? This is something we'll get into deeper later, but for now JavaScript is going to try and coerce these to a common type. There's no logical way to add a number to a piece of text without making them both pieces of text or trying to make them both numbers. The latter one does not work that well so JavaScript makes them both strings and it adds them together.
+
+[s7] Next up it's time to introduce a larger topic, something called methods. Every string we make in JavaScript actually comes with a set of built in actions that we can perfrom using that particular string. These are like special moves that a fighter character in a games has. Every string has a set of methods, although they are all the same. So every string can do the exact same thing. String "hi" can do the same methods as the string "bye" for example. These methods can be found in the chrome devtools if we look at one of our strings and we do 'hello'. and we will see a big list of things that we can use with our string: toLowerCase, toUpperCase and so on. These are all methods, are actions that we can take and do these things with our string. We can also have a look on mdn https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String at String, on the left side we'll see the Properties: length and then a big list of methods. These do a whole range of things: change casing, replace portions of the string, search for something in a string. These are all actions we can perform using methods. The syntax for this is [s8]:
+
+something.method();
+
+So if you recall, we did something similar with "hey".length but there's a big difference: there were no paranthesis. This is how we access a property. If we add paranthesis we are executing a method. Let's try a method now [s9], let's try a very simple method called toUpperCase() which is going to take a string and create a new version of it that is in all caps. So let's declare a new variable with a string to it:
+
+msg = "this is my beautiful string"
+
+and if we do
+
+msg.toUpperCase();
+
+we'll get the same string but with all letters capitalized. If we forget the paranthesis at the end, it will not give us an error but it will not work. This toUpperCase is a non-destructive method, meaning the original message msg remained unchanged. It made a new copy for us and made it uppercase. So let's capture that in a new variable:
+
+let yell = msg.toUpperCase();
+
+now yell has that value. We can also do toLowerCase. So for example
+
+"HELLOTHERE".toLowerCase();
+
+will make a new version with everything in that string lower case. Another method is trim() [s10] This method is going to trim off any whitespace at the beginning or at the end of the string. This is sometimes useful when we're getting input from a user or we're dealing with data over which we don't have full control over and there might be extra indentation or spaces that we want to remove just to get to the core of the string. We can call .trim() for that. Let's do an example for that and make a string:
+
+let userInput = "         hello, I am Cristian";
+
+So we've got that extra space at the beginning, so if we call .trim()
+
+userInput.trim();
+
+is going to eat up the space and is going to make us a new version of the string without the white space. We can also use this for both beginning and end:
+
+"       heey there            ".trim();
+
+Now this is not going to remove characters that are non-space characters, for example
+
+"__________hey there".trim()
+
+is not going to work. It's just going to keep it like it is. We should also have noticed that it keeps the text in the middle of the text. 
+
+What we can also do is chain methods together. So if we have a string that has whitespace before and after like:
+
+let greet = "         hello everybody!!!        ";
+
+and we want to delete the whitespace and make everything uppercase. We can do something like:
+
+greet.trim().toUpperCase()
+
+the order here does not really matter but the first one for trimming gets executed first and then the uppercase(). It works from left to right, replacing as it goes. This is how we chain methods.
+
+Alright so we've seen this pattern where we have some string and then some method name and then some paranthesis. That may be often the case but there are also methods that accept something called an argument [s11]. Arguments are just inputs that we can pass into a method to alter how they behave. So as an example, if we were searching for a character, we might want to know: is there an a in this string? So we need to pass in a value and we can, but not to every single method. For example toUpperCase is going to do the same thing no matter what so it does not need an input. Alright so let's have a look at a method that requires an argument. The first one we'll look at is indexOf [s13]. This is going to give us the string index, the positional number in which a given argument occurs in a string. On slide [s13] we have the example of a TV Show called "catdog" saved into a variable called tvShow. And if we call indexOf cat, it will give us index of 0, that's where the word cat begins. For dog it tells us index of 3. If we look for something that's not in there, we'll get -1 as an answer. If we feel unsure about what a certain method does we can always go on google and search for the method name javascript mdn and we can have a look on the mdn page https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf There we will have a better explaination and some examples. So this returns the first occurance of the specified value. So it's not going to give us multiple matches. Like for another example:
+
+"hello there!".indexOf("e")
+
+this will give us 1, even though we have other e's in there. So this is commonly used to test if a string contains something. Does it contain a dollar sign, a period, a word and so on. There are other methods that ask for arguments such as slice. slice can actually accept more than one argument. For this one I recommend looking at the docs if you get confused. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice What this does is going to extract or slice a portion of a string and gives it back to us as a new string. So we can pass in two numbers: the two indices that we want to slice our string from. We can pass in a begin index and an end index. The endIndex ist optional because it is put in with [, indexEnd] straight brackets. When we see this in the documentation we should understand that this is optional. So we can just pass in the begin index. This will tell slice where to begin extraction. So let's try it:
+
+"hello there!".slice(6);
+
+will give us
+
+"there!"
+
+If we hat this inside a variable and we called the same function:
+
+let hello = "hello there!"
+hello.slice(6);
+
+he variable would still remain the same. If we pass in the optional endIndex which is the index before which the extraction will end. It will not include this index. So if we do
+
+"hello there!".slice(6, 9);
+
+we'll get the word "the". If we have more than one input, we'll use a comma. So we went from the 6th index up until but not including the 9th. If we did the 10th, it would include the "!". We can also use negative numbers, but it's not that common, if we pass in a negative, it will be treated as length of the string + beginning index. So if we do slice(-1) it will be treated as length - 1. Let's do it for our example
+
+"hello there!".slice(-1); 
+
+and it gives us the "!" the last character. -2 will show us the last two characters and so on.
+
+The next one we'll look at is replace [s14]. Replace is a lot more powerful that what we'll se right now. We can use something called regular expressions to match patterns and replace a pattern instead of a specific string. But we're not going to do that because we don't know regular expressions. At least not at this point. So we need to pass in two arguments, the first is what we're trying to replace and the second what we're trying to replace it with. So let's try it for our example and replace "there" with "my friend":
+
+"hello there!".replace("there", "my friend");
+
+now this is going to replace the first matching instance. There is also a method called replaceAll() but this does not have a good coverage for all browsers. So it might work in Chrome but not on Edge. 
+
+Another method that might be useful at some point is repeat(). As an argument we pass in the count, the number of times we want our string to repeat:
+
+"hey".repeat(3);
+
+This makes us a new string that repeats the word three times.
+
+All of these that we've seen so far here are methods that accept inputs. We call those inputs arguments. We can have one, or multiple which we separate from each other by commas. There are also plenty of other methods that we haven't yet looked into, but they are things that you can look up if you ever need them or if you see someone using them. They are all listed on MDN. At the end of the day a method is just an action with a name that we can call upon, in this case, a string. But we'll actually see that other built in values and different things in JavaScript have their own set of methods. There are number methods too for example, methods that work with arrays, objects and so on.
+
+Next, we'll talk about something called template literals. But first let's see how life is without them: imagine we have some variables called
+
+let product = "chairs";
+let price = 54.99;
+let qty = 6;  
+
+and now let's say we wanted to create a string that says that says "You bought x product and your total is: price * qty". What we can do now is concatenate strings with +
+
+"You bought " + qty + " " + product + " and your total is: " + price*qty
+
+so that's a lot of quotes, spaces and pluses. This does work though. But it took a lot of work. What we're going to see right now is the newer way of doing this, something called a template literal. [s23] These have not been around since the dawn of JavaScript like concatenation has. These template literals are a newer syntax are super-useful. They allow us to create strings where we can embedd an expression inside a string and that expression will be evaluated and turned into a string. So we can see an example in the slide. There are a couple of things we must first know in order to make this work we have to use the backtick character. Normally this key is located above the TAB key and under the ESC key on the leftside of the keyboard. They are different from a single quote. We can also create strings with backticks by the way. But the important thing about backticks is that inside of them, if we use the special sequence ${}, whatever we put inside those curly braces will be treated as an expression and it will be evaluated. For example:
+
+`I have ${1+2+3} cars`
+
+what is inside the curly braces is going to be evaluated as JavaScript and not as a string. So this is really useful for a lot of examples and if we go back to the one we just did with the chairs we can also see why. Let's try to recreate that:
+
+`You bought ${qty} ${product} and your total is: ${price+qty}`
+
+and we get the same result. So these were template literals, we'll be using them very frequently from now on.
+
+So if you now remember [s3] we've covered so far number string and boolean types from the five primitive building types of JavaScript. Next up we need to talk about null and undefined [s26], which fortunately are very simple, compared to string types. Both null and undefined are primitive values. They are acutal values like true and false. We've also run into it before. Can you remember where? It was when we wrote 
+
+"hello"[99];
+
+there is nothing there. Or if we make a variable:
+
+let x;
+
+and we don't give it a value. It currently has the value undefined. We can think of undefined as JavaScript's way of saying "I don't know", "I don't know the value, it is not defined" undefined, versus null which is pretty different, which means the intentional lack of value. Null [s27] is something we assign. It's a value that we can give to a variable, like for example loggedInUser in the slide and initially there is no logged in user so we can set it to 0 or and empty string or we can set it to null which clearly indicates that there is nothing there. So the difference is that undefined is not something we set and use ourselves whereas null is something we can set. We'll actually run more into undifined while coding because we'll only get null if we set it somewhere. So that's it, we've now rounded up our five essential primitives.
+
+Next up we'll look at the Math object in JavaScript [s29]. So we have access to this thing called Math with capital M and it's just a collection of properties nad methods that have to do with math in some way. So we have methods like PI - a mathematical constant, round() for rounding number, abs() for absolute value, pow() for power, floor(). This Math object is in our console, and we can write Math and hit enter. We haven't talked about objects yet but if we expand it, we can see that it is a collection of properties and methods. One options would have been to make just one variable called pi that we always have access to and another one called E for Euler'
+'s number or the square root of two that could be available everywhere. So we or JavaScript could do that but it doesn't because it would be polluting the namespace. JavaScript's approach was to combine this into a single object so they are all nested under this thing called Math. So we can access them with
+
+Math.PI
+Math.E
+
+to access Pi and Euler's number. What we want to focus on now are methods which range from things that we won't need to use that often like arctan, but the main ones we'll be looking at will be mainly around random numbers and a little bit around rounding and flooring our numbers. We can read more about the Math object on the mdn website https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math There's a page for every single method. So let's have a look at Math.floor(): this will take a number with a decimal and chop off that decimal.
+
+Math.floor(23.99999)
+
+will give us 23. We also have Math.ceil() which rounds it up
+
+Math.ceil(23.11111) 
+
+it gives us 24. We also have Math.round() which rounds it up if it's .5 and down if it's under .5
+
+Math.round(23.9)
+
+These might not be very useful on their own, what' we'll see now is how to generate random numbers [s30]. This is also the main reason we're looking at the Math object in the first place. There's a built in method called random. This is going to give us a random decimal number between 0 and 1 but it will not include one.
+
+Math.random()
+
+everytime we call that, we get a different very long decimal. Sometimes that's fine but when we want to get a random number we might want to get a random number between one and two, we might want a coin flip between 0 and 1, where they are just integers. So to do that requires a little bit more work, we don't have a method called random integer or random int or something like that. So we need to do some math. It's a multi step process. Let's say we want random numbers between one and ten. We can call Math.random() then we can multiply by ten and floor that.
+
+Let's do first an example for numbers between one and five.
+
+Math.random() * 5
+Math.floor(Math.random() * 5)
+Math.floor(Math.random() * 5) + 1
+
+When we multiply by 5 we also get 4 as a result. After flooring it, the number becomes an integer. We currently have from 0 to 1 in this format, if we want from 1 to 5 we need to shift everything by + 1 so we add it at the end. Now how would we need to write this to go from 1 to 10?
+
+Math.floor(Math.random() * 10) + 1
+
+Alright, we got that too. How about we do the numbers from 20 to 22. How would we do that? First we need to find out how many number we are trying to generate: 3 - 20 21 and 22. And then we can shift that upwards by 20:
+
+Math.floor(Math.random() * 3) + 20; 
+
+and that's it. It's most common to generate numbers starting from 0 to seomthing but if we need a range we can shift it up as much as needed. So that is Math.random() on its own it gives us a random decimal from 0 to 1. We can transform that and use Math.floor() to help us get integers where we don't have that crazy looking decimal. We haven't yet covered objects at all so remember that they are a place to store stuff so that it's not hanging out in the middle of nowhere. All this math functionality has been combined into a single object, a single entity called Math with capital M. 
+
+
+
