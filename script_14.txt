@@ -1,0 +1,296 @@
+____________________________________________________________________________
+14_javascript_basics______________________________________________________14
+____________________________________________________________________________
+
+We now jump to JavaScript. We'll first talk about the basics. This is a big milestone getting here. This might take some time and practice to master but after we get through this, the world of possibilities, the things that we can do, expands drastically. HTML and CSS are great, but on their own we are limited to making static websites, maybe some animations and some hover effects. With JavaScript we can do a lot more. Compared to learning CSS or HTML it's kind of like painting by numbers, if we want to put an image somewhere or an h1 it's pretty much always the same. We might change the text or image source but it's just this simple process. JavaScript is a lot more logic heavy, more creative because there are more ways of achieving the same end result so it's not the same as saying put an h1 here, or make this thing red. Just to recap, HTML, CSS and JavaScript are the three main tools that our browser can understand and do something with. When we request a web page, like searching for cars, there is an HTTP request that is sent to google servers, the google server is going to parse what we're asking for, go and do all the hard work to find the car results and builds the webpage for us. That webpage consists of HTML, CSS and JavaScript. It's sent back to our browser and our browser can render that for us. So returning to the gramatical analogy: HTML is the noun, CSS is the adjective, JavaScript is the verb, the stuff that happens on our webpage. We'll now see some examples of what JavaScript can be used for. We'll start with some simpler stuff and then work our way up. Let's look at https://codepen.io/ktich/pen/ExVmYGr the africa map quiz, it's not particularly amazing but to see a simple example of what we can do. Here we write a country's name and it gets highlighted on the map and JavaScript figures this out and all this is happening dynamically on the page. A more advanced example is this https://codepen.io/ste-vg/pen/GRooLza airplanes codepen where the airplane is animated and has some nice effects. It rotates in three dimensions. All of this is done with JavaScript. If we remove JavaScript we still have some content but we don't have that nice animation, we're not interacting with anything as we scroll. Another example is https://www.marketwatch.com/investing/stock/live we could show a graph even without JS, but to update things while the page is still here, without reloading, to get new information, new data and to update what we see, that is done with JavaScript.
+
+Alright, this marks the real starting point, the first time we're going to see code. Everybody wants to get to the exciting stuff, obviously like crating chats, games, animations and so on. Unfortunately those applications of JavaScript involve understanding not just understanding the basics of JavaScript but also how it connects to HTML, CSS and the browser and to user interactions. So we have to learn the basics of the language first. That will take a couple of sections in this course. Then we can take those skills and add on to them. We can learn how to use JS to manipulate stuff that happens in the browser, how to manipulate user input. So we cannot do any of that until we have step one done. If you feel discuraged, I promise it will all come together but we just cannot do it first. We have to start with the basics.
+
+The first fundamental thing we have to know are the primitive types in JS. Primitive types are a concept across any programming language. When we say types, we're just talking about the different types of information it can store, it can handle and work with. So commonly we've got different types of information that we can represent: we've got text, numbers, weather we are subscribed to a channel or not on YouTube - so a true or a false value. These are all things that we can store in JS. We're going to go through these, so we have: numbers, strings, booleans, null and undefined. These are the five basic primitive types. The most fundamental unit in JS that we interact it on a daily basis as a JS developer. Technically there are two other primitive types Symbol and BigInt, these are way less commonly use so we're not going to worry about them now. 
+
+OK, now let's see where we can type our code. We're going to start typing our code in the JS console in Chrome. It is the easiest place to start, it is absolutely not the standard place that developers type code in a professional setting. We will be writing our code in our editor and saving files and all of that, but that requires some overhead where we have to first connect a file to an HTML document and open that in a browser and make sure our script is included in the right place. It is just more work. When we're doing these basic things like learning primitive type it doesn't matter. So we'll start with the console. To do this, if you know Chrome already, which you should do as we've been using it in our course. In chrome, on any webpage, we press F12 for dev tools and we go to a different tab, which is the console tab. Depending on where we are, we may see a bunch of messages there. We don't have to worry about that for now. We can actually clear all of it by typing
+
+clear()
+
+and pressing enter or by pressing the keyboard shortcut CMD + K or OPTION + L on mac or CTRL + L on Windows machines. There's another shortcut on a MAC: CMD+OPT+J and it goes directly to the console. Or we can go to View>Developer>JavaScript Console. So what this is right here is a place for us to type code. We can write simple maths like 1234+42342 hit enter and that code is run and the result is shown to us. This is also something known as a REPL: Read Evaluate Print Loop. So it's reading our code, it evaluates it, it prints out the result and it loops, meaning that it keeps going, it doesn't just stop unlike most scripts and programming languages where we hit run and it runs and then we're done. The console is a place where we can quickly and interactively play around with code. So it's a great place to demonstrate things and learn the basics. We do not want to write anything here that we want to have any permanence beause as soon as we close the window or refresh, our code is gone.
+
+So now let's dive into our first primitive type. We're going to begin with nubmers. We work with numbers a lot in JavaScript and really in any programming language out there. We store numbers, we manipulate numbers, we do math with them even simple stuff such as incrementing a number and decrementing. Like if we upvote something on reddit we are adding one to some number and for downvote we substract one from some number. These are important fundamental operations. In JavaScript one of the primitive types is called number. In JavaScript there is only one number type, but in other programming languages there are also other number types to represent whole numbers - integers and a separate type to represent decimal numbers usually called floating points or floats. The reason for that is that it takes a lot more memory to store a decimal. So in JavaScript we only have one type: number and it includes positive numbers, negative numbers, whole numbers (integers) and decimal numbers. So we can begin very simply in our console from dev-tools
+
+13
+13
+
+this just gives us the number back. There is a point where we lose precision: so if we have a long decimal like 1.9999... eventually this will become 2 
+
+1.99999999999999
+
+So numbers get a certain amount of space in memory they're not permitted to take an unlimited amount of space so if we write
+
+1.231313123124124124125152
+1.231313123124124
+
+we get back a shorter version of it.
+
+Alright now let's have a look at some basic math operations such as addition, substraction, multiplication and division. They use symbols with which we should be familiar with. They are pretty standard across programming languages and across the world. So we can use them on our numbers
+
+1+2*2+4/2-1
+
+and so on. Try writing something with these operations. There is also order of operation. Maybe it can be useful to think of it as PEMDAS: paranthesis, exponents, multiplication, division, addition and substraction. So the operations run in that order. If we have
+
+3+1*9
+12
+
+because we first calculate the 1*9. We can change that using paranthesis
+
+(3+1)*9
+36
+
+and we get a different result. A small pro tip is that we can recall previously entered lines with the up arrow so that we can scroll through our previous commands. We can also use the down arrow to go forward after we went up with up arrow.
+
+Two forward slashes in a row // create a comment in our code. For now, a comment in the console is pretty useless because this is not a file, it is not saved. It is purely a moment in time in our browser. When the windows closes, the code is gone. If we write 
+
+//askjdflaksjd
+
+and then we write the same without // 
+
+askjdflaksjd
+
+we will get an error message. Let's now talk about two operators that you might not be familiar with. The first one is called modulo: % it is also known as the remainder operator. 
+
+9%2
+1
+
+we say 9 mod 2. Two goes into nine how many times? It goes four times, and then what is the remainder left after that? Well, 4*2 is 8 so 9-8 is 1. So the remainder is 1. If we add something slightly more complicated: let's try 19%4. Can you guess what the result for that will be without typing it in the console? 
+
+19%4
+3
+
+Modulo is commonly used to determine if a number is even or odd. We can take any number and mod by 2.
+
+12314 % 2
+0
+
+if we get 1, the remainder is 1 so the number is odd. If the number is even, the remainder is 0. It doesn't matter what size the numbers are, this is widely used in JavaScript.
+
+The next and final operator we'll look at is the exponentiation: ** two stars, two asteriscs. It is going to take our first number and raise it to the power of the second number:
+
+2**4
+16
+
+These were all our basic mathematic operators. They are used commonly and they obey the order of operation.
+
+One other important topic about nubmers is NaN (not a number). This is technically considered a number. It's basically a concept, it represents a value that is not a number but it is considered a number. This is kind of hard to understand so let's see some examples:
+
+0/0
+1 + NaN
+
+So zero divided by zero is considered meaningless or impossible in normal mathematics. In JavaScript the same applies. We get the actual value from JavaScript which is a real value and it's called NaN. It is considered a number, but what does this mean? In JavaScript we have this thing which we have not seen yet called typeof. This is considered an operator like the + sign except it only requires a single thing to be passed into it in order for it to work, we're not adding two numbers 1 + something. It takes something like 
+
+typeof 4
+"number"
+
+and it tells us: that's a number. If we try
+
+typeof NaN
+
+so technically this value is a special value in JavaScript and it represents something that is not a number but it is considered a number type or a member of the number family in JavaScript. We had a look at this now because it will come up often if we want to do something and we expect it to work, but we are dividing something by 0 maybe or the user enters in some text instead of something that was supposed to be a number and we are doing math with a word. This can lead to gettin a NaN.
+
+We can also arrive at a NaN when we work with NaN like
+
+NaN * NaN
+NaN * 2
+NaN - 1
+1 + NaN
+
+so we cannot do math with NaN and expect something else than NaN as a result. In all math operation where there is a NaN, the result will always be NaN. So remember that it is technically a number in JavaScript and it just means not a number.
+
+So let's do a little quiz here together. We don't need to write any code right now. You'll need to use your brain power to evaluate the following line of code. What would you see if you were to type this in the console and hit enter:
+
+4 + 3 * 4 / 2
+
+This one has to do with the order of operation and recognisind these operations in general so the addition is not going to happen first. We'll have the multiplication and divison: 3*4=12 12/2=6 6+4=10. Let's do the next one.
+
+( 13 % 5 ) ** 2
+
+These are two other operators that we've learned. So we have modulo and paranthesis that happen first so 13%5: how many times does 5 go into 13 so the closest multiple is going to be 10. So the remainder is 13-10=3. So the left side is 3 and then we have 3**2 which is the exponent operator. This means we have 3 to the power of 2 so 3*3 is 9. Now the final one:
+
+200 + 0/0
+
+What happens first by order of operations is 0/0 and this evaluates to NaN. Then we have 200 + NaN. But we now know that NaN spoils everything in math and we end up with NaN again so the overall number is NaN. Anytime we try to do any operatio involving NaN we're going to end up with NaN.
+
+Next up we get to a very important concept: variables. They are a way of givin a name to a varaible and storing it using JavaScript so that we can come back to it later and reuse it, update it or recall it. At the moment we are working with numbers and we and do math with them and get an answer. Afterwards those numbers are gone, if we wanted to reuse them we would have to type them again. That seems not so bad if we're just doing basic math, but our data will quickly get more complicated than that. So it will help a lot being able to save values and them come back to them later on in our script. We can also have English names to values so that we can refer back to them. For this we can think of the analogy of a jar with a value inside of it with a label on it. Now, how do we do this? This is the basic syntax in JS:
+
+let someName = value;
+
+the keyword let, the variable name that we decide on, an equals sign and then some value that we want to assign to that variable name. Here's a more concrete example:
+
+let year = 1989;
+
+What we're doing here is telling JavaScript that we're going to store in the jar called year the content 1989. So later on in our script we can refer to year an 1989 will be what JavaScript has stored for us. Oh and about that semicolon at the end: JavaScript adds it anyway so it's not mandatory but rather nice to have. If we now write 
+
+year
+
+in our console, we'll get the value of 1989 back recalled from JavaScript. We can also do something like
+
+cars = 5;
+trucks = 2;
+
+and then we can write something like
+
+cars + trucks 
+7
+
+and we get the answer 7. We can add two values behind the scenes. JavaScript goes and finds those values of the variables and adds them together. If we do that we can also see that 
+
+cars
+trucks
+
+remain unchanged after this operation. If we write
+
+cars + 1
+6
+
+we are adding one to cars and we get 6 but the actual value of cars does not change. What we can do is
+
+let totalVehicles = cars + trucks;
+
+we are adding the two together and we are saving the result in a new variable. Now totalVehicles has the value 7. If we did want to update one of these values in the variable itself we would have to do the following:
+
+cars = 8;
+
+or
+
+cars = cars + 1
+
+What happens now to the totalVehicles variable? If we declared it as cars+trucks and now cars has increased its value, what value does totalVehicles have? Still 7. It has the same value from where we created it, it's a snapshot in time. The values are not linked together so if we change cars or trucks the totalVehicles will not change. We would have to change it ourselves again by writing: 
+
+totalVehicles = cars + trucks
+
+and now we get 11. So this was our intro to variables, they will be commonly used in JavaScript.
+
+Now we'll talk about updating values in a variable, specifically updating a number. We haven't seen this yet but we can store other things in a variable: strings and booleans. But up until now we've only seen numbers, so let's make a new variable called score:
+
+let score = 0;
+
+Now let's say we play a game where everytime we collect a coin we're adding 5 to our score. So if we want to update score by 5 we can write:
+
+score = 5;
+
+But that's only going to work the first time. If we wanted to add five againg we would have to write:
+
+score = score + 5;
+
+Now score is 10. There's also an even shroter syntax to write this. 
+
+score += 5;
+
+Now score is 15. This syntax is far more commonly used because we spare writing score on more time. It does what the previous one did, it adds 5 to its own value. It is a condensed way of doing it. We also have other variants for the other operations like
+
+score -= 5;
+
+now we have 10. The same goes for the rest of the operations. Can you tell me how we would do it for exponentiation? Let's say we want to increase score to the power of 3:
+
+score **=3;
+
+We have an even shorter option for decreasing or increasing our score. Let's say we wanted to increase our score by 1. We can write:
+
+score = score + 1;
+
+or
+
+score += 1;
+
+and now the ultra short syntax is:
+
+score++;
+
+adn we can also decrement it by 1:
+
+score--;
+
+For this incrementing and decrementing operation syntax we only have these two options ++ and --. We don't have variants for multiplication and so on. The incrementing and decrementing operators are used often on counters. Counter is a variable that counts something, let's say the number of seats we have in a classroom. Everytime we find a new seat, we set the counter to counter++. So this syntax of ++ and -- and also the += will often appear in JavaScript code and we need to get familiar with it from the beginning.
+
+So we've seen how to make variables using the let keyword. let and then some variable name equals some value. There are actually two other keywords to make variables and we're going to cover them now: the first one is called const. This stands for constant. A constant is a value that does not change, it remains constant. So we use it exactly like let:
+
+const age = 20;
+
+except there is a huge distinction in its behaviour: after we create our variable, we can recall it at any point but we cannot increment it, reassign it or change it. So for 
+
+age++;
+
+we would get an error. This would happen for any other operation that would try to change the value of age like
+
+age += 1;
+
+So why should we use const? It kind of is limited but we use it to store the value of pi or store things which we know will not change like days in a week, which is seven. But this is not the main way developers use const. We just don't know enough JavaScript at this point to really understand why we use it so we're just seeing a part of it. Later on we'll understand it better. To this is another way of making variables aside from let but const variables cannot be reassigned. 
+
+The next keyword we have not yet seen, that we can use to make variables. That is called var. This is the old way to make variables in JavaScript. This back then the only way/keyword to make variables. So everything we'll see in old codebases, old tutorials and old materials, was done using var. So we can still use it today:
+
+var Distance = 23;
+
+It is very similar to let but there are some distinctions which we will not cover at this point. We'll get into this topic later. What we should know now is that let and const are the new var and we should use them exclusively. We should have no reason to use var. I wanted to show you this var now beacuse we might run into it form and we need to know what it means.
+
+So let for now allows us to make a variable that we can reassign. const makes a variable that is a constant value. And these are the main keywords that we will be using in this course. 
+
+Next up we're moving on to our next primitive value. Up until now we've talked about numbers and now we have booleans. Booleans are very simple, we have two options for them: TRUE or FALSE. That's it. So booleans are used to store yes or no values. That's all there is to it. We actually write the word true and the word false. These are special words on JavaScript. Later on we'll see how these two will have an important role in logic. But at their core they are very simple and they are used a lot. These values can be stored in a variable like
+
+let isActiveGame = true;
+
+this would for example tell us if our game is still running or if the player is still playing. If not, we can set it to false
+
+isActiveGame = false;
+
+Also remmber that these are lower case: true and false. Another example for their usage is:
+
+let isLoggedIn = true;
+
+would check for example if an user is logged in on the website. So booleans are built into JavaScript, yes or no values, true and false.
+
+Now we can jump into a quick topic since we've seen so far numbers and booleans. So the topic is about the fact that in JavaScript varliables can change types. If we make a numeric variable, it is not stuck storing a number type forever. We can make it store a boolean. So for our example we can also give isLoggedIn which is currently a boolean, a value:
+
+isLoggedIn = 1337;
+
+It might not be that often that you would want to do that, but you can do it in JavaScript. In some other programming languages it is very common that when we make a variable and that variable is a number that we're storing, that variable can only store a number. Or if we make a boolean, that variable can only store a boolean value. So that's it, in JavaScript we can have a variable that changes type. There is something called TypeScript that you might have heard about, it's sort of like an addon for JavaScript which enforces type restrictions where we cannot use a variable for multiple types.
+
+Next up we'll have a look at how we can name our variables. When we make variables wheather we are using let, const or even worse, var, we have to come up with a name for that variables. There are actually some hard rules in JavaScript that we must follow and then there are some conventions and some best practices that JavaScript developers in general follow, but we don't actually have to. So let's start with the hard rules, the things we must obey when we're coming up with an identifier in JavaScript. For example
+
+let isLoggedIn; 
+
+is alright but
+
+let hello world;
+
+is not ok because we have a space in there. We might also have
+
+let user1 = 1;
+
+but we cannot start off with a digit:
+
+let 1user = 1;
+
+this would give us an error. So we can have a digit in our variable name but it cannot be the first character. We can also look up for a more concrete definition https://developer.mozilla.org/en-US/docs/Glossary/Identifier so they are also case sensitive. We can also do stuff like
+
+let _age = 9;
+
+This is not very usual to do because of the following stuff we are going to talk about, which is best practices. Or just common conventions for how we should name our variablesi n JavaScript. The stuff we'll see most frequently is to give our variables names that are camelCased. If you are not familiar with this term think of it this way: if we have more than one word that we need to fit in like loggedInUser or currentDate we have multiple options of writing them:
+
+current_date 
+
+for example and this is allowed and valid in JavaScript and also called snake case or
+
+currentDate
+
+which is called camel case, where each new word has an upper-cased first letter except for the very first letter of the variable. Even though we can upper case the very first one, we won't see that very often and it is not best practice or a common pattern. So lowercase for the first word, no spaces, no underscores - although we can.
+
+The other thing I'd like to mention here is the importance of coming up with good names. There are so many people that use a variable like
+
+let n = 9;
+
+What is n? Why is it so special, do you know what it represents? But if you come back in a week to your code, can you still remember? So variable names are important and naming them well is crucial. When we're making a boolean variable, generally we want to come up with a nice name that explains that it is. So instead of something like:
+
+let loggedInUser = true;
+
+we can do something like
+
+let isLoggedInUse = true;
+
+putting is in there just makes it clearer that it is a boolean variable. You don't have to do that, but it's pretty common. In general we should avoid one letter variables unless for some reason it makes sense to use them and we feel confident with it. So remember, we cannot start a variable name with a number, we can put a number but not as a first character and it's most common in JavaScript to use lower camel case: lower case the first letter and then uppercase the first letter of subsequent words. It's always better to have a meaningful variable name instead of having a concise one. So brevity is not really that important. It's not going to make our code better or more efficient or anything to have it take up less space on the line. We shouldn't come up with a sentance as a variable name but also air on the side of meaningfullnes.

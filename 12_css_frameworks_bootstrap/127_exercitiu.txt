@@ -1,0 +1,1 @@
+Lastly I would like us to have a quick look at the folder project_check-me-out. Inside it is a Bootstrap sample website. If you want you can customise it to your needs, change the font, text, images and maybe make a website for yourself as an exercise. Make your own website about anything you like. Maybe about a car dealer with some nice cars? 
