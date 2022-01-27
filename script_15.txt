@@ -276,5 +276,23 @@ Math.floor(Math.random() * 3) + 20;
 
 and that's it. It's most common to generate numbers starting from 0 to seomthing but if we need a range we can shift it up as much as needed. So that is Math.random() on its own it gives us a random decimal from 0 to 1. We can transform that and use Math.floor() to help us get integers where we don't have that crazy looking decimal. We haven't yet covered objects at all so remember that they are a place to store stuff so that it's not hanging out in the middle of nowhere. All this math functionality has been combined into a single object, a single entity called Math with capital M. 
 
+One last thing to mention here is that we [s30] transform strings into integers if they contain numbers. So for example:
+
+parseInt('24') 
+
+gives us an int which is equal to 24. 
+
+parseInt('28days') 
+
+gives us just 28. IT does not parse the string "days" because there is no number there. This is how we can convert strings into integers that we can use to calculate stuff with. This is also valid for decimal numbers if we want what's after the . sign:
+
+parseFloat("24.1337")
+
+will give us 24.1337 as an integer but
+
+parseInt("24.1337") 
+
+will only give us 24 as an int. Alright this is it for this section.
+
 
 

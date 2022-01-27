@@ -2,4 +2,568 @@ ____________________________________________________________________________
 16_javascript_booleans____________________________________________________16
 ____________________________________________________________________________
 
+[s1] In this section we're going to talk about decision making in JavaScript. Although this will apply to pretty much every programming language because the concepts are pretty universal here. What we mean with decision making, we are referring to having different outcomes based off of certain criteria. In a web application context, let's say we are not signed on a website so what would we see up top? Log In or Sing Up. When we are signed in we see our username, news and so on. So we get two different outcomes based on wheather we are logged in or not. On a page for example if there are comments, we can see those comments and if there aren't any, we see a message like "no comments yet".
 
+The first place we'll begin is with simple comparisson operators [s3]. these are operators kind of like the plus sign or substraction that are built into JavaScript, except they are not necessarily mathematical. We are comparing two values: a left and right. We're going to start with the first couple and ignore the bottom ones with equality for now. So the first four. Let's do the less than and greater than together to begin with. So let's write an example in the console:
+
+1 > 3
+
+we get false in the console because one is not greater than three. If we write it the other way around:
+
+1 < 3
+
+we get true. So these return a boolean: true or false. We are comparing two values
+
+-1 > -1
+
+is also false. So how can we compare these two? This brings us to the other two values greater than or equal to and less than or equal to. For the above if we do any of them we should get true:
+
+-1 >= -1
+-1 <= -1
+-1 <= 10
+
+These are all simple, they return a true or false value and that's it. They become very useful in the real world where we work with data that is unknown. We don't know exactly the value for it beforehand. Let's take for example a variable age. If we have a website where the user has to be 18 to sign up, we cannot know beforehand what age each user is but we can test for it like follows:
+
+let age = 24; //now let's imagine we don't know this value
+age >= 18;
+
+this returns true. We're still not making a decision based upon this, we're just comparing. Is this variable >= 18? Then we can use that when we learn how to make branching pathways for different outcomes. We'll then use these comparissons to help us. [s4] one more thing to highlight here is that we are not limited to doing this with numbers, although it's most common to do that. We can actually compare two strings. We can do 'a' < 'b' but it's a little confusing because it might not work the way you expect it. All characters have a Unicode number assigned to them https://www.unicode.org/charts/PDF/U0000.pdf so for example the @ symbol has 0040, lowercase "a" has 0061 and uppercase "A" has 0041. We can compare them but when we are comparing them we are comparing those numbers so in case of "a" and "A":
+
+"a" > "A"
+
+gives us true. It gets complicated when you do not know the codes for the letters.
+
+[s3] Now we'll talk about the bottom four comparisson operators. They have to do with equality. So to check if two values are the same, if they are equal, we basically have two options: we have double equals and triple equals sign. There is a pretty important distinction between them [s5]. The first one we'll look at now is double equals [s6]. This is going to check if two values are equal and it does not care about their type. What this means is that it will try to coerce two values if they are of different types. It will move them or transform them into the same type so that we can compare them. This can lead to some unexpected results. Let's see first some normal results:
+
+1 == 1;
+
+we get true. And they are also the same type. But:
+
+1 == "1";
+
+also gives us true. One is a string and one is a number. It's close though. But that can be problematic. It does not care about type. It converts them to the same type and then compares. [s7] we have some examples to illustrate this oddity. For example 0 and "" empty string are considered the same, null and undefined are considered the same and also:
+
+0 == false;
+
+one is a boolean, one is a number but for some reason we get true. Now we'll understand later more why this works and why 0 and false are considered similar enough when they are converted to the same type.
+
+So this brings us to [s8] triple equals, which is also known as strict equality operator. This one cares about type and value, so it's not going to attempt to coerce anything to the same type. Now 
+
+1 === "1";
+
+is false. Now we have two operators to check for non-equlity, to verify two things that are not the same. We have a version with != which is similar to double equals where it does not care about type and then we have !== which does care about type and is similar to ===. Here's an example
+
+1 != 2;
+
+we'll get true.
+
+1 != '2';
+
+gives us true.
+
+1 != '1'; 
+
+gives us false.
+
+1 !== '1';
+
+this is now true. Alright. The main thing we should takeaway from here is that we should pretty much always use triple equals when we are comparing things. If it ever makes sense to use double equals and you get to that point then you'll be a skilled enough developer to decide on your own. Until then, always use triple equals. This cares about type. And if we are checking to see if two things are not equal we should use the !== version which also cares about type. It's the strict non-equality operator. These are the two operators we should use for equality and non-equality.
+
+Now let's have a look at a couple of important methods we should know about [s9]. The first one is called consol.log(). In other languages it would just be called print and this is going to print whatever arguments we pass in to our console. If we do this directly in our console:
+
+console.log("hello");
+
+it prints out back "hello". We don't really need that if we're working in the console. But when we're working in a file, that file is completely disconnected from our console. We don't see anything that we're typing in that file, we don't see live feedback in REPL (read, evaluate, print loop) style. Well, in files it's more like RE (read, evaluate). So in order to print something out we need to use console.log(). We can also pass in multiple arguments:
+
+console.log(1+4, "hey", true);
+
+these all print out separated by spaces. This console thing is actually an object, just like Math we had before. console. and we can see a list of methods for it like
+
+console.warn("oh, problem!");
+
+and this prints the message out differently with a warning sign. We can also do
+
+console.error("wow, an error, not good");
+
+Which is similar to warn but with a different design. But console.log() is what we'll be using. Two other methods we should care about are:
+
+alert("hey, how are you?");
+
+we get a pop-up with that message. This is very annoying and I recommend you don't use it that often. The other thing we'll see is:
+
+prompt("enter a number");
+
+this asks the user via a pop-up to input some text. The text is printed out, but normally what we do is save that to a variable directly like:
+
+let userInput = prompt("enter a number");
+
+now we have it saved in userInput and we can print it or use it again if needed. Typically we'd use a form for this for user input, with HTML and then we can use JavaScript, but we don't know how to connect them yet. So prompt is an easy way to get some user input. Let's say we wanted to do some math with this number from our input. Let's say we want to add one:
+
+userInput + 1 
+
+will give us a concatenated string because we are concatenatign two strings. What we want instead is turn our userInput into a number. We've seen in the last section how to do this:
+
+parseInt(userInput) + 1
+
+and we've now added 1 to the userInput number.
+
+
+
+[s10] Now we're going to learn how to run code from a JavaScript file. Not just from the console, but from a script that we can then include in our HTML document, kind of like how we include a CSS stylesheet. Typing out code in the console is good if we write a couple of lines of code and want to see what they do, but when we want something more complex, we need to write it in a file. So let's head over in our running-js-script_starter folder and make an new file called app.js and inside it we can put some code, but in order for it to show up in our browser we need to add some console.log() statement, let's try:
+
+console.log("HELLO FROM OUR FIRST JS FILE!!!!");
+
+Let's save it. Now we need to connect this script with out index.html file. So we need to open up index.html from the same folder. For this we have a <script></script> element which has an attriute called src where we can specify the path to our script. So let's add our app.js in. The positioning of the script is ideally at the bottom of the body tag.
+
+    <script src="app.js"></script>
+
+The reason for this is that when we have a lot of HTML elements, we want those elements to be acknowledged before our JavaScript. Because we might influence the buttons for example via JavaScript but there will be no buttons to affect in the first place if we run the script before the buttons are placed on the page. We need to do it after, at the end. So now we should see the console.log message in our browser when we open index.html. We can see the message in the dev tools console by pressing f12. Also if we add more stuf into our app.js file:
+
+console.log("HELLO FROM OUR FIRST JS FILE!!!!");
+let total = 1 + 3;
+console.log("GOODBYE!");
+
+we will not see the operation 1+3 which ran in the background. We will see only the console.log() messages. But the variable total is accessible in the console.
+
+[s11] alright so we've seen how we can run our code from a file and we've seen how to do some simple comparissons. How to do something like:
+
+age > 18
+
+but we haven't seen how to do anything using these comparissons. So we can check if this is true or false but what if we want an outcome if it's true something like printing out OK and something else for false like "NOT OK". This is what we'll look at now with conditional statements. This is how we make decisions with our code. The first thing we'll see is the if statement [s12]. If paranthesis, some condition - anything that evaluates to truth or false and some code between curly braces that will execute if the condition is true. If it is false, it will not run. Aside from the if statement there are also else if's and else statements which can be combined together to form a full conditional. A full conditional is that it covers all possibilities. So let's go in our conditionals_starter folder, open up index.html and include our app.js script. Now we can add the following in our app.js to test if it's working
+
+console.log('hey, it works');
+
+Alright, now let's do something basic like
+
+if(1 + 1 === 2){
+  console.log("math still works")
+}
+
+Now if we refresh the page, we get the console log message from inside the if. If we add something before and after the conditional like:
+
+console.log("before conditional")
+if(1 + 1 === 2){
+  console.log("math still works")
+}
+console.log("after conditional")
+
+we see all three. If we change the if condition and make it false:
+
+console.log("before conditional")
+if(1 + 2 === 3){
+  console.log("math still works")
+}
+console.log("after conditional")
+
+now we only see the two before and after messages. What this means is that if the if statement is false, only the code inside the curly braces does not run. It doesn't stop everything. Our code continues to run afterwards. Inside the if we can have as many lines as we want to or need to. Let's try something more like check a random number. Let's see if the random number generated by Math.random is smaller than 0.5. So there should be 50/50 chances, like flipping a coin:
+
+let random = Math.random();
+if (random < 0.5) {
+    console.log("YOUR NUMBER IS LESS THAN 0.5!!!")
+}
+
+and this only shows the log message when the random number is indeed smaller than 0.5. We can do the other case also and say something like
+
+let random = Math.random();
+if (random < 0.5) {
+    console.log("YOUR NUMBER IS LESS THAN 0.5!!!")
+}
+if (random >= 0.5) {
+    console.log("YOUR NUMBER IS GREATER THAN 0.5!!!")
+}
+
+this seems kind of silly to do and it is. This will work but there is a better way. Now we'll have a look at [s13] a piece that we can chain on and works in conjunction with an if. It only works if it's preceeded by an if. It's called an else-if. So we can think of this like: if not the first thing, then maybe try this thing. The else-if will only run if the previous statement was false. Let's comment out the previous random code (CMD + /) and do something involving the days of the week and strings. We'll use const because we're not going to alter the value and ask the user for a value
+
+const dayOfWeek = prompt('ENTER A DAY').toLowerCase();
+
+if (dayOfWeek === 'monday') {
+    console.log("UGHHH I HATE MONDAYS!")
+} else if (dayOfWeek === 'saturday') {
+    console.log("YAY I LOVE SATURDAYS!")
+} 
+
+Alright, so these are all linked. Only one of these will ever run. We can chain these together and have as many else if's as we want.
+
+const dayOfWeek = prompt('ENTER A DAY').toLowerCase();
+
+if (dayOfWeek === 'monday') {
+    console.log("UGHHH I HATE MONDAYS!")
+} else if (dayOfWeek === 'saturday') {
+    console.log("YAY I LOVE SATURDAYS!")
+} else if (dayOfWeek === 'friday') {
+    console.log("FRIDAYS ARE DECENT, ESPECIALLY AFTER WORK!")
+} 
+
+We used .toLowerCase() on the prompt message because the user might want to type it with a capital letter and we want it all in lower case to match our string. Now we have three possible outcomes. If we put in a value that is not checked for, nothing will get printed out. Let's comment this out and check out one more example. Let's say we are running a theme park and we have different age brackets. If you're zero to five years old, you can get in for free. If you're a child 5-10 years old it's $10. For 10-65 age will be priced as adults $20. And lastly 65+ years will go for $10. Let's try to implement this:
+
+const age = 8;
+
+if (age < 5) {
+    console.log("You are a baby.  You get in for free!")
+} else if (age < 10) {
+    console.log("You are a child.  You pay $10")
+} else if (age < 65) {
+    console.log("You are an adult. You pay $20")
+} 
+
+We can change the age in our file so that we can go through all options. We see here that we didn't cover the last option for 65+ years old. We'll see now the final piece that will help us with that. [s15] Which is else statement. Else is going to be the last part. If we need an else, it will be the last piece of the entire conditional and we don't specify any condition. We don't have paranthesis for it. It is going to match everything that did not match the previous statements. So it's like, if nothing else is true, do this. So we can use this for our 65+ secnario:
+
+const age = 890;
+
+if (age < 5) {
+    console.log("You are a baby.  You get in for free!")
+} else if (age < 10) {
+    console.log("You are a child.  You pay $10")
+} else if (age < 65) {
+    console.log("You are an adult. You pay $20")
+} else {
+    console.log("You are a senior. You pay $10")
+}
+
+We can also comment it out and use it on our math random example too
+
+let random = Math.random();
+if (random < 0.5) {
+    console.log("YOUR NUMBER IS LESS THAN 0.5!!!")
+} else {
+    console.log("YOUR NUMBER IS GREATER (OR EQUAL) THAN 0.5!!!")
+}
+console.log(random);
+
+This is now a full conditional because both cases are covered. Lastly we can use it for our days of week example as well. If i'ts not a monday or a saturday, the answer we want is "MEH".
+
+const dayOfWeek = prompt('ENTER A DAY').toLowerCase();
+
+if (dayOfWeek === 'monday') {
+    console.log("UGHHH I HATE MONDAYS!")
+} else if (dayOfWeek === 'saturday') {
+    console.log("YAY I LOVE SATURDAYS!")
+} else if (dayOfWeek === 'friday') {
+    console.log("FRIDAYS ARE DECENT, ESPECIALLY AFTER WORK!")
+} else {
+    console.log("MEH")
+}
+
+Just to be clear we can have the following:
+
+if
+
+if 
+else
+
+if
+else if
+
+if 
+else if
+else
+
+if 
+else if
+...
+else if
+else
+
+So for a basic conditional we need at least an if. The else if and else do not work on their on. Now we can start chaining things together and add more complicated logic. 
+
+For now we don't have any new syntax to learn, and instead we will have a look at a really important concept called nesting. This is how we can nest conditionals inside other conditionals. Let's try it out with a password input example:
+
+const password = prompt("please enter a new password");
+
+we now want to test if the password is at least 6 characters long and that it does not include blank spaces. So for the length we can use the length property and for the white space we can use indexOf:
+
+
+
+const password = prompt("please enter a new password");
+
+// Password must be 6+ characters
+if (password.length >= 6) {
+    console.log("long enough Password!");
+} else {
+    console.log("PASSWORD TOO SHORT! Must be 6+ characters")
+}
+
+alright we have the first part with the length, now we need to add the second part where we check if the password has white spaces inside it. Now, we could do this in a separate if down below:
+
+const password = prompt("please enter a new password");
+
+// Password must be 6+ characters
+if (password.length >= 6) {
+    console.log("long enough Password!");
+} else {
+    console.log("PASSWORD TOO SHORT! Must be 6+ characters")
+}
+// Password cannot include space
+if (password.indexOf(' ') === -1) {
+    console.log("GOOD, Password has no spaces!");
+} else {
+    console.log("Password cannot contain spaces!")
+}
+
+So right now we have two separate conditions which give us two pieces of feedback. If this were a real website we'd get something like: "Password cannot contain spaces!" Just in one message. So in order to do this we can think of some kind of nesting, to put one of the if into the other so that we get just one feedback for the user:
+
+
+const password = prompt("please enter a new password");
+
+// Password must be 6+ characters
+if (password.length >= 6) {
+    // Password cannot include space
+    if (password.indexOf(' ') === -1) {
+        console.log("Valid Password!");
+    } else {
+        console.log("Password cannot contain spaces!")
+    }
+} else {
+    console.log("PASSWORD TOO SHORT! Must be 6+ characters")
+}
+
+Now, the code only runs to check if there's a space and if the password is long enough. If it's not long enough, we immediately print that out. If it is long enough, we check if it has spaces inside it. If yes we'll say "valid password" if not, "password cannot contain spaces". If anything goes wrong we hit either one of the else statements, depending on what the issue is. Let's try to give it some inputs so that we trigger each case.
+
+Alright, this is still a little bit clunky, but there's an even better way of doing this which we will cover shortly.
+
+But for now we'll have a look at truthy and falsy values [s17]. Every single value in JavaScript has an inherit truthness and falseness. This obviously doesn't mean that they are true or they are false because there are only two values which are true and false: true and false. So every JavaScript values are considered truthy except for the following:
+
+false 
+0
+""
+null
+undefined
+NaN
+
+Everything else is truthy. Let's open up the truthy-falsy folder and make an app.js file and include it in index.html. Let's now write in our app.js that we want an input from our user:
+
+const userInput = prompt("Enter something");
+
+next we can make an if that tests the userInput if it's truthy or falsy and returns a console.log() with the answer:
+
+const userInput = prompt("Enter something");
+
+if (userInput) {
+    console.log("TRUTHY!")
+} else {
+    console.log("FALSY!")
+}
+
+we write if(userInput){} so this means that everything that is truthy will make this statement true and the other way around: false, 0, "", null, undefined and NaN would make it give false. In this case as an user input we can only give an empty string, everything else will be truthy. This way of writing takes advantage of the truthiness of the value. For example, the following
+
+if (0) {
+    console.log("TRUTHY")
+} else {
+    console.log("FALSY")
+}
+
+will return falsy. The following ones, too:
+
+if (NaN) {
+    console.log("TRUTHY")
+} else {
+    console.log("FALSY")
+}
+
+if (undefined) {
+    console.log("TRUTHY")
+} else {
+    console.log("FALSY")
+}
+
+But this one will be truthy, could you tell me why?
+
+if (' ') {
+    console.log("TRUTHY")
+} else {
+    console.log("FALSY")
+}
+
+Because this is not an empty string. 
+
+Now we'll have a look at logical operators [s18]. These are operators that allow us to combine different expressions. So we can combine one piece of logic together to form a larger piece of logic. There are three core logical operators built into JavaScript and every other programming language. && || !. We're going to begin with focusing on && [s19]. This is what we write using two ampersands. This is going to give us the logical AND and it's going to join an expression on the left and an expression on the right. In order for the entire thing to be considered true, the left and the right must be true. Both of them have to be true in order for the whole thing to be true. That is the rule of AND. We can start nice and simple without any complicated expressions and have somthing like this:
+
+true && true
+
+so the whole thing is true. If either one becomes false:
+
+true && false
+
+gives us false.
+
+false && false
+
+also gives us false. The only way we'll get true is when we have true and true. An example from everyday life is when our mother tells us we have to clean our room and wash the dishes before we go outside. If either one is not done, she won't let us go outside. But normally in JavaScript we would have some expression like:
+
+1 === 1 && 2 < 7
+
+and this gives us true. Let's go inside our logical-operators_starter app.js file and make better example of AND when we use something like this:
+
+const password = prompt("Enter your password");
+if (password.length >= 6 && password.indexOf(' ') === -1) {
+    console.log("VALID PASSWORD!")
+} else {
+    console.log("INCORRECT FORMAT FOR PASSWORD!")
+}
+
+Previously we wanted to make sure that the length of the password was greater or equal than 6 AND it did not contain any white spaces. Well, we can combine those two pieces of logic like this. And we still get the same result.
+
+The next logical operator we have is the OR [s21] operator. Just like AND, is going to join two different expressions. The symbols we use are two pipe characters ||. The key is usually located above the return key and you press shift to make it. This OR operator behaves differently than AND as it does not require both sides to be true in order for the whole thing to be true. It just needs one [s22]. It only cares if one of two is true. So the same analogy with our mom: if we clean our room or clean the dishes she will let us play outside. So if we do just one of them or both, then we can go and play outside. But if we don't do anything, she won't let us outside.
+
+true || true
+
+give us true
+
+true || false
+
+gives us also true, but
+
+false || false
+
+gives us false. Because both inputs on left and right are false. Let's revisit our age example and add in our app.js and try to do it with an OR operator.
+
+const age = 100;
+if (age < 5 || age >= 65) {
+    console.log("FREE");
+} else if (age < 10) {
+    console.log("$10")
+} else if (age < 65) {
+    console.log("$20")
+}
+
+This kind of works, but we an also add the intervals directly with an AND operator so that it makes it easier to understand the age intervals we are looking for:
+
+const age = 100;
+if (age < 5 || age >= 65) {
+    console.log("FREE");
+} else if (age >= 5 && age < 10) {
+    console.log("$10")
+} else if (age >= 10 && age < 65) {
+    console.log("$20")
+}
+
+So we can first check if age is smaller than 5 or greater than 65 so that we can give a free ticket.  We can also add the AND operator to the age >= 5 and age <10 to make sure that our customer is a child so that we can tax him just $10. The same will be for adults where the age has to be equal to or greater than 10 AND smaller than 65. But with our current knowledge we can also add in a condition that tests if the age is valid, so that negative numbers will return an error:
+
+const age = 100;
+if ((age >= 0 && age < 5) || age >= 65) {
+    console.log("FREE");
+} else if (age >= 5 && age < 10) {
+    console.log("$10")
+} else if (age >= 10 && age < 65) {
+    console.log("$20")
+} else {
+    console.log("INVALID AGE!")
+}
+
+What we've done is we have chained two conditionals. One more important thing here is that the order in which these operators are run. The AND operator is checked first and then the OR. The AND has precedence over OR. We can add paranthesis if we want to make it clearer how we want it to run, but if we left them aside, the AND would still run first. This might be a little bit overwhelming to you at first but we'll get a lot of practice with this.
+
+The final logical operator we'll see it the NOT logical operator [s23]. Now this one actually doesn't really combine two expressions, but it operates upon an expression. It's symbol is the exclamation point, also called bang. It is going to negate a value. If it's something that's false it turns it true, if something is true it turns it false. But what that really means is that when we put a bang in front of an expression it negates it. So for example:
+
+false 
+
+is false, but if we do 
+
+!false
+
+is now true.
+
+!(1 === 1) 
+
+is now false. If we do
+
+!null
+
+we know that null is a falsy value, when we use !null we will get true because it negates/inverts it.
+
+!!!!!!!!!!!null
+
+we can also do this, but it's absurd. Here's another example:
+
+let firstName = prompt("enter your first name");
+if (!firstName) {
+    firstName = prompt("TRY AGAIN!!!");
+}
+
+the if checks if the firstName exists, if it and empty string "" this means that it has a falsy value, which we negate using the NOT operator means that it is true. So the if statement is true and it runs, prompting the user for an input again. We can read the if like: if there is no firstname, do this - prompt with try again! This only happens once, we'll learn later how to do it in a loop until we enter something and do not leave it blank.
+
+Other situations where we can use this operator is when we want to negate entire complicated expressions. So let's take the ticket example from before and target the people who are trying to get in for free
+
+const age = 8;
+if (!(age >= 0 && age < 5 || age >= 65)) {
+    console.log("YOU ARE NOT A BABY OR A SENIOR!")
+}
+
+so first we target people between the age of 0 and 5 or grater than 65. So if they are not in that group, we can negate the entire statement and consolde.log() some message. So that was the logical NOT. It's going to return true if the expression we are applying to returns false or it evaluates to false. 
+
+In the case of OR it only needs one side: left or right to be true. The AND needs both sides: left and right to be true in order for the entire outcome to be true. These are foundational for logic and we use it all the time. We combine things together and we'll see lots of situations where we'll use these operators together to build more complicated logic.
+
+At the end of this section we have one last topic [s24] too look at, namely the switch statement. This is not that commonly used. Do not worry about memorizing this syntax. You can always look it up. The way that it works is that it has a couple pieces of syntax. We have a keyword switch and then we have another keyword called case. The best way to explain this is probably to demonstrate it first. So let's go in our switch_starter/app.js which was already included in our index.html file and try this switch out for the days of the week. Let's first try to do it with if and else statements:
+
+const day = 2;
+
+if(day===1){
+  console.log("MONDAY")
+} else if(day===2){
+  console.log("TUESDAY")
+} else if(day===3){
+  console.log("WEDNESDAY")
+} else if(day===4){
+  console.log("THURSDAY")
+} else if(day===5){
+  console.log("FRIDAY")
+} else if(day===6){
+  console.log("SATURDAY")
+} else if(day===7){
+  console.log("SUNDAY")
+} else {
+  console.log("UNKOWN DAY OF WEEK")
+}
+
+This is one of whose scenarios where we can benefit from using a switch statement, where we are making a bunch of comparissons against the same value. So we can rewrite that code using a switch statement. So let's comment out the if version and use a switch:
+
+const day = 2;
+
+switch(day){
+  case 1: console.log("MONDAY")
+  case 2: console.log("TUESDAY")
+  case 3: console.log("WEDNESDAY")
+  case 4: console.log("THURSDAY")
+  case 5: console.log("FRIDAY")
+  case 6: console.log("SATURDAY")
+  case 7: console.log("SUNDAY")
+}
+
+we write a case with some value and then some code. With that we're saying run this code for when the variable is that value. But for this code we see that something weird is going on, even though we get tuesday, we also get the following weeks. Well, the default behaviour of switch is to go to the matching case, execute the code there and then execute everything else after, too. So we need to fix our code. So there is another keyword that we need to add in, which is: break
+
+switch(day){
+  case 1: console.log("MONDAY"); break;
+  case 2: console.log("TUESDAY"); break;
+  case 3: console.log("WEDNESDAY"); break;
+  case 4: console.log("THURSDAY"); break;
+  case 5: console.log("FRIDAY"); break;
+  case 6: console.log("SATURDAY"); break;
+  case 7: console.log("SUNDAY"); break;
+}
+
+now it works. We now need to add in the other piece of syntax which is the default case:
+
+switch(day){
+  case 1: console.log("MONDAY"); break;
+  case 2: console.log("TUESDAY"); break;
+  case 3: console.log("WEDNESDAY"); break;
+  case 4: console.log("THURSDAY"); break;
+  case 5: console.log("FRIDAY"); break;
+  case 6: console.log("SATURDAY"); break;
+  case 7: console.log("SUNDAY"); break;
+  default: console.log("UNKOWN DAY OF WEEK");
+}
+
+Now if none of the cases match, it will automatically jump to the default. We can also do a trick and use the normal behaviour when it does not see a break and use case 6 and 7 together to display WEEKEND:
+
+switch(day){
+  case 1: console.log("MONDAY"); break;
+  case 2: console.log("TUESDAY"); break;
+  case 3: console.log("WEDNESDAY"); break;
+  case 4: console.log("THURSDAY"); break;
+  case 5: console.log("FRIDAY"); break;
+  case 6: 
+  case 7: console.log("WEEKEND"); break;
+  default: console.log("UNKOWN DAY OF WEEK");
+}
+
+So both 6 and 7 display WEEKEND. Alright, that was it. This switch statement is only useful when we have to test a value agains many cases. But usually we do not use this very often.
