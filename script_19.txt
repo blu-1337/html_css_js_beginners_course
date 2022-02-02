@@ -2,3 +2,573 @@ ____________________________________________________________________________
 19_repeatinig_stuff_with_loops____________________________________________19
 ____________________________________________________________________________
 
+[s1] Let's start learning about loops in JavaScript. The whole point of loops is to repeat some functionality. [s3] So instead of having the same thing happen ten times in a row by writing it ten times, we can repeat it using a loop. A loops is a way of repeating some functionality and that can be something simple: print the word "hello" ten times without having to copy and paste the message console.log() ten times, we can use a loop for that. Or sum up all numbers in an array: that might be two numbers or ten thousand numbers. If we didn't use a loop, that would be a lot of work. There are different types of loops: for loops, while loops, for of loops, for in loops. We'll look at them in this section. 
+
+We'll first start off with for loops. So the syntax for for loops is [s4]. This probably isn't very convincing so let's look at an example: [s5]. This for loop is going to print all nubmers from one to ten. Let's write it in our for-loops_starter/app.js file.
+
+console.log(1)
+console.log(2)
+console.log(3)
+console.log(4)
+console.log(5)
+console.log(6)
+console.log(7)
+console.log(8)
+console.log(9)
+console.log(10)
+
+So we have the numbers from one to ten. That took ten lines of code. If we want to print 10.000 different numbers, that means 10.000 console.log()'s. Now if we want to do the same thing with a for loop, we can write the same thing in two or three lines of code. 
+
+for (let i = 1; i <= 10; i++) {
+    console.log(i);
+}
+
+That's exactly what this for loop does. If we look in index.html with f12 we can see that the code comes from line (maybe like 13 or something) form app.js. If we left the console.log()'s uncommented, we'll see that they come from different lines of code from app.js. Let's comment out the console.log()'s. What we are making with let i is a new variable for this loop. We can name it whatever we want but "i" is very common to use. This variable exists only for the purpose of this loop and that's it. It does not exist outside the loop. This is a counter variable. It starts off at 1, it console.log()'s one and that's what we see. Next we have ; and then a boolean expression. As long as this boolean expression evaluates to true, the loop will continue running. After it comes another ; and then the third piece is called the increment expression where we update the value of i. In this example we increment it by one. These three pieces are always there. We can write whatever we want instead of i but we have to be consistent:
+
+for (let num = 1; num <= 10; num++) {
+    console.log(num);
+}
+
+So we can read it as: starting with num = 1 and if num is <= 10 do a console.log() and then increase num by 1. This syntax can take a little bit of time to get comfortable with, but is really common in JavaScript. So it has three pieces: create a variable, do something to that variable after every loop while something is true. 
+
+So that was our basic intro to for loops. They all follow the same pattern: some initial expression with some variable like a counter, then a condition that dictates how long or when the loop should run until and then we have our increment expression. We can also decrement, divide our number and so on. But typically we go upwards and increment it. Let's make another variation. Let's make a loop that prints out even numbers from 0 to 20. Let's first comment out all code and write:
+
+for(let i = 0; i<= 20; i+=2){
+  console.log(i)
+}
+
+the even numbers are accessed with i+=2 because we add 2 to every iteration of i and i starts at 0. And this gives us the even numbers. If we wanted to do odd numbers, we could start at 1 and it adds 2 to it each iteration. Let's now do something different and count down from 100 to 0 but like 100 90 80 70 ... 0. [s6]
+
+for(let i = 100; i>= 0; i -=10){
+  console.log(i);
+}
+
+We an also do something like:
+
+for (let i = 10; i <= 1000; i *= 10) {
+console.log(i);
+}
+
+where we get 10, 100, 1000 because we multiply i with 10. But most often we'll see the version where we increment it with 1, usually. 
+
+[s7] Now let's talk about infinite loops. It's basically what it sounds like it is. It is a loop that does not stop. They will run until the browser will eventually lock up entirely. This will use all the memory JavaScript has for us because the loop will never stop. The important thing to keep in mind when we're writing any loop is alwasy pay attention to how is this loop going to stop. Is this correct? Are we going to hit a stopping point at some point? Let's see the example in the slide. Are actually going to hit the stopping point? Well, we're starting at 20 then we go to 21, 22, ... and our condition is i >= 0 which will never be false so that the loop will stop. It's fine to loop something for a thousand times but it is not ok to have an uncontrolled loop that is not going to stop. It's not the end of the world but this can be problematic. Usually when this happens is that we have made some logical mistake because the condition will always be true.
+
+So looping and creating a bunch of numbers to print out is not all that useful, but we do use loops all the time when we're interacting with arrays. [s8] There's more than one way of doing this. We'll see some other which are a little bit nices later on. Looping over an array is also called iterating over an array, doing something with or for each element in an array. We can use a for loop for that. We can create a number usually labelled i which is used to refer to the element's index in the array. If you remember indices start at 0 and they go up to the end, to the length of the array minus one. In the slide there are three elements so we can loop from 0 to 1 and then lastly to 2. We can then use that index to access the element in the array. So this is a pretty common template for a for loop.
+
+Let's open for-loops_starter/iteratingArrays.js here we have a list of animals in const animals. Let's try to display all those animals with a for loop:
+
+for(let i = 0; i < animals.length; i++){
+  console.log(i, animals[i]);
+}
+
+Let's try this in reverse and iterate from the end to the beginning of the array. So we need to start from the highest index:
+
+for(let i = animal.length - 1; i >= 0; i--){
+  console.log(i, animals[i]);
+}
+
+We're generating a bunch of indeces i, that we have to plug into the array. No we have revers order. This is very common, to iterate over arrays.
+
+Now we'll talk about nesting loops [s9]. So that means havin a for loop inside another for loop. The idea here is to put a for loop inside the body of another for loop. In practice, what this means is that for every single iteration of the outer loop, let's say it runs 5 times, the inner loop is going to have it's own full cycle five separate times. Let's see an example for that and open for-loops_starter/nestedLoops.js and write
+
+for (let i = 1; i <= 10; i++) {
+    console.log(`i is: ${i}`)
+    for (let j = 1; j < 4; j++) {
+        console.log(`     j is: ${j}`)
+    }
+}
+
+In the first console log we have a string template literal that prints out "i". After that we have another for loop with j that does the same string template literal logging. This second for loop prints less items as it goes from 1 to 3. After we run this we see what happens. The "j" is indented to look better. Our outer loop runs ten times, but while i is one, we have the entire nested loop which runs for "j" from one to three. So we end up with three iterations of "j" all while we're on the first iteration for "i".  Then we get to the end of the line and we move on to the next "i" which becomes then two and the whole process repeats until i is 10. So whenever we have nested loops we can end up with a lot of iterations.
+
+One common area where nested loops come up is when we need to traverse or iterate across nested arrays. In nestedLoops.js we have a const seatingChart depicting who sits where in a classroom for example. So each one of them can represent a row. We want to print every student's name out. One for loop for this would not be enough:
+
+for (let i = 0; i < seatingChart.length; i++){
+  console.log(seatingChart[i])
+}
+
+this now prints the entire array of the row of children. But we want to print out the each individual name. So what we need now is to iterate over seatingChart[i]. To make things simpler, we can save that seatingChart[i] to a new const value called row so that we can follow the code better.
+
+for (let i = 0; i < seatingChart.length; i++){
+  const row = seatingChart[i];
+  console.log(`ROW #${i+1}:`)
+  for(let j = 0; j < row.length; j++){
+    console.log(row[j]);
+  }
+}
+
+We added also this console.log() with string template literal which increases the i with one because we begin at 0 and rows don't really begin with 0 in the real world.
+
+Next up we move on to our next type of loop, the while loop [s10]: a while loop is much simpler than a for loop to understand: there is just one piece of syntax. There's just while and inside a paranthesis a single condition. And as long as that condition is true, whatever it is, the loop will continue to run. Otherwise the loop will be done. In the slide example is a simple recreation of what we've done with the for loop: printing numbers from zero to ten. So let's go in our while-loops_starter/app.js file and start writing a while loop. So let's loop starting at 0:
+
+let count = 0;
+while (count<10){
+  console.log(count);
+  count++;
+}
+
+We have to be careful here, because with while loops it's very easy to make infinite loops. This is due to the fact that the incremental expression has to be within the loop and not in it's header. The equivalent here is:
+
+for(let i = 0; i<10; i++){
+  console.log(i)
+}
+
+the idea is the same to both. This is not where most people use while loops. For loops are preferred for when we have a set number of iterations: always 0 to 10. A while loops is more used when we have something that is truly variable. This can involve user input, a game loop - like keep looping until someone wins the game. So we can write something like
+
+while(!gameOver){
+  //player1 move
+  //player2 move
+}
+//congrats
+
+because at the end, someone has won. It's impossible to know how many times we may need to iterate for a game of chess or checkers. It could be very quick or it could take a very long time and we're not setting a defined number of iterations. Let's see an example of this where we can better illustrate this. Let's ask a user to enter a password. We will declare a constant and we will ask the user to guess that password and as long that's not a match, we will keep the user asking over and over:
+
+const SECRET = "BabyHippo";
+
+let guess = prompt("enter the secret code...");
+while (guess !== SECRET) {
+    guess = prompt("enter the secret code...");
+}
+console.log("CONGRATS YOU GOT THE SECRET!!!")
+
+So that's only going to run after the loop finishes. That means it's only going to run after you enter "BabyHippo" correctly. We have to match it exactly because we are not ignoring case. So this is where a while loop really shines. It's just easier to make a loop like this, that runs an unknown number a times using a while loop. 
+
+[s12] While we're here at while loops we can also introduce the break keyword. The break keyword is most commonly used with while loops, although it can be used with all other loops as well, but this is very rare. What it will do inside of a loop if it ever actually runs is it breaks out and it is going to stop the execution of the loop immediately as break is encountered and code just resumes running after our loop. Let's see this in an example:
+
+let input = prompt("Hey, say something!")
+while (true) {
+  input = prompt(input);
+  if (input.toLowerCase() === "stop copying me")    
+    break;
+}
+console.log("OK YOU WIN!")
+
+this program repeats what the user writes. If the user writes "stop copying me" the loop will end, otherwise it will keep on repeating. When we hit that break, the code in the while loop stops and it continues after the while loop closing curly bracket. We used toLowerCase() to make all inputs from the user toLowerCase.
+
+Just as an example we can also do a for loop that is suppossed to print 1000 numbers but it stops at 100 with brake:
+
+for (let i = 0; i < 1000; i++) {
+    console.log(i);
+    if (i === 100) break;
+}
+
+This is a very unusual structure to use because we set it to go to less than 1000 and we suddenly make it stop at 100. 
+
+Now let's make a very simple guessing game. We have to enter a maximum number and then we have to guess a number that the computer generated from 0 to that maximum number input. If we enter a number that is higher than what we were supposed to guess the program will tell us that we chose a number too high, the other way around for lower and at the end it will display how many guesses it took us to find that number. 
+
+So the first thing we'll do is prompt the user to enter a maximum number:
+
+let maximum = parseInt(prompt("Enter the maximum number!"));
+
+We use here parseInt because all inputs will be converted automatically to a string and we need here to work with a number. Now we need to generate that number from 0 to that maximum input. If you remember from the random numbers, we have to do for number from one to ten: Math.floor(Math.random() * 10) + 1; but for maximum we have to replace 10 with maximum and save it to a const like so:
+
+let maximum = parseInt(prompt("Enter the maximum number!"));
+const targetNum = Math.floor(Math.random() * maximum) + 1;
+
+now we have the following problem: if we try to insert something that is not a number we get NaN after being parsed. So we need to make sure that we get a valid maximum that is a number from the user, before we go to the random number generation:
+
+let maximum = parseInt(prompt("Enter the maximum number!"));
+if (!maximum) {
+    maximum = parseInt(prompt("Enter a valid number!"));
+}
+
+const targetNum = Math.floor(Math.random() * maximum) + 1;
+
+We check the falsiness of maximum. If a string is parsed to ind, it will become NaN if it is not a number. The problem with this is that it checks, but it checks only one time, if the user enters something else but still not a number the second time, we will get NaN again. So for this situation, we would need a while loop, to test until the input is actually a number:
+
+let maximum = parseInt(prompt("Enter the maximum number!"));
+while (!maximum) {
+    maximum = parseInt(prompt("Enter a valid number!"));
+}
+
+const targetNum = Math.floor(Math.random() * maximum) + 1;
+
+So far so good, we made the user enter a valid number. Now we can ask the user to enter a guess and as long as that guess is incorrect, we're going to tell the user if it's too high or too low. We also have to parseInt the input from the user and we can write that in one single line. We also declare a variable attempts which will start with value 1 once the user enters an input:
+
+let maximum = parseInt(prompt("Enter the maximum number!"));
+while (!maximum) {
+    maximum = parseInt(prompt("Enter a valid number!"));
+}
+
+const targetNum = Math.floor(Math.random() * maximum) + 1;
+
+let guess = parseInt(prompt("Enter your first guess!"));
+let attempts = 1;
+
+So now we can add in the while loop that tests if the guess is right or not. We enter the loop only if the first attempt is not equal to targetNum. So he did not guess it the first time. If this condition is not met, the code goes to the console.log() "CONGRATS YOU WIN!". Inside the while loop we increase the attempts variable with one and we then have two cases: if the guess is higher than our targetNum or lower. For each case we prompt the user to enter in a lower or a higher number again until he guesses the targetNum:
+
+let maximum = parseInt(prompt("Enter the maximum number!"));
+while (!maximum) {
+    maximum = parseInt(prompt("Enter a valid number!"));
+}
+
+const targetNum = Math.floor(Math.random() * maximum) + 1;
+
+let guess = parseInt(prompt("Enter your first guess!"));
+let attempts = 1;
+
+while (guess !== targetNum) {
+    attempts++;
+    if (guess > targetNum) {
+        guess = prompt("Too high! Enter a new guess:");
+    } else {
+        guess = prompt("Too low! Enter a new guess:");
+    }
+}
+console.log("CONGRATS YOU WIN!")
+
+
+The problem now is that we are prompting the user for a new input so we need to parse it to int again. We can do that in our while conditional statement with parseInt(guess). 
+
+let maximum = parseInt(prompt("Enter the maximum number!"));
+while (!maximum) {
+    maximum = parseInt(prompt("Enter a valid number!"));
+}
+
+const targetNum = Math.floor(Math.random() * maximum) + 1;
+
+let guess = parseInt(prompt("Enter your first guess!"));
+let attempts = 1;
+
+while (parseInt(guess) !== targetNum) {
+    attempts++;
+    if (guess > targetNum) {
+        guess = prompt("Too high! Enter a new guess:");
+    } else {
+        guess = prompt("Too low! Enter a new guess:");
+    }
+}
+console.log("CONGRATS YOU WIN!")
+
+Alright, now we can also include a quit option, to break out of the while loop, in case the user wants to give up. So let's say that the user types 'q'. This will be our signal to stop the while loop. This can be useful if the maximum number is a really big one and the user cannot find it. Also, at the end we want to display how many guesses it took the user to find out the targetNum:
+
+let maximum = parseInt(prompt("Enter the maximum number!"));
+while (!maximum) {
+    maximum = parseInt(prompt("Enter a valid number!"));
+}
+
+const targetNum = Math.floor(Math.random() * maximum) + 1;
+
+let guess = parseInt(prompt("Enter your first guess!"));
+let attempts = 1;
+
+while (parseInt(guess) !== targetNum) {
+    if (guess === 'q') break;
+    attempts++;
+    if (guess > targetNum) {
+        guess = prompt("Too high! Enter a new guess:");
+    } else {
+        guess = prompt("Too low! Enter a new guess:");
+    }
+}
+
+if (guess === 'q') {
+    console.log("OK, YOU QUIT!")
+} else {
+    console.log("CONGRATS YOU WIN!")
+    console.log(`You got it! It took you ${attempts} guesses`)
+}
+
+So that's it. We didn't really pluralize there correctly, so for one guess you'll get "it took you 1 guesses". You can try and fix that if you want. There is also another problem now: if the user enters a guess number that is not a number, it will give the message: "too low". If you want you can fix this too. But for now this is a pretty small and simple game that works. This combines a lot of what we've learned so far. 
+
+Next up, we'll look at a brand new loop that we haven't seen: the for...of. This for...of is newer in JavaScript and unfortunately this means that it is not supported in internet explorer. This should now stop us from learning it because it is a significant improvement for iterating over arrays and other iterables. If we go to for-of_starter/app.js we have a const subreddits with some strings. If we wanted to print everything out with what we know we would do something like: 
+
+for (let i = 0; i < subreddits.length; i++) {
+    console.log(`Visit reddit.com/r/${subreddits[i]}`)
+}
+
+It does work. But let's see how for each would look like for that same scenario:
+
+for (let subreddit of subreddits) {
+    console.log(`Visit reddit.com/r/${subreddit}`)
+}
+
+[s14] So the syntax for that is we put for, a variable the word of and an iterable, which in our case it he subreddits array. The first variable will now represent the individual element of our array. This is a significant difference because we don't have to worry about the i, the index. This is shorter and a lot easier to read. We can name subreddit whatever we want. For...of is certainly an improvement over regular for loops, not in every situation, but in situations where we're iterating something over an array and we don't need the index and we don't care about it. If we do need the index, there we should use a for loop. 
+
+To better see this we can use a normal for loop to go through the seatingChart array we have in for-of_starter/app.js:
+
+const seatingChart = [
+    ['Kristen', 'Erik', 'Namita'],
+    ['Geoffrey', 'Juanita', 'Antonio', 'Kevin'],
+    ['Yuma', 'Sakura', 'Jack', 'Erika']
+]
+
+for (let i = 0; i < seatingChart.length; i++) {
+    const row = seatingChart[i];
+    for (let j = 0; j < row.length; j++) {
+        console.log(row[j])
+    }
+}
+
+here we use two for loops nested which are not that easy to read. If we comment the first one for loop out and we rewrite it with for...of it would look like this:
+
+const seatingChart = [
+    ['Kristen', 'Erik', 'Namita'],
+    ['Geoffrey', 'Juanita', 'Antonio', 'Kevin'],
+    ['Yuma', 'Sakura', 'Jack', 'Erika']
+]
+
+for (let row of seatingChart) {
+    for (let student of row) {
+        console.log(student);
+    }
+}
+
+So this version is easier to read because we can write a variable that corresponds to the individual elements and not an index or a number that we have to plug into the array. In the second example we don't have to do that. "row" references each element in the parent, in the first array and then "student" references the individual elements of the "row". It looks way better than our normal for loop. 
+
+If we go to [s13] it says there "other iterable objects". So there are other things that we can use a for...of with. For example a string:
+
+for (let char of "hello world") {
+    console.log(char)
+}
+
+Now each character is being iterated over. This is an example of iterating over something that is not an array. We can have a look at mdn for more examples https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of but most commonly the for...of loop is used with array.
+
+Alright so we covered for...of and how it works with every iterable object in JavaScript. This might it make it seem like we can actually use it to iterate over an object literal, but unfortunately object literals, those with curly braces like the one in iterating-objects_starter/app.js they are not considere iterables. Yes, they are objects but they are not iterable objects. An array behind the scenes is technically an object, a string too and lots of other stuff are considered objects so the term object is a bit of a confusing one in JavaScript. If we talk about an object literal with curly braces and key-value pairs, if we want to iterate over them, a for...of loop will not work. Let's try it:
+
+for (let person of testScores) {
+    console.log(`${person} scored ${testScores[person]}`);
+} 
+
+It will say that testScores is not iterable. But fortunately for us, we do have an option to iterate over an object. There is a loop that has been around in JavaScript for a very long time, the for...in loop. Remember:
+
+for...of is used all the time
+for...in is used for iterating over objects.
+
+This for...in is only going to give us the key in the object. If we want the value we need to access it from the object like so:
+
+for (let person in testScores) {
+    console.log(`${person} scored ${testScores[person]}`);
+}
+
+So that's one option. Another option is we needed to iterate over an object literal is a special method that we haven't yet seen. There is a method called Object.keys(testScores) that gives us an array made up of the keys of the object literal testScores. We also have Object.values(testScores) that gives us the values and also one for Object.entries(testScores) which gives us a list of all the key-value pairs in the object literal testScores. These are all methods for object literals. Let's say we wanted to sum up all the values of the test scores and average them. So we can do something like:
+
+let total = 0;
+for(let score of Object.values(testScores
+)){
+  total += score;
+}
+
+If we want to know how many items there are in this object, there is no lenght property for object literals. So what we need to do is to make is something like:
+
+let total = 0;
+let scores = Object.values(testScores);
+for (let score of scores) {
+    total += score;
+}
+console.log(total / scores.length)
+
+because scores is the array of scores and we can thus divide our total by that scores.length.
+
+So that's it. Iterating over objects is not that common as iterating over arrays but there are a couple of options for that. We can use a for...in that will give us the key and then we can use each key to access the value. Or we can use special object methos like Object.values() .keys() .entries() to create new arrays that are based upon the keys and the values from some object that we pass in and then we can use a regular old for...of with that because we're working with an array.
+
+Next up we'll build a small app, a small demo that combines all that we've learned so far: variables, working with loops, arrays and their methods, conditional logic. We're going to build a simple todo list which is all command line based. So we don't have any of the tools to actually make a todo list with our mouse, buttons, forms and all that. We're going to display the commands on our html page in case we forget them. These are already there in out todo-list-project_starter/index.html
+
+So let's go in todo-list-project_starter_finished/index.html to see how this should work like. We'll refresh the page. Everything is done via prompt that asks the user to enter something in. So we can specify a command in the prompt like "new" and hit enter. Now it asks us to enter our todo and we enter something to do. Then it tells us that our todo was added to the list. Let's add one more. Then we'll type "list", which is another command and prints out a list with the index of a todo and then the actual todo. The index is important because if we want to delete a todo, it's going to ask me to enter the index. Let's type "delete" and we will type 0 and it will delete our first todo. The last thing we can type is "quit" and we get out of this prompt. If we type anything else, nothing happens, we get prompted again for a command. If we wanted, we could also add in a message saying "we don't recognize that, try again" or something similar.
+
+If you feel motivated you can first try to do this on your own. If you want to do this alone first I can give you some tips up front, if not, we'll do it together directly. Here are the tips: we're going to have a loop, a while loop. We're going to ask for some input and while the results of that input is not equal to quit, just keep looping. It is recommended here to get the quit part working first so that we don't get infinite loops. The specific function we need for the input is prompt as we've been using so far. Next step is the actual storage of the todos is going to be done with an array. It's a collection of pieces of data, so it makes sense because we also use the indexes. Basically we'll have an empty array at the beginning which we will give a name like todos and if the user would like to add by entering "new" they will be prompted again to enter the input for the todo text. Then we take that and we add it on right there. If we enter another todo, we just add it to the end of the list and keep going. If we ask it to list all of the todos, we will iterate all of the todos and print them out. We want that index there so that we can delete. The delete might be the trickiest piece here. If we have the index, the easiest method is to use the splice method. So that's kind of it.
+
+This is the first time we have multiple pieces coming together: arrays, loops, conditional logic and so on. 
+
+Alright so let's go ahead and open index.html from todo-list-project_starter. We need to first add our todos.js script at the end of the index.html file:
+
+    <script src="todos.js"></script>
+
+we can now open "todos.js" and add in the following to test it out if it works:
+
+alert('I work nicely');
+
+we should now get the alert. Now we have to implement everything else. Let's start with the basic game loop, the while loop that continues to ask over and over and over. 
+
+let input = prompt('what would you like to do?');
+while(input !== 'quit'){
+  input = prompt('what would you like to do?')
+}
+console.log('OK QUIT THE APP!')
+
+here if they happen to write "quit" as the first thing, they are done, if not, they are prompted again and again and again. At the end we added the console.log("OK QUIT THE APP!") which will only run after we exit the loop and thus the program. Let's also make it accept the letter 'q' if we want to quit.
+
+let input = prompt('what would you like to do?');
+while(input !== 'quit' && input !== 'q'){
+  input = prompt('what would you like to do?')
+}
+console.log('OK QUIT THE APP!')
+
+This is kind of trick logic here. A natural instinct would be to put if not 'quit' or if not 'q'. But if you analyze this from a logical perspective
+
+!quit or !q
+if we write quit, the first one is false and the second one is true so: false or true equals true so our loop will continue running
+
+if we write q, the first one is true because q is not quit and the second one is false and we have: true or false which equals true. So our loop will continue running in both cases.
+
+What we need here is && between those two statements. 
+
+Let's now make a todos list with an array and give it some todo values:
+
+let input = prompt('what would you like to do?');
+const todos = ['Collect Chicken Eggs', 'Clean Litter Box'];
+
+while(input !== 'quit' && input !== 'q'){
+  input = prompt('what would you like to do?')
+}
+console.log('OK QUIT THE APP!')
+
+Now that we have two todos in there, let's focus on listing the todos. So we had the console.log with those stars and underneath the index of the todo and the todo.
+
+let input = prompt('what would you like to do?');
+const todos = ['Collect Chicken Eggs', 'Clean Litter Box'];
+
+while(input !== 'quit' && input !== 'q'){
+  if (input === 'list'){
+    console.log('*****************')
+      for (let i = 0; i < todos.length; i++) {
+        console.log(`${i}: ${todos[i]}`);
+      }
+    console.log('*****************')
+  }
+  input = prompt('what would you like to do?')
+}
+console.log('OK QUIT THE APP!')  
+
+because we cannot use the for...of loop because we also want to use the index. So we had to use a regular old for loop. So we took i from index 0, increased it until we hit the highest index in the array, the length of the array - 1. Then we made a string template literal for the index and the todo. Now let's implement the new todo functionality.
+
+let input = prompt('what would you like to do?');
+const todos = ['Collect Chicken Eggs', 'Clean Litter Box'];
+
+while(input !== 'quit' && input !== 'q'){
+  if (input === 'list'){
+    console.log('*****************')
+      for (let i = 0; i < todos.length; i++) {
+        console.log(`${i}: ${todos[i]}`);
+      }
+    console.log('*****************')
+  } else if (input === 'new'){
+      const newTodo = prompt('Ok, what is the new todo?');
+      todos.push(newTodo);
+      console.log(`${newTodo} added to the list!`)
+  }
+  input = prompt('what would you like to do?')
+}
+console.log('OK QUIT THE APP!')  
+
+so we've prompted the user for a new todo which we gave to newTodo which then we pushed to our todos list. At the end of the else if block for new we added a confirmation with a string literal that confirms that the todo has been added to the list. Now all we have left is delete:
+
+let input = prompt('what would you like to do?');
+const todos = ['Collect Chicken Eggs', 'Clean Litter Box'];
+while (input !== 'quit' && input !== 'q') {
+    if (input === 'list') {
+        console.log('*****************')
+        for (let i = 0; i < todos.length; i++) {
+            console.log(`${i}: ${todos[i]}`);
+        }
+        console.log('*****************')
+    } else if (input === 'new') {
+        const newTodo = prompt('Ok, what is the new todo?');
+        todos.push(newTodo);
+        console.log(`${newTodo} added to the list!`)
+    } else if (input === 'delete') {
+        const index = parseInt(prompt('Ok, enter an index to delete:'));
+        if (!Number.isNaN(index)) {
+            const deleted = todos.splice(index, 1);
+            console.log(`Ok, deleted ${deleted[0]}`);
+        } else {
+            console.log('Unknown index')
+        }
+    }
+    input = prompt('what would you like to do?')
+}
+console.log('OK QUIT THE APP!')
+
+This is a little bit more complex to do be cause we first have to ask what the user wants to delete, so we ask the user for an index to delete. After we have the index, we have to remove it from the array. One way of doing this is with splice. The first value from the splice method is the index we want to delete from and the second number is the number of items which we want to remove: 1 item. We make a const deleted and save the deleted item inside it for later. Before we delete it we have to make sure that the number is actually a number and it is not a not a number. This is a new method that we haven't used yet before Number.isNaN(). This checks if something that is passed into it is NaN and returns true or false. After we delete it we show a log message with a string template literal that displays the const deleted that we saved earlier, because if you remember, splice is a destructive method. Otherwise, we log "Unknown index".
+
+If we do something like 
+
+['a', 'b', 'c'].splice('asdjfnakjsn', 1)
+
+the 'asdjfnakjsn' will default to 0 and it will remove the first item form the array. So that's why we put an if that checks if the input is actually a number. If we put instead of 'asdjfnakjsn', '1' or '2', it will actually work because it converts it to a number.
+
+So that's it, we are done. This is the longest thing we've written so far with JavaScript. We have to make sure you understand how this code works. If you have any questions about it ask now or go again later through the code and make a list of questions and we'll go through them together.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

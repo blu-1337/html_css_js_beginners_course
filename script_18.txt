@@ -2,3 +2,129 @@ ____________________________________________________________________________
 18_javascript_object_literals_____________________________________________18
 ____________________________________________________________________________
 
+So let's now talk about JavaScript objects, our second data structure after arrays [s1]. Just like arrays, objects help us store multiple pieces of data together in some sort of structure. But unlike arrays, where the whole point is order our data, our data is stored with key-value pairs or properties. [s2] A property is just two pieces of information: a key like a label and a value. These two form a pair. An object is just a bunch of these pairs. So on the right side we can see a diagram. An object does not really look like this but there are some pairs in there in no particular order. Whatever these key-value pairs, these properties are, we put them in an object and then we can access them back out using a custom key, whatever we store them in under. For example the next slide [s3] is showing us some smart watch data for fitness: like number of floors we've climbed, number of active minutes in a day, total miles, total calories burned, how restful our sleep was. How would we store this using JavaScript? We could use an array but it would look kind of weird:
+
+[30200, 1200]; //steps and burned calories
+
+this is very hard to see if we do not know what each value is for. This is where objects come in. With objects we can label our values. There is no order here that matters, it's all about labelling our information, giving it a name. So here's how we would do that using an object: [s4]. We'll go into the depth of the syntax soon. But notive how we have a key and a value. totalSteps: 308727 and so on. These are all properties, these are pairs each one. We have five paris of information, there is no real order and the order does not matter at all. They are all floating around this one shared object and we store it in a variable called fitBitData. [s5] So remember: a property is a key and a value. We need to use that key to get that data back out. [s6] Here's some example of some other key-value pairs. These are things we could store. Maybe we're modelling a person, a post, a blog post or a comment. This here is a comment with a user who created it. We could also have time, isAdmin or security level for the user. These are all pieces of data that wouldn't really make sense to store in a list or an array. We could, but structurally, it would not make sense. It would make more sense when we want to store an ordered, homogenous bunch of data. So objects let us create these key-value pairs where we don't need to use a number to access a piece of information. If we had an array, we would need to access that array out using an index. But if we had an object, we can access that data by saying [s4] "totalSteps" and we would get the number of total steps. And assuming it has that key, it will fetch that value for that key as if it were an array and we used an index.
+
+Alright, let's see now how we can create our first object literal. We use the term object literal because the term object is a bit of a loaded term in JavaScript. You may have noticed when we do
+
+typeof []
+
+we get "object", without it going in any detail at all. We'll cover that later. When we say object literal we refer to the key-value pairs data structures we create using curly braces. Let's mimick a person with a couple of key-value pairs:
+
+const person = {
+  firstName: "John",  
+  lastName: "Doe"
+}
+
+now if we look at person and expand it
+
+person
+
+we have two different properties: firstName John and lastName Doe. [s8] When we create an object we can store all types of data inside as values. Keys are something else and we'll talk about that later. Keys are on the right side of the column. These properties are supposed to be inside a comment. The point here is that we can have different types of values in a an object. And unlike arrays, here there is no order. All that matter is what we store that value under, the name of the key. If we make for example
+
+(gilded - poleit cu aur)
+
+const kitchenSink = {
+  favNum: 1337,
+  isFunny: true,
+  colors: ["red","yellow","blue"]
+}
+
+kitchenSink
+
+Now let's talk about how we can get our data out of an object. For an array we use square brackets and a number. For objects we can use either [] and the key value inside it with '' or "" (single or double quotes)
+
+person["firstName"]
+kitchenSink["colors"]
+
+and this will return the value of the firstname from person and colors from kitchenSink. The other option is to use the dot syntax:
+
+person.firstName
+kitchenSink.colors
+
+works the same as above, but notice now that there are no single or double quotes. But there is an important distinction between these two options. Let's talk about what happens when we make an object with a key.
+
+const years = {1999: 'GOOD', 2020: 'NOT SO GOOD'}
+
+we are using numbers as keys. When we look at
+
+years
+
+They look the same as any other key we've set so far. But what actually happens behind the scenes is that every [s9] key we make in an object is converted to a string. Except Symbols which we haven't covered yet, but they are not that common, they stay a symbol. So in our case years, 1999 does not look like a string but it became a string once we put it as a key in our object.
+
+years["1999"] //gives back GOOD
+years["2020"] //gives back NOT SO GOOD
+years[1999] //it will be converted to a string and then look to see if there's the corresponding string in our object
+
+We are looking into this because it is important to understand that numbers are not made into a key. They are converted to a string and then used as a key in the object. This also holds true for
+
+const wordz = {true: 'dat', null: 'yep'}
+
+these true and null also get converted to strings. Now let's talk about the difference between the dot syntax and the square brackets syntax.
+
+person[firstName] //does not work because it thinks we are passing in a variable and we don't have a variable firstName declared
+
+That's the main difference. When we put something without quotes in square brackets, it expects a variable. If we do 
+
+person.firstName 
+
+it already expects a string so this can work without quotes. So why is this like that, when would we use variables in square brackets? Let's say we have
+
+let birthYear = 1999;
+years.birthYear //will give us undefined because there is no birthYear property in the object years
+years[birthYear] //will return GOOD as this a key in our object as birthYear will be evaluated and turned into a string
+
+So that is an important distinction. The dot syntax is nice. But if we ever try to use something dynamic like a variable as a key in an object, we can use the square brackets. If we use the dot notation, it just does not work with a variable.
+
+Alright, so we've talked about accessin data out of an object, or retrieving information. [s10] But what about adding new information or updating information? Let's say we have a new object exam with names and their result for some exam out of 100:
+
+const exams = {tom: 96, ana: 76}
+
+so we can access their grades with
+
+exams.tom
+
+and we can change it with
+
+exams.tom = 97
+exams
+
+this is how we update properties in an object. We can also assign strings
+
+exams.tom = "A+"
+
+We can also change the value with the brackets syntax:
+
+exams["ana"] = "A"
+
+If we want to add something in, we just use the same syntax like:
+
+exams.billy = 69;
+exams["joe"] = 40;
+exams
+
+They were not in there but this added two more students in our exams object. We can think of arrays as objects, where the keys are numbers. So this basic syntax is something we'll see all the time. Key-value pairs, use the dot syntax, use the square brackets and then assign a new value or update an existing one.
+
+As we can use all types of values in arrays and objects, we can also use them together and combine them [s12]. We'll talk about that now. This is a very common pattern to have an array of objects or to have an object with arrays inside it. The combination of the two is far more powerful than either one on their own. Often we have some ordered data but not everything makes sense to be put in an array. And other times we have data that makes sense to be stored as key-value pairs and sometimes some of it is ordered so we'll use an array. In the slide [s12] we have an array on the left side that consist of a bunch of objects. So this is an array called shoppingCart and inside each one of those elements is an object with product name, price and quantity. On the right side we have an object called student and inside of it it has strengths, which is an array, also a nested object called exams. What we want to learn from this is that this is all pretty common to see and we should get some practice working with them. Let's make an array with comments:
+
+const comments = [
+  {
+    username: "Jimmy",
+    text: "hey, nice post here",
+    votes: 9
+  },
+  {
+    username: "Bulma",
+    text: "what does the fish say",
+    votes: 213
+  }
+]
+
+So we have two comments on one post. Let's see how we can access the comment from Bulma:
+
+comments[1].text //we can also use the version with square brackets
+
+If we open the file narcos.json we can see a more realistic object inside a JSON file format. This format allows ojects to be displayed in a certain standard format. This is how a lot of data gets passed around. Here is some information about the show on Netflix Narcos and the episodes in the show. This is a huge object with other objects and arrays nested inside it. What we should remember from all this is that objects and arrays are commonly used together and they are far more powerful when they are combined than on their own because most of our data in the real world is a mixture of key-value stuff and ordered lists of information. We put it all together and get massive arrays and objects all nested and it makes everything a lot easier to represent. Even though it can be a little bit intimidating to follow. It is a super common pattern.

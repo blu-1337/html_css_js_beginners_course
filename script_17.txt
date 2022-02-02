@@ -2,3 +2,300 @@ ____________________________________________________________________________
 17_javascript_arrays______________________________________________________17
 ____________________________________________________________________________
 
+Alright [s1] so let's begin with our versy first JavaScript data structure. A data structure is simply a collection of data. These allow us to group data together and we can store multiple string for example. [s3] We can image we have a list of IG comments on a post, a collection of levels in a game or songs in a playlist. The most important key concept for an array is that it is an ordered collection of values.
+
+Let's now see how we can create an array in JavaScript [s4]. Is's actually pretty simple. We have to use square brackets:
+
+let colors = [];
+
+now if we look at colors, it's a little different form what we've seen so far, if we expand that triangle that we get from chrome devtools, we can see that it says Array. We don't have to worry about the other stuff for now. As a side note, if we try:
+
+typeof colors
+
+we get "object". This is something we'll also cover later. In an array as we can see in the slide we can put all sorts of stuff inside like numbers, booleans and strings. We can also put other arrays in the array, but we'll see this later. Furthermore we can have them combined: numbers and strings for example. But always the order matters. Even though we can insert them in whatever order we want, their order will stay like that and it will be taken into account. Let's make an array for days of the week to showcase this:
+
+let days = ["Monday", "Tuesday", "Wednesday"]
+
+if we write days and expand the triangle we can see our three values inside it. It shows us what number each day has. What we also see is a length so we can also do here
+
+days.length
+
+and it will tell us how many things there are in there. Now that we've seen how to create arrays, let's see how we can get data out. So we put our data in, we put it in order or at least there is an order. [s5] When we put data in, each element is assigned an index, just like with strings. With strings, each character in the string has an index. In an array, each individual element has its own index. So the first element has the index of zero, the next one and so on. Just like with strings, we start counting at 0. So for example for our days array, if we want the first element we can access it with days[0]. If we want Wednesday, we would use days[2]. Also like with strings if we try days[3] we get undefined if that element does not exist. 
+
+We can also do something like this
+
+days[1][0]
+
+this gives us the first letter of Tuesday. So we get from that string "Tuesday"[0] give me the first letter. 
+
+Now let's have a look at how we can modify arrays [s7]. In the example in the slides we have the word "rad" and as we can see we know that it has index [0] and thus we can set it to "red". This here is important to understand: we cannot do that to strings, for example
+
+let firstName = "chris"
+
+now if we try to change the first letter to capital C like 
+
+firstName[0] = "C";
+
+and we look at firstName, we see that it remained unchanged. But for arrays if we do the same thing:
+
+let colors = ["red", "blue", "yellow"];
+colors[1] = "teal"
+colors
+
+and we look at colors, we see that indeed blue got switched to teal. So in arrays we can change type, we can change value, Let's do something interesting:
+
+colors[10] = "indigo"
+
+What do you think will happen? We'll get seven empty slots and then indigo. If we expand the triangle we see that the length of the array is now 11. If we do colors[5] and so on until colors[9] we will get the value undefined. So our array elongated and took up a bunch of extra space so that it could fit something at index of 10. Everything else was filled with undefined.
+
+So to do a quick recap of arrays, every element has a corresponding number, starting at zero all the way up until the end of the array, with the highest index being one less than the length of the array. We can use that index to access particular elements or to assign new values to those slots.
+
+[s8] Now that we've seen the basics, we can create an array, we can access elements using an index, modify them using the index and we know about the length property. It's time to move on to some of the built in array methods. If we recall from strings, each string comes with a whole bunch of different methods like
+
+"something".
+
+they are all listed there. Well, with arrays we can do the same thing. If we look here https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array on mdn we have the set of methods displayed to which every array has access to. But the set of methods is different from the ones from string. Now let's dive into some methods. Let's begin with push and pop. These allow us to add and remove from the end of the array. This is actually very common. We'll often have some array which is ordered and often we want to maintain that order so we add to the end of an array. If we wanted to make a line of people that waited to get in to the movie, we could have something like:
+
+let movieLine = ["chris", "dora"]
+
+and if we wanted to add someone at the end of the array we can either count the items and then use the index to add let's say "tom" at the end or we could use push. The counting works for small arrays but you can imagine how awful that would be if we had really long arrays.
+
+movieLine.push("tom");
+
+this now adds "tom" to the array. If we now look at the movieLine, we can see that it was added to the array. We can also add multiple items to the array:
+
+movieLine.push("john", "jim");
+
+This also works. Something to note here is that after we executed that method, the array itself was modified. If you recall from strings, if we do something like
+
+let name = "chris";
+name.toUpperCase();
+
+will write "CHRIS" to us back but the name itself remains unchanged.
+
+Now we have this other method which is called pop. This removes an item from the end. So we can just type it directly like:
+
+movieLine.pop()
+
+and it will remove the last item from the array, which in this case should be "jim". This operation does not require any arguments, we do not need to pass in anything between the parantheses. What this does, is it removes the values and the it returns it to us. We can also capture that in a variable
+
+let person = movieLine.pop();
+
+person is now "john" and now movieLine is now shorter. Here's an example where we can use push and pop in conjunction: if we have a barbell and we want to put some weights on it
+
+let barbell = []
+barbell.push(45)
+barbell.push(45)
+barbell.push(10)
+barbell.push(2.5)
+barbell.pop()
+barbell.pop()
+barbell.pop()
+
+If we find that too heavy, we remove some of the weight we added. So we can think of this like a stack, a stack of papers on our desk where we have to pull one from the top, the last one added. 
+
+Alright so we've covered push and pop which add and remove elements from the end of the array. Now we're going to have a look at shift and unshift are also a pair which operates at the beginning of the array, the start. So let's start with shift. Shift removes from the beginning of an array:
+
+if we take our movieLine and declare some other names again because we're already too deep in this:
+
+let movieLine = ["tom", "nancy", "jon", "ana"];
+
+if we do
+
+movieLine.shift()
+
+we get "tom", the element it removed. If we now look at movieLine, it has no "tom" inside it anymore, it removed it. Alright, now let's add more people to the movie line at the beginning with shift:
+
+movieLine.unshift("kelly");
+
+now this guy "kelly' is kind of a VIP and gets in front of the others in the line. Now our movieLine has been increased. 
+
+So these are shift and unshift. We add and remove from the beginning. Push and pop do that too but to the end of the array. These methods are very common.
+
+Next up [s9] we'll look at more commonly used array methods. We're not going to go into these in a ton of detail. Let's start with concat. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat if we have a look here on mdn we'll see great documentation with examples. The idea behind concatenating strings is that we add strings together. For concat, for arrays, we are concatenating two arrays to form a new third array. So for example (on mdn) we call array1.concat() and then we pass in a second array array1.concat(array2) to concatenate with the inital array. That will make us a new third array. Let's do our own example:
+
+let cats = ["milky", "blue"]
+let dogs = ["rex", "rusty"]
+cats.concat(dogs)
+dogs.concat(cats)
+
+For the first concat, the dogs are added after the cats and for the second concat the cats ar added after the dogs. And we can save the new array to a new variable, otherwise it gets lost:
+
+let pets = cats.concat(dogs)
+
+Alright, so concat is combining two arrays and does not modify either of the original arrays. The next method we'll look at is includes(). This is a boolean method that returns true or false. It is going to tell us if an array includes a particular value:
+
+cats.includes("blue");
+
+This is going to return true because the cat "blue" is indeed contained. If we missspell "blu", we'll get false. And that's kind of it for the includes() method. It's a boolean method that returns true or false. Then we have indexOf(). This is very similar to how indexOf() works for a string. 
+
+"blueblu".indexOf("u")
+
+gives us the number 2 because that's where the letter "u" is found in a string. If the letter is not found in a string we get -1. Method finds the first appearance of the charaacter "u". The same applies for the array, except the index refers to the first appearance of an array element and not to a string character. So let's try it.
+
+pets.indexOf("rusty")
+pets.push("kitty", "rusty)
+pets.indexOf("rusty") //we still get the same index as before even though there is another rusty at the end now
+
+we get the index of the dog "rusty" which is 3. If we missspell the name, we'll also going to get -1. The next method is reverse(). This method will reverse the array and what's most important is that it does it in place, meaning that this is a destructive method, also meaning that it modifies the original array. So if we apply it on
+
+pets.reverse()
+
+It now gets reversed if we look at pets. This method does not need arguments, so we can use this method with empty parantheses. Alright so these first four methods were hopefully straghtforward: concat() - combine two arrays, includes() - check if an element is in the array, indexOf() - check where the firs appearance of an element is in the array, can also be used to check if it is there at all and reverse() - it reverses an array in place.
+
+Now let's look at slice() and splice(). Let's begin with slice() https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice  slice() is a way of getting a copy of a portion of an array, a slice of an array. Let's say we have an array with 10 elements and we want the first five, we can use slice. Let's make an array with the colors of the rainbow to demonstrate this:
+
+let colors = ["red", "orange", "yellow", "green", "blue", "idigo", "violet"]
+
+and if we start writing in the dev console:
+
+colors.slice(
+
+the browser already gives us a hint: the question mark is that both of start and end are optional. So technically we can call colors.slice() and what this will do is make a copy of colors. But if we pass in a starting point like 3
+
+colors.slice(3)
+
+this is going to go from the index of three inclusively up until the end of the array. So if we provide a start we will get a portion of the array until the end. So this does not changer our array, so we need to save it to another variable. So let's make an array for cool colors:
+
+let coolColors = colors.slice(3);
+
+now it's saved to coolColors. What if we wanted to get the warm colors in another array. How would we do that. So we would need to start at index of 0 and stop at index of 3.
+
+let warmColors = colors.slice(0,3);
+
+This is not including 3. And there we are, we have warmColors and our colors remain unchanged. Another thing we can do is give it a negative index. If we give it a negative index it will start from the end of the array. So if we want the end of the array we can do colors.slice(-3) and that gives us the last three.
+
+Now let's talk about the similar sounding method splice() https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice This does a little bit more. According to mdn it's going to change the contents of an array by removing or replacing existing elements and/or adding new elements in place. In the example from mdn we have an array with a list of months, where the month Febraury is missing. So we can use splice() to add in the missing month. The syntax is a little bit harder on this, so we need to specify a couple of different things: the start of the splice, how many things to delete and optionally, something to insert. Also, splice() operates in place, it is destructive to the original array, it does not make a copy. Let's try it on our colors array which has seven colors. Let's say we want to delete "indigo", indigo has an index of 5:
+
+colors.splice(
+
+already tells us what we can pass in to this method. So we first put the index we want to start at, the index of "indigo" and how many items we want to delete, in this case just one:
+
+colors.splice(5,1)
+
+Just like that, it returns an array containing what we've deleted: ["indigo"]. It gives us an array because we might want to delete more than one thing. So if we look at colors now, there is no indigo. We can also remove multiple things by increasind the number one. Let's say we want to insert a new color called "red-orange" which should go between red and orange. We first add the index 1, then 0 because we want to remove zero items and at the end our item that we want to insert at that position:
+
+colors.splice(1, 0, "red-orange")
+
+so this has inserted "red-orange" between "red" and "orange". We can also use it to insert multiple things. Let's add some extra colors between "yellow" and "green":
+
+colors.splice(4,0,"yellow-green", "light-green", "greenish")
+
+We can also delete and add things a the same time like:
+
+colors.splice(2,2, "DELETED!!!")
+
+An this deletes two items and inserts one string that says "DELETED!!!". 
+
+So we've seen here how to add things to the middle of the array, but that's actually not the most efficient way of doing it. It's best to add to the end of the array, whenever possible, but sometimes we cannot avoid it. 
+
+Finally we'll have a look at the sort() method. For now https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort it is not going to be very useful to us right now because of the default way it sorts things and because we haven't covered how JavaScript functions work. The default behaviour when we call colors.sort() with empty parantheses, is going to convert everything into strings and then compare their UTF-16 code values. So we might get some unexpected behaviour. Let's exemplify this
+
+let scores = [1, 70, 100, 2500, 9, -12, 0, 34]
+
+and if we now call 
+
+scores.sort()
+
+we get
+
+[-12, 0, 1, 100, 2500, 34, 70, 9]
+
+Most of us would expect a basic ascending order but this is not the case. It takes the first digit and kind of sorts it after that. This is not a reliable numeric sort. There is a way involving functions where we can write a sort and customize it however we want it to sort. But we aren't there yet. 
+
+On mdn there are also a lot of other methods that we did not cover. This does not mean that they are not used, it just means that they are not as often used as these ones that we have covered so far. If you need them, you have to search for them. Here's one toString() for when you want to turn an array into a string. This is not that often used. But there are some other important ones that we will learn once we've mastered JavaScript functions.
+
+Now we'll talk about our old friend "===" and == when it comes to arrays. So when we try to do something like
+
+"hi" === "hi"
+
+we get true, but when we try:
+
+["hi", "hey"] === ["hi", "hey"]
+[1] === [1]
+[1] == [1]
+[] == []
+
+we get false. Why is that? What's important to understand is that JavaScript does not care for what's inside an array. It is actually comparing the references in memory. When we store a number like
+
+let luckyNumber = 3;
+
+The number 3 is stored at a place in memory called luckyNumber, defined by our variable name. This memory space is limited because as we've seen before, numbers can occupy a certain ammount of space. 
+
+0.9999999999999999 //adding 9's, until it eventually becomes 1
+
+With an array we can have large lists of elements and it can get very large. We can also have arrays that contains thousands of arrays which contain other huge arrays and so on. So JavaScript stores them differently than numbers. The way this works is that a variable is assigned a reference to the value and not the value directly. So the memory stores once stores a reference to the value and second the actual value. The reason behind this is that it is more lightweight to pass a reference around, than a huge array.
+
+When we do 
+
+let luckyNums = [3, 7, 23];
+
+what JavaScript does is, it allocates new space in memory for this array and it makes it unique. Even though the reference to that array is now luckyNums if we do something like
+
+let sameLuckyNums = [3, 7, 23]
+luckyNums === sameLuckyNums
+luckyNums == sameLuckyNums
+
+both give us false, because when we make sameLuckyNums, we are referencing to another, unique array in memory. If we look again at the lukcyNumber example, and we make another lucky number that has the same number, the two variables will both be given a value of 3 and the number 3 will be stored in memory, and not a reference to a spot in memory. Maybe a little to complicated now but objects and arrays are passed by reference and the rest is passed by value.
+
+What's also interesting is that if we do this
+
+let alsoLucky = luckyNums;
+alsoLucky == luckyNums;
+alsoLucky === luckyNums;
+
+They are now true, why? luckyNums points to the array [3, 7, 23] and when we assign luckyNums to alsoLucky, it also starts pointing to the same spot in the memory. So what is actually being compared here is the reference, and yes, now they have the same reference. What is even more interesting is when we do this:
+
+luckyNums.push(8);
+alsoLucky;
+
+The number 8 is now present in both arrays. Why? Because both array names point to the same space in memory because we assigned them like that, so if we change something in them, we will see the change in both of them. They are linked.
+
+             ┌────────┐
+             │        │
+Memory Addr. │ Memory │
+             ├────────┤
+             │        │
+   0x43A7    │   3    │ <- luckyNumber
+             │        │
+   0x43A8    │        │
+             │        │
+   0x43A9    │ 0x43AB │ <- luckyNumbers reference
+             │        │
+   0x43AA    │   3    │ <- anotherLuckyNumber
+             │        │
+   0x43AB    │[3,7,23]│ <- luckyNumbers actual content
+             │        │
+             │        │
+             └────────┘
+
+So comparing arrays is only a thing if we're trying to check if they are referring to the same thing. It's not going to help us if we're trying to compare the contents. There are other ways of doing that but they involve a lot more work and we're just not there yet. So double/triple equals are just going to check for the reference in memory for arrays, are they the same, they are not looking at the insides, they don't matter at all.
+
+So at the beginning when we learned about const, we learned that it does not allow reassignment. For example the const PI example[s10]
+
+const PI = 3.14159
+PI += 1;
+
+gives us an error. But we also mentioned that when we get to arrays and objects, const has other uses. So previously we talked about how array variables actually refer to an address in memory, so the value is not stored in the variable itself. When we make an array we actually can use const and it's common to do that [s11] because we can still change the contents of our array. What const cares about is that the variable itself is not reassigned. So for example:
+
+const nums = [1,2,3];
+
+What we are storing here with nums is not the content, but a reference. So as long as that reference to the array does not change, the shell so to day, the content can change. So we can add, remove and change the order of the numbers or items inside and none of this impacts the address of this array, the reference. So we can do:
+
+nums.push(4)
+
+and we don't get an error. With const primitives, we could not change that variable value anymore. In the example in the slides, as long as the arrow pointing to the eggs is the same, we can modify the values in the array. But when we try and set our eggs to something entirely different, we get an error. That means that we are trying to create a brand new array and change the reference pointing to our current one. This is actually something we want when we're working with arrays. We want to rely on the fact that our container will remain the same. Let's say we want a customer queue for our website, we'd like that queue to always be there, even if it's empty or has a tousand customers inside it and also we'd like to not be able to reassign it so something else entirely, set it to false or null for example. We want it to always have the same shell, the same reference to the array and the content can change. So it's just a safer way of working with arrays. But bear in mind that it behaves differently that we might expect. So const with a primitive cannot be changed at all, const with an array cannot change its reference/reassign but we can change the contents but the shell is still the same.
+
+We mentioned early on that arrays can store whatever we want [s15]. It can store primitives like string, numbers and booleans. It can store also other data structures like more arrays. In this slide we see an array with other arrays inside it. In the next slide we'll se a tick tack toe example [s16]. What we have on the left side is depicted in the picture on the right side. So we can try and make our own gameBoard:
+
+const gameboard = [['X', 'O', 'X'], ['0', 'null', 'X'], ['O', 'O', 'O']]
+
+the first nested array is the first row, the second one the second and the third nested array is the third row. If we do
+
+gameBoard
+
+and expand it, we can kind of see our game. We can see that "X" wins. I have a question: how would we access the center spot? How do we get the null from the middle? So we need to go through two levels of array
+
+gameBoard[1][1]
+
+the first [1] gives us the second element of the main array and the second [1] give us the second element, the null, from the nested array. If we had three levels of arrays we could continue on and on [1][1][1]... and so on for greater nested arrays. So that's what we needed to see here: we can put arrays inside arrays and it's really common. Once we gets to o objects, we'll see that we work with objects and arrays together.
