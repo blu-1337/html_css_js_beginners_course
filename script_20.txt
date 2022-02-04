@@ -2,3 +2,178 @@ ____________________________________________________________________________
 20_intro_functions________________________________________________________20
 ____________________________________________________________________________
 
+This is an important section to master [s1]: JavaScript functions. This is a fundamental topic to master. We will use functions all the time from here on out. So what are they [s3]? They are reusable chunks of code that we've wrapped up and given a name so that we can use them at any point. This is really useful for reducing the duplication in our code. And just making our code easier to understand. We use them all the time. So let's see how we can benefit from them. Let's open up functions_starter/app.js and try this out:
+
+Math.floor(Math.random() * 6) + 1;
+
+Here is a situation where we can benefit from a function. We've seen this a lot. Generating a random integer from 0 to 1, we multiply it and then we shift it with +1. In this case we're trying to get a die roll from one to six. Let's say we save that to a variable:
+
+let die1 = Math.floor(Math.random() * 6) + 1;
+
+But let's say we're making a game where we nee six random dice. So we'd have to write that line six times.
+
+let die1 = Math.floor(Math.random() * 6) + 1;
+let die2 = Math.floor(Math.random() * 6) + 1;
+let die3 = Math.floor(Math.random() * 6) + 1;
+let die4 = Math.floor(Math.random() * 6) + 1;
+let die5 = Math.floor(Math.random() * 6) + 1;
+let die6 = Math.floor(Math.random() * 6) + 1;
+
+This isn't that bad but imagine we'd have 100 dice or even a longer statement after the equals sign. It would be nicer to have something that would do something like this:
+
+let die1 = rollDie();
+let die2 = rollDie();
+let die3 = rollDie();
+let die4 = rollDie();
+let die5 = rollDie();
+let die6 = rollDie();
+
+so rollDie() should generete us that random number from one to six that we need. We could also do something like make a dice that has more than 6 sides, like 20 sides, or 16 and so on:
+
+let die1 = rollDie(6);
+let die2 = rollDie(20);
+let die3 = rollDie(16);
+let die4 = rollDie(32);
+let die5 = rollDie(100);
+let die6 = rollDie(1000);
+
+so it would generate us a number for the 20 sided die from 1 to 20. So we could make functions that accept input and allow us to modify it's behaviour. So that's our real end goal, to make chunks of reusable code, but also write these functions in a way that they're sort of modular or reusable where we can pass in some sort of input that will impact the output that we get out. This rollDie() is a relatively simple function but later on we'll see that writing cuntions can save us not one line at a time, but 20+ lines at a time or even more.
+
+So let's see how we can write our functions. [s4] It's a two step process: we need to first define the function, sort of like registering it, telling JavaScript about it. And then later we can an any point execute that function or run it. We can run it once or a thousand times, it's up to how how often we need it. The code of the function will not be executed until we run it later on. 
+
+So let's start with step one: defining a function [s5]. There are multiple ways of doing this but the easiest way of doing this and to start with is:
+
+function functionName(){
+   //function code
+}
+
+the code inside the curly braces, will, as we mentioned before, run only when we execute our function. So let's define a very simple and silly function [s6]. So we can define our own one in app.js. Something like:
+
+function singSong(){
+    console.log("DO");
+    console.log("RE");
+    console.log("MI");
+}
+
+So we just defined our function. It does not run at the moment. Now we get to step two: running the function [s7]. So every time we call 
+
+singSong()
+
+in the console or also in the code in app.js itself, the function runs and we get the DOREMI console logs. So we always have to add the () parantheses at the end, otherwise it will not run. If we use it without (), JavaScript will just echo back that it knows about that function. One more interesting thing here is that if we call our function before we declare it like so:
+
+singSong()
+function singSong(){
+    console.log("DO");
+    console.log("RE");
+    console.log("MI");
+}
+
+you might think we get an error. But for some weird reason we don't have any reasons for this. This is something JavaScript does, which is called hoisting. Basically JavaScript puts automatically all function declarations first. But for now we should always define our functions before we use them.  
+
+Now we get to talk about arguments [s9]. Arguments in JavaScript is just a fancy way of saying inputs to a function. [s10] And currently, our vesy simple functions do not accept any inputs, so they behave the same every time we call them. [s11] Currently our previous grumpus function had no arguements so the output stays always the same. 
+
+function greet(){
+  console.log("Hi!")
+}
+
+The output is always the same when we call this. What we'd like to do a lot of times is to write functions that can accept inputs. So we could do something like greet Tim or greet Cristian [s13]. So we would get a different output from our machine. If you remember our rollDie function, we could call rollDie(6), rollDie(20) and the input would make a significant impact on the output we get from that function. So the term arguments [s12] refers to the actual value that we pass in. Another example for an arguments function is [s14] which gives us the average of those number values that we pass in. [s15] We've also used functions with arguments before with indexOf(). So let's try to define our own function [s16]: inside our function definition, inside the parantheses, we add in some variable name and we can give it any name we want. It should be something allowed allowed in JavaScript and meaningful. Some bad examples would be: function, let, true and so on.  So whatever we put in there, is going to hold the value of an argument that is going to get passed into our function. So let's try that:
+
+function greet(firstName) {
+    console.log(`Hey there, ${firstName}`)
+}
+
+here the firstName is put in our string template literal. So whatever passed in there as the argument, will be used with that name and value inside the function. So in this example we specified an arguments. But what happens if we pass in no argument at all? We get undefined. So if an expected value is not passed in, it's going to have the value undefined. Let's do a bit of terminology here as well. When we define our function the firstName is what we call the parameter, it is the value in the function that we use. When we actually call greet() and pass something in, that something is an argument. So for example greet("stranger"), "stranger" is the argument for our function. An argument is the value we pass in the function when we execute it. The parameter is when we define our function definition.
+
+[s17] We can also define function that expect more than one argument to be passed in. Maybe we also need a lastName to our firstName. So what we need to do in that case is tell our function when we define it, that there's more than one parameter that we want to work with. Let's try the same example but with lastName, too, so two arguments:
+
+function greet(firstName, lastName) {
+    console.log(`Hey there, ${firstName} ${lastName[0]}.`)
+}
+
+So we put a comma between our parameters. This is going to take the first letter of the last name and output it with a dot. But what's important to understand here is that everything is decided by order. So if we pass in two arguments to greet like this: greet("Cristian", "Gilca"), Cristian is the firstName and Gilca is the lastName. But JavaScript does not care about that so if we pass in greet("Gilca", "Cristian") it will take them in order and make the firstName a lastname outputting "Hey there, Gilca C.". What's also interesting here is that if we leave off the second argument and call this function just with one argument like
+
+greet("Cristian");
+
+we get an error because the lastName is also used in this function and it is trying to take the first character of an undefined primitive, which is not possible. JavaScript does not care about us not passing in all arguments, but it does care when they are used whithin the function in a way that can cause an error. So if we removed the [0] from lastName in our function, we can get away with passing just one argument, but we'll leave it as it is.
+
+Let's try a function that is a bit more complicated. Let's make a function called repeat and we want repeat to accept a string like 'hi' and a number like 3 and then we want it to print hi three times like so:
+
+repeat('hi', 3) //hihihi
+
+So it should accept a string and a number, then repeat that string as many times as the number is equal to and then print everything out on a single line. So how do we do this? We need to define our function repeat() that has two parameters: str and numTimes:
+
+function repeat(str, numTimes) {
+    let result = '';
+    for (let i = 0; i < numTimes; i++) {
+        result += str;
+    }
+    console.log(result);
+}
+
+there's also a repeat method we could use for strings but we'll ignore that and do it the old fashioned way. So we use a for loop for that and we take a result variable and add the string to it by the number of times we get as an input. At the end we display the result variable via console.log(). We can tray it out and it works. But if we try to mix the order up, we'll get like an empty space and undefined:
+
+repeat(3, "hi");
+
+so order is important here.
+
+Next up we'll have a look at the return keyword [s18]. So far we've been console.logging things, but think about other methods we've used like toUpperCase() where they return a value and we can capture it in a variable. That is a different idea, that's different form console.loggin the answer. [s20] If we try to write a function like add(x,y) that adds two numbers:
+
+function add(x, y){
+  console.log(x+y);
+}
+
+and if we call
+
+add(1,4);
+
+we get our answer, 5. But if we try to save that to a variable like
+
+let total = add(1,4);
+total; //undefined
+
+it gives us undefined. Even though we printed out 5, that is not a capturable value, we're just console.logging it. If we use for example
+
+let r = Math.random()
+r; //0.12431245 random number
+
+this actually captures that value, the output of that random function. So to write a function that has a concrete output, that's not just printing, that's something that we can save, put in a jar and bottle up, we need to use the return keyword [s21]. So we can add this to our function:
+
+function add(x, y){
+  return x + y;
+}
+
+now if we call this function
+
+add(1,5); //we get 5
+
+and now if we try to assign it to a variable
+
+let sum = add(1,5); //now it works, sum is now 5
+
+So we are exporting our value outside the function. We can also do stuff like
+
+add(add(1,5), 10);
+
+this evaluates the first inner add(1,5) to 6 and then it evaluates add(6,10) and we get 16. When a function calculates it's argument and returns a value we call this evaluation. It evaluates to something. In our case, the whole line evaluates to 16.
+
+One more important thing here to remember is that the return keyword stops the execution of our function. So whenever it's encountered and we have something afterwards, what comes after it will not run. Like:
+
+function add(x, y){
+  return x + y;
+  console.log("hello there"); //will not run
+}
+
+VS Code actually makes that line gray because it will never be reached in our code because that return runs no matter what. So if we run our function, the console.log() will not run. There are also cases where we can put a return value inside a conditional block and it might not run every time. Let's see an example for that:
+
+function add(x, y) {
+    if (typeof x !== 'number' || typeof y !== 'number') {
+        return false;
+    }
+    return x + y;
+}
+
+we check here if x and y are numbers. So we will return false if any x or y are not a number. Otherwise we'll return the sum. The only time our last return will ever run is if the first return within the conditional did not run.
+
+Also, we can only return one value. Here we are returning a number. We can also return an array, but it has to be a single array.
+
+So to summarize, return is how we get values out of a function so that we can save them and capture them. So instead of printing something out we can use assign the evaluation directly to a variable.  We can only return a single value and most importantly, return, whenever it's encountered, whenever it runs in a function, stops the execution of that function. 
