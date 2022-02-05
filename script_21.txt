@@ -2,3 +2,658 @@ ____________________________________________________________________________
 21_leveling_up_our_functions______________________________________________21
 ____________________________________________________________________________
 
+The first thing we'll look at is scope [s3]. Scope refers to variable visibility. It's basically the fact that where we define a variable in JavaScript impacts where we have access to it. So if we put a variable in a function vs putting it out in the open vs putting a variable in a nested function inside a function, that can impact where we can use that variable later on. So let's demonstrate this in scope_starter/app.js:
+
+function collectEggs(){
+  let totalEggs = 6;
+  console.log(totalEggs);
+}
+
+alright, this printed out. Now what about we try to print totalEggs outside the function:
+
+function collectEggs(){
+  let totalEggs = 6;
+}
+console.log(totalEggs);
+
+we get an error, totalEggs is undefined. Why? Maybe it's becose the function did not run. So let's also run the function one time and then do the console.log(totalEggs):
+
+function collectEggs(){
+  let totalEggs = 6;
+}
+collectEggs();
+console.log(totalEggs);
+
+it still does not work. So what we're seeing her, is that we are running up against function scope. Variables we define inside a function, are scoped to that function. It's like a little bubble, we do not have access to that variable outside it. Between those two curly braces, it's in its own little world and totalEggs lives in there. So if we really needed access to totalEggs outside of it we could do something like this:
+
+let totalEggs = 0;
+function collectEggs() {
+    totalEggs = 6;
+}
+console.log(totalEggs);
+collectEggs();
+console.log(totalEggs);
+
+now we get first 0 and then 6. This is not very common, to update an existing variable, what we would call a global variable from within a function. Usually, in our functions we have our own internal variables. Most functions behave as a sort of standalone machine where they take some inputs and they give us some outputs, but they don't necessarily impact the world around them, excepting the output that they give us and that we can capture. [s4] So that's an example of function scope, in this diagram, msg is declared inside of helpMe. It is not available, it is not accessible outside that function. Let's try something out:
+
+let bird = 'Scarlet Macaw';
+function birdWatch() {
+    let bird = 'Great Blue Heron';
+}
+console.log(bird);
+
+we defined a bird and function called birdWatch. Inside the function we declared another bird. So we have two variables with the exact same name. If we console.log() what happens? For this situation we get "Scarlet Macaw". We've never even executed birdWatch
+
+let bird = 'Scarlet Macaw';
+function birdWatch() {
+    let bird = 'Great Blue Heron';
+}
+birdWatch();
+console.log(bird);
+
+We can also even execute it but it won't make an impact, because the bird "Great Blue Heron" variable is scoped to the function it's in. But what happens if we console.log() inside the birdWatch function?
+
+let bird = 'Scarlet Macaw';
+function birdWatch() {
+    let bird = 'Great Blue Heron';
+    console.log(bird);
+}
+birdWatch();
+
+now we'll get "Great Blue Heron". What if we delete the let bird = 'Great Blue Heron' line entirely? 
+
+let bird = 'Scarlet Macaw';
+function birdWatch() {
+    // let bird = 'Great Blue Heron';
+    console.log(bird);
+}
+birdWatch();
+
+Do we have access to bird inside of this function? Well, it's defined outside the function, so we do have. So if there's a variable defined with the same name in the function, in the scope, then we will reference that variable first. When we reference bird, if there is a closer version of bird, that one wins out. Closer means inside those curly brackets. [s5] This can also be see in this slide: our bird variable is scoped to this birdWatch function.
+
+Next up we'll talk more on the topic of scope and start with a simple example:
+
+let radius = 8;
+if (radius > 0) {
+    const PI = 3.14159;
+    let msg = 'HIII!'
+}
+console.log(radius);
+console.log(PI)
+
+if we run this, we'll get an error: PI is not defined. But why? This might make sense to do because PI is not inside a function, it's a conditional. The same thing applies for msg, too:
+
+let radius = 8;
+if (radius > 0) {
+    const PI = 3.14159;
+    let msg = 'HIII!'
+}
+console.log(radius);
+console.log(msg)
+
+it doesn't work either. The reason for that is the they are scoped within a block. This is a new word and a block refers to basically anytime we see those curly braces except for a function. A block includes stuff like conditionals and also loops. Like for example:
+
+for (let i = 0; i < 5; i++) {
+    let msg = "ASKLDJAKLSJD";
+    console.log(msg)
+}
+console.log(msg)
+console.log(i)
+
+we have no access to msg and neither to i. But this was not always the case with variables. If you can recall all the way back when we introduced variables, we talked about the old way of making a variable, using the var keyword. When we use the var keyword, our variables are scoped to functions, but they are not scoped to blocks. So if we run:
+
+for (let i = 0; i < 5; i++) {
+    let msg = "ASKLDJAKLSJD";
+}
+console.log(msg)
+
+we actually do have access to msg outside our for loop, outside the block. This even works for the i if we make it a var:
+
+for (var i = 0; i < 5; i++) {
+    let msg = "ASKLDJAKLSJD";
+}
+console.log(msg)
+console.log(i)
+
+and we get 5, the last value it got to. If use let or const, our variables are block-scoped. So in this case our i counter only exists in the block, it becomes block scoped and does not exist after it. So this happens with conditionals and other sorts of loops. This is important to understand. This is one of the main reasons let and const were introduced: to add in some variables that followed these scoping rules. They might seem annoying or counter intuitive at first, but they are there for a reason because we can quickly run into issues around scoping especially if we're still using the var keyword, which we shouldn't be. 
+
+So far we've seen the idea of function scope where if we define a variable within a function, it is scoped to that function. If we have some sort of conflict: if we have two variables with the same name, one defined outside the function and one defined inside the function, JavaScript will use inside the function the closes version of that variable definition which in our example was the one that was declared in the function itself. Now block scope is a similar concept. It means that instead of dealing with a function, if our variables are declared inside of a block, those variables exist in that world between those curly braces. So it's kind of the same idea as function scope except we're talking about conditionals and loops. [s6] The variable PI, only exists in that yellow box. circ, for circumference, only exists in there as well. Radius is available everywhere in that code, whereas PI and circ just in the yellow box. If the programmer here would of used var, as he should not do, those PI and circ variables would not be scoped to only that yellow box anymore and we would have access to them at the end with the console.log()'s.
+
+Our last bit on the scope topic is something called lexical scope [s7]. This means that if we have an outer function and an inner function inside of it, for example:
+
+function bankRobbery() {
+    const heroes = ['Spiderman', 'Wolverine', 'Black Panther', 'Batwoman']
+    function cryForHelp() {
+        for (let hero of heroes) {
+            console.log(`PLEASE HELP US, ${hero.toUpperCase()}`)
+        }
+    }
+}
+bankRobbery()
+
+if we execute this function, nothing happens. Why? We declared a variable called heroes but inside bankRobbery() is just another function that we never ran. We have to run it if we want to use it. So if we call cryForHelp() inside bankRobbery():
+
+function bankRobbery() {
+    const heroes = ['Spiderman', 'Wolverine', 'Black Panther', 'Batwoman']
+    function cryForHelp() {
+        for (let hero of heroes) {
+            console.log(`PLEASE HELP US, ${hero.toUpperCase()}`)
+        }
+    }
+    cryForHelp();
+}
+bankRobbery()
+
+This will work, cryForHelp() it will call for help to the const heroes from bankRobbery() even though it was not declared inside it, it has access to it. So what this tells us, the concept of lexical scope, is that the inner function nested inside some parent function has access to the scope or to the variables defined in the scope of that outer function.
+
+We can further nest things if we wanted to:
+
+function bankRobbery() {
+    const heroes = ['Spiderman', 'Wolverine', 'Black Panther', 'Batwoman']
+    function cryForHelp() {
+        let color = 'purple';
+        function inner() {
+            for (let hero of heroes) {
+                console.log(`PLEASE HELP US, ${hero.toUpperCase()}`)
+            }
+        }
+        inner();
+    }
+    cryForHelp();
+}
+bankRobbery()
+
+here the cryForHelp() function is declared inside inner() and it still gets displayed even though it is two levels inside bankRobbery(). A nested or an inner function has access to the same stuff as the parent, grandparent and more upper function. So if something exists in bankRobbery(), we have access to it in inner() and if something exists in inner(), we have access to it in cryForHelp(). It does not work the other way around though. The let color = 'purple' is inside cryForHelp but we do not have access to it in bankRobbery().
+
+Next up we'll look at function expressions [s8]. This is a conceptually different way of defining a function. Let's go in functions-expressions_starter/app.js and add something to it. So far we've seen stuff like:
+
+function add(x,y){
+  return x+y;
+}
+
+This is called a function statement. We are defining a function using the function keyword. There is another way of defining a function and it implies storing the function inside a variable, like the example in [s8]. In this slide a variable called square is made and then a function is made that does not have a name.
+
+if we tried this:
+
+function (x,y){
+  return x+y;
+}
+
+we would get a syntax error from VS Code. But we can write something like:
+
+const add = function (x, y) {
+    return x + y;
+}
+
+we make a variable and set it equal to a function. This is a function expression. The right side from the equals creates a function and we are storing it in a variable just like we would store and object, array or a number. It's the same exact concept. To use this, it's not different than using any other function we've made:
+
+add(3,4);
+
+gives us seven. It has the same syntax for execution, we use the name of the function but this time we use the name of the variable. The variable name is not the name of the function, because the function does not have a name. Really at the core of JavaScript, functions are just objects and they can have a name given to them, optionally. They can also have no name. This is similar to
+
+const PI = 3.14
+
+here, 3.14 is just a number, it does not have a name, but the variable, the container does have a name. The same applies to our function expression. These expressions will come up in code pretty often and they demonstrate something that we'll see a lot from now on and that is the fact that functions are values in JavaScript. We can store them, we can pass them around just like we can store and pass around a number, array or an object. JavaScript basically considers functions just like any other value, like an array. We can also do even more advanced stuff like passing a function as an argument. We can return functions as the return value just like we could return a number. So this is our first little preview of that. It demonstrates that concept that functions are treated just like anything else, just like any other value.
+
+Now we get to talk about higher order functions [s9]. This is a fancy way of saying functions that work with other functions or they operate on or with other functions. This really comes down to two main things: firstly functions that accept other functions as arguments and usually do something with them and secondly functions that can return a function. As we saw previously, a function is just a value that can be stored in a variable, it can be passed around. So if we can put it in a variable like
+
+let greet = function () {console.log("hey")}
+greet()
+
+we now have a function stored in that variable and we can execute it. So if we can store it in a variable, we can also pass it over as an argument. So we can define a function like this one [s10] called callTwice(). This is going to expect a function to be passed in. Let's demonstrate that in higher-order-functions_starter/app.js:
+
+function callTwice(func) {
+    func();
+    func();
+}
+
+what we want it to do it accept some argument that is a function. We're not going to guarantee or verify that it actually is a function, but we'll expect some argument called "func" or anything we want to name it. So if we call callTwice(1) it is going to return an error because 1() is not a function, but we can instead pass in a function: let's make a rollDie function and pass it in:
+
+function callTwice(func) {
+    func();
+    func();
+}
+
+function rollDie() {
+    const roll = Math.floor(Math.random() * 6) + 1
+    console.log(roll)
+}
+
+callTwice(rollDie)
+
+now if we call callTwice() like this and pass in the rollDie function as the argument. We might be tempted to do
+
+callTwice(rollDie())
+
+but this will execute our function immediately and then pass in the evaluated result and then that is going to get passed in to callTwice. We are then going to pass in something that is not a function anymore. What we want to do is pass through the value of the function rollDie so that it can be executed inside of callTwice.
+
+We can write another function that runs something ten times:
+
+function callTwice(func) {
+    func();
+    func();
+}
+
+function callTenTimes(f) {
+    for (let i = 0; i < 10; i++) {
+        f()
+    }
+}
+
+function rollDie() {
+    const roll = Math.floor(Math.random() * 6) + 1
+    console.log(roll)
+}
+
+callTenTimes(rollDie)
+
+now we called rollDie ten times and we get ten different rolls of our die. So that's our first example of adding a function as an argument. We'll se from here on many functions that expect us to pass in other functions. So higher order functions are just functions that operate on or with other functions and we just saw two that excepted a function as an argument.
+
+Now we're going to talk about returning a function as a return value [s9]. So we can have a function that does one of these things or that does both of them. We can even have functions that to neither of these things. But the point here is to illustrate that functions are like regular old values and we can pass around, meaning returning them or passing them as arguments. To show you some examples of how this works in higher-order-functions_starter/app.js:
+
+function makeMysteryFunc(){
+  const rand = Math.random();
+  if(rand < 0.5){
+    return function() {
+      console.log("CONGRATS, I AM A GOOD FUNCTION!")
+      console.log("YOU WIN A MILLION DOLLARS!!")
+    }
+  } else {
+      return function () {
+      alert("YOU HAVE BEEN INFECTED BY A COMPUTER VIRUS!")
+      alert("STOP TRYING TO CLOSE THIS WINDOW!")
+      alert("STOP TRYING TO CLOSE THIS WINDOW!")
+      alert("STOP TRYING TO CLOSE THIS WINDOW!")
+      alert("STOP TRYING TO CLOSE THIS WINDOW!")
+      alert("STOP TRYING TO CLOSE THIS WINDOW!")
+  }
+}
+
+so depending on the random number, we're going to return a good or a bad function. The good one returns some console log and the bad one returns some type of virus alert. If we run this:
+
+makeMysteryFunc()
+
+But we're still never calling that functions that is being returned. It's just the returned value. We have to capture it just like any other value that we want to save and use later. So we would need to do something like this:
+
+let mystery = makeMysteryFunc();
+
+now our variable mystery holds a function. We can execute it.
+
+mystery()
+
+an this executes the good or the bad function, depending on what we get after generating the random number. 
+
+Sometimes what we'll see is a function that generates a function based upon some input. In our makeMysteryFunc() although we can get two options, we get only those two options every time and there is no input that we can pass in to influence that. Let's make a function that accepts two numbers a min and a max. When we call this function, we want to return to us a function that tests weather a value is between the min and the max. Let's start by making the function that tests if a number is between 50 and 100:
+
+function isBetween(num){
+  return num>= 50 && num<=100
+}
+
+now if we wanted to test if a number is between 1 and 10 we would have to write:
+
+function isBetween(num){
+  return num>= 50 && num<=100
+}
+function isBetween2(num){
+  return num>= 1 && num<=10
+}
+
+So we're basically writing these functions ourselves everytime we need them. But we could make a factory function. A factory function is a function that will make a function for us. So here's how it's going to work:
+
+function makeBetweenFunc(min, max) {
+    return function (num) {
+        return num >= min && num <= max;
+    }
+}
+
+and now, instead of hardcoding 1 and 10 or 50 and 100, we'll use min and max. So we would need to call:
+
+makeBetweenFunc(100,200)
+
+and this will return to us a function. Now what might be hard to understand is that min and max have a value. This means that makeBetweenFunc returned 
+
+function (num) {
+        return num >= min && num <= max;
+    }
+
+where min = 100 and max = 200. We can then save that in a variable.
+
+const isChild = makeBetweenFunc(0,18);
+isChild(40); //false
+isChild(15); //true
+
+if we pass values into it we get a result: true or false. We can also do the same for adults and seniors:
+
+const isAdult = makeBetweenFunc(19,64)
+const isSenior = makeBetweenFunc(65,150)
+
+and then we can test these too. So we've made this factory function that returns a function that has no name. It was just returned as a value and passed around, do with it whatever you want. And it's up to us to capture it in a variable which is exactly what we did. So that's returning a function as a value.
+
+[s12] Next up we're going to talk about functions and objects and how they intersect to form methods. We've used the term method before when we used for example:
+
+"hello".toUpperCase() //string method
+[1,2,3].indexOf(2); //gives 1 back, the index of 2, array method 
+
+function add(x,y){return x+y}; //normal function
+add(1,2);
+
+So what's the difference between a method and a function? A method [s12] is simply a function that has been placed as a property on an object. If we access a function by using a dot in front of its name, it's a method, but it's also a function. So every method is a function, but not every function is a method. So we can actually add our own methods to objects. In [s12] we can see an example, we can add a function as a property value just like we saw before that we can store a function in a variable and we can pass a function around as an argument and return a function from a function. We can also use a function as the value in a property in an object. In the slides there is a unique math object. If we go in f12 dev tools console and write
+
+Math
+
+the Math object, with capital M, mainly consists of these methods. They are just functions and they are stored as properties. Let's go in methods_starter/app.js and make our own math object. Let's add a value for PI, which is not a method. Let's also add in square function and a cube function that take in a num and then multiply it with itself one time and respectively two times for cube:
+
+const myMath = {
+    PI: 3.14159,
+    square: function (num) {
+        return num * num;
+    },
+    cube: function (num) {
+        return num ** 3;
+    }
+}
+
+myMath.PI //we get hte value for PI that we store
+myMath.square(2) //4
+myMath.cube(2) //8
+
+This is all there is to this idea of a method. It's just a function that's been added as a property on some object. Methods are simply functions added as properties on objects. We can also access them like:
+
+myMath["cube"](4); //64
+
+but this is quite odd to do, because normall we would do myMath.cube(4)
+
+There is also a nice shorter syntax that has been added to JavaScript recently, because we do thos pretty often, they made up a shorthand for addin methods [s13].
+
+const myMath = {
+    PI: 3.14159,
+    square(num) {
+        return num * num;
+    },
+    cube(num) {
+        return num ** 3;
+    }
+}
+
+So instead of having to do a function name or property name colon a function, we can just write "add" and then our parantheses and then curly braces. Or whatever the function or the name of the property should be. But we still need the commas, because we are in an object.
+
+[s15] Now we'll talk about the keyword "this" in JavaScript. There is a lot to it but we're going to cover the essentials. In JavaScript, there is a keyword called "this". He is like other keywords we have: true, false, let and so on. So the keyword "this" is something we would typically use inside of an object in a method. This is the most common situation to use the keyword "this". Let's see an example of that and let's make an object in methods_starter/app.js called cat:
+
+const cat = {
+    name: 'Blue',
+    color: 'grey',
+    breed: 'scottish fold',
+    meow() {
+        console.log("MEOWWWW");
+    }
+}
+
+now if we do
+
+cat.meow()
+
+we will get the console log message. Now, the keyword "this" is going to refer inside this method to the object cat. This is useful if we want to be able to access things like the cat's name, color or breed inside the meow(). This is a really common situation, to create an object that contains different properties, different pieces of information, as well as different methods or pieces of functionality. And we often want those methods to have access to the data in the object. 
+
+So if we wanted to make something like "blue says MEOWWW", we cannot do:
+
+const cat = {
+    name: 'Blue',
+    color: 'grey',
+    breed: 'scottish fold',
+    meow() {
+        console.log(`${name} says MEOWWWW`);
+    }
+}
+
+we cannot access "name" because it is outside the function scope. So to access it we need to write:
+
+const cat = {
+    name: 'Blue',
+    color: 'grey',
+    breed: 'scottish fold',
+    meow() {
+        console.log(`${this.name} says MEOWWWW`);
+    }
+}
+
+Alright, so the keyword "this" is going to refer to the cat object. But that is not actually always the case. This is why it is somewhat dreaded because it can be confusing. [s15] The value of "this" actually can change depending on the invocation context of the function it's used in. So this means that it depends on how we actually call the function. In our example before we called it with cat.meow() and the keyword "this" referred to cat, to that entire object. If we make a new variable:
+
+const cat = {
+    name: 'Blue',
+    color: 'grey',
+    breed: 'scottish fold',
+    meow() {
+        console.log(`${this.name} says MEOWWWW`);
+    }
+}
+
+const meow2 = cat.meow;
+
+We set the constant meow2 to get the function cat.meow, we are not actually executing it, we are just referring to that method. We've seen how to do this before, we are just setting a reference to that thing cat.meow that happens to be a function. So if we call:
+
+meow2; //we see that it is a function and it show the function content
+meow2(); //when we actually call it we get " says MEOWWWW"
+
+so we get blank says MEOWWWW. But when we say cat.meow() it says "Blue says MEOWWWW" so what's the difference? Well, the difference is in that invocation context. When we're invoking the function as a method on cat.meow(), this refers to that object to the left of the dot (meaning cat). When we ran it without the cat.meow() as meow2(), it was the same function but we called it in a different way, we invoked it differently, the keyword "this" is not going to refer to the cat object. It will instead refer to:
+
+const cat = {
+    name: 'Blue',
+    color: 'grey',
+    breed: 'scottish fold',
+    meow() {
+        console.log("THIS IS:", this)
+        console.log(`${this.name} says MEOWWWW`);
+    }
+}
+
+const meow2 = cat.meow;
+
+we added a console.log(this) to see that this is referring to. So on
+
+cat.meow();
+
+it referes to the object cat, so that's how we can access this.name, this.colo and so on. When we call
+
+meow2();
+
+We see that it refers to "window", to the "window" object. We haven't talked much about it, this is built into JavaScript. Everytime we open up a new browser window and we're working with JavaScript, there is a special object, the top level object. Think of it as just like the main object that everything loads inside of, called "window".
+
+window;
+
+All of the functions we use, if we look inside it, things like alert(), they all exist inside of the "window" object. It's just a big object, it contains a lot of things and we'll learn more about it later on. If we define a function like:
+
+function sayA(){ console.log("AAAAAAAAAaaaa!)};
+
+We call it by writing 
+
+sayA()
+
+and we execute it. But actually what also happens, is that it's also added to the "window" for us, even though we never wrote the word "window" anywhere, there is now a function on there called "sayA":
+
+window.sayA; //and it's exactly what we wrote
+window.sayA();
+
+So by defining something out in the open with f12 in dev tools or in a file, it seems that it's floating on its own, but it actually gets added to the top level object in JavaScript called "window". To be more specific we could do window.sayA() when we executed the function, or window.alert("hey there"), but nobody does that. We brought this up because when we did meow2(), it said that the keyword "this" was referring to the "window" object instead of the cat object. We accessed cat.meow() and this referred to what was before the dot and took the name from that object. We can think of meow2() like:
+
+meow2()
+
+and the "window" object is to the left side of the meow2. It's really just a default value for the keyword "this". If we just type
+
+this
+
+out in the console, we don't get an error, we just get the "window" object. Later we'll see more application of the keyword "this" where it will make more sense. We had to first see the basics with some simple stuff and then we'll get to more useful stuff when we pick back up and begin building more things with JavaScript too.
+
+We'll now have a look at the try/catch statement. They have to do with errors and exceptions in JavaScript. Specifically, they have to do with catching errors and preventing them from breaking or stopping the execution of our code. Sometimes we might anticipate: ok, this could go wrong, there might be an error here, and if there is, we want to grab it and stop it from propagating outwards and crashing everything. Let's generate an error deliberately to start. Let's go in try-catch_starter/app.js and write:
+
+hello.toUpperCase()
+
+this give us an error because "hello" does not exist. So we can use "try" together with "catch" as follows:
+
+try{
+  hello.toUpperCase();
+} catch {
+  console.log("ERROR!");
+}
+
+What this means is that we try to rung that code hello.toUpperCase() and if we have an error, we catch it with catch and run the code from catch's curly braces. So our code now displayed the console.log("ERROR") and our code did not break, it kept running. To demonstrate this, let's add an extra console log at the end:
+
+try{
+  hello.toUpperCase();
+} catch {
+  console.log("ERROR!");
+}
+console.log("AFTER!")
+
+so this runs, if we take the try-catch statement away and leave the error: 
+
+hello.toUpperCase();
+console.log("AFTER!")
+
+our console.log("AFTER!") will not run after we get that error. Everything stops and the following lines are not executed. So if we use "try" and "catch" any error that arises, we can ensure that our code continues to execute. Also we can handle our error, there are different things we can do. This is not common to deliberately cause an error but often times we might try something that could result in an error: like connecting to the internet, requesting something from an API, permission denied and so on. All these things can go wrong so we try and then if something goes wrong we catch. 
+
+Let's say we have a function yell that expects a message to be passed in and we'll return that message toUpperCase and three times repeated:
+
+function yell(msg) {
+        console.log(msg.toUpperCase().repeat(3));
+}
+
+alright, but there's a problem if we don't pass in a string. If we pass in a number, we get an uncaught type error because there is no toUpperCase for numbers. So one strategy here is to use try-catch to handle the situation where msg is not a string. One other option is to straight up check if message is actually a string, but this is just a different approach. So let's add try-catch to this function:
+
+function yell(msg) {
+    try {
+        console.log(msg.toUpperCase().repeat(3));
+    } catch (e) {
+        console.log(e)
+        console.log("Please pass a string next time!")
+    }
+}
+
+In try-catch we also have access to that particular exception/error message. We can console.log it out as well with "e". So that's pretty much it, we are successfully catching an error, the potential error, at least. We are trying a code, we are assuming it's going to work, but if it doesn't we'll catch any sort of error and then just print the console.log out. So if something wrong happens between the braces of "try", we can catch it in catch and handle it however we want.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
