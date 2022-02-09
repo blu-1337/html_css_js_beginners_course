@@ -2,3 +2,628 @@ ____________________________________________________________________________
 23_newer_javascript_features______________________________________________23
 ____________________________________________________________________________
 
+So the first of these newer JavaScript features we'll look at is the default params or default parameters [s3]. Often when we write a function we'll have some parameters and it may be optional. If the user passes it in we'll use it and if they don't, we'd like to give it a default value. So let's go into default-params_starter/app.js and see how it works. Let's rewrite our good old function rollDie with a parameter that accepts a number of sides as input:
+
+function rollDie(numSides) {
+    if (numSides === undefined) {
+        numSides = 6
+    }
+    return Math.floor(Math.random() * numSides) + 1
+}
+
+rollDie(20)
+rollDie()
+
+the way we test if the input numSides is actually given or not is by using the if numSides === undefined. This is the old way of doing this. If the user does not specify any input, the number of sides will be by default 6. It's kind of annoying and not ideal if we have more than one parameter to the function. 
+
+The newer method [s4] of doing this is using the syntax improvement where we add an equals sign and a default value directly in our parameter list. In the [s4] multiply example, a has no default value. a will be whatever you pass in as the first argument. b does have a default value. If we leave it off it will default to one. So we can rewrite our rollDie() function in app.js like this:
+
+function rollDie(numSides = 6) {
+    return Math.floor(Math.random() * numSides) + 1
+}
+
+this is easier to read and it's just more compact. It's a nicer alternative. So if we pass in nothing to rollDie we get 6 sides so a random number from 1 to 6.
+
+rollDie(20)
+rollDie()
+
+We can write multiple default params and one thing we can watch out for is the order. If we wrote a simple function greet that accepts a person, msg and punctuation:
+
+function rollDie(numSides = 6) {
+    return Math.floor(Math.random() * numSides) + 1
+}
+
+function greet(msg = "Hey there", person, punc = '!') {
+    console.log(`${msg}, ${person}${punc}`)
+}
+
+greet("hello, hello", "Cristian", "!!!")
+greet("Cristian")
+
+as we can see, JavaScript does not care for the default values if the order is not right. So we get "Cristian, undefined". This means we have to be considerate about the order we put our parameters in when we declare a function. The first thing we pass in goes to the first parameter. A better way of doing this would be to write:
+
+function rollDie(numSides = 6) {
+    return Math.floor(Math.random() * numSides) + 1
+}
+
+function greet(person, msg = "Hey there", punc = '!') {
+    console.log(`${msg}, ${person}${punc}`)
+}
+
+greet("Cristian", "hello, hello", "!!!")
+greet("Cristian")
+
+Now it works even if we pass in just "Cristian" and it will work. So as we saw, the default params are a significant improvement over the old way of doing things.
+
+Next up we'll have a look at spread. [s5] This is another one of the newer features in JavaScript. It is used in multiple situations. It's kind of like a swiss army knife. The definition from mdn for spread is that it allows iterables such as an array to be expanded in place where zero or more arguments (for function calls) or elements (for array literals) are expected, or an object expression to be expanded in places where zero or more key-value pairs (for object literals) are expected.
+
+That's just a great explaination, do you need anything else? The main thing we can tell from this definition is the keyword "expanding". The idea of spread is that we're taking something and we're spreading it out.  Now what we're spreading that variable into is where the variation comes in. The first example we'll see, is [s6] spreading an array or an iterable into a funciton call, into separate arguments. Let's demo this first in the dev console f12:
+
+Math.max(13,43,12,2552,234,215,239,662,1233);
+Math.min(5,1,2);
+
+So we have these functions Math.min() and Math.max() which we can give some arguments and they will find the minimum or maximum, depending on which one of those two you use. These two functions take in as many aruguments as we want to give. This is fairly different than most of the functions and built-in methods that we've seen so far, where we had a concrete number of arguments to pass in and some of them could be optional. Let's now head over to spread_starter/app.js and use the Math.max() and .min() functions to find the minimum and maximum of const nums:
+
+Math.max(nums); //NaN
+
+if we try to pass it in like this, we'll get NaN, because it doesn't know what to do. We just passed in a single array full of numbers. It's anticipating separate arguments, each one being a number. So what we can do is use the spread syntax, to spread that array into separate arguments:
+
+const nums = [13, 4, 5, 21, 3, 3, 1, 53456, 2, 7, 6, 4, 2, 7];
+
+// SPREAD IN FUNCTIONS
+Math.max(nums) //NaN
+Math.max(...nums) //53456
+
+Now that is the equivalent of writing:
+
+Math.max(13, 4, 5, 21, 3, 3, 1, 53456, 2, 7, 6, 4, 2, 7);
+
+So that entire array is going to be spread out into separate arguments. We can think of it like it's just remove those array brackets. So it doesn't actually change nums in any way, it's just the act of passing it in to Math.max(), we're spreading it, we're separating it into separate arguments as that happens. So we can do the same thing for Math.min():
+
+const nums = [13, 4, 5, 21, 3, 3, 1, 53456, 2, 7, 6, 4, 2, 7];
+// SPREAD IN FUNCTIONS
+Math.max(nums) //NaN
+Math.max(...nums) //53456
+Math.min(...nums) //1
+
+and we get 1, that's the minimum value in that array. Another example is console.log():
+
+console.log("hey", "this", "is", "my", "message");
+
+Now they are each printed and they are separated by a space. If we do 
+
+console.log(nums) //the entire array is printed
+console.log(...nums) //individual elements printed out
+
+It's a slight difference here in that in the second case, each individual element is passed in separately into console.log() and they are all separated by spaces. We can also do this with things that aren't arrays. There are other iterables as we've seen, anything that we can iterate over with for...of like string, we can also spread into a function call. So if we do 
+
+console.log("hello") //hello
+console.log(..."hello") //h e l l o
+
+this is going to spread each individual character into a separate argument. This is the same as if we called:
+
+console.log("h", "e", "l", "l", "o");
+
+The single string was passed in as separate characters, individual arguments.
+
+Next up we'll talk about this second piece here [s5]. "Spread syntax allows an iterable such as an array to be expanded in places where zero or ELEMENTS (for array literals) are expected. Basically how we can spread an iterable into arrays [s7]. Now let's see how this looks like in our spreat_starter/app.js: 
+
+const cats = ['Blue', 'Scout', 'Rocket'];
+const dogs = ['Rusty', 'Wyatt'];
+
+const allPets = [...cats, ...dogs];
+
+We have two arrays and we want to make a third array that contains everything from cats and everything from dogs. The easiest thing to do is to use the spread operator. There are other options as we've seen how we can copy pieces of an array using things like slice, but we're not going to do that here because spread allows us to spread an iterable just like an array, in this example the cats and dogs arrays, into a new array. Now allPets is the result of copying over everything from the cats array and everything from the dogs array, combining them into a new third array. Here the order also matters so:
+
+[...dogs, ...cats];
+
+will create a different array, with the dogs first. We can also add extra thing in there, that is not a problem.
+
+[...dogs, ...cats, 'Speedy'];
+
+So spread is working in the same way we saw it when we spread an array into a function call, except we're not spreading it into a function call, we're spreading an array into another array, or two arrays into a third and so on. We are combining things, we are copying things. If we want a direct copy of cats into a new array we can write
+
+const newCatsArray = [...cats]
+
+and this is often used like that. We are not limited to working with arrays, we also have other iterables like strings.
+
+["hello"]
+[..."hello"]; //this spreads it into a new array
+
+Just like we saw before with console.log(). Each character of the string is spread into it's own element in an array. So this is how we use spread in the context of an array literal.
+
+The third and final situation where we use spread is in object literals [s8]. So inside of curly braces. We use this to copy properties from one object to a new object. So we can combine objects and make a new object based upon an old one. We can copy one, we can tweak one, just like what we saw previously with arrays, where we could copy elements from one array to a new array. We can spread properties from an object into a new object. As an example we have two objects in our spread_starter/app.js called feline and canine. And they have a family property in common. If we wanted to make a copy, a new object out of these we can do something like:
+
+{...feline, color: 'black'};
+
+this makes us a new object with the properties from feline copied over or spread  into a new object. And we also have a new propertie color which is set to "black". We can combine the two canine and feline into a new object called catDog:
+
+// SPREAD IN OBJECTS
+const feline = { legs: 4, family: 'Felidae' };
+const canine = { isFurry: true, family: 'Caninae' };
+
+const catDog = { ...feline, ...canine };
+
+This is going to copy over properties from both, but remember, there is a conflict. They both have a family property, and in that case, order matters: so feline will be copied over first and then canine. So when there's a conflict, canine is going to "win" because it comes second and it overwrites "family". If we switch their oder up:
+
+{...canine, ...feline};
+
+now family is set to Felidae. If we manually set another value for the family property at the end
+
+{...canine, ...feline, family: "Gilca"};
+
+that is going to win and overwrite both the family from canine and feline, because it comes last. So that's the basic idea of copying objects using spread. It's just going to take the properties, the key value pairs from one and add them into the new object. 
+
+There aren't many situations in which you would need to do this but let's say you want to spread an array into an object:
+
+{...[1337, 1994, 2022]}
+
+we get {0: 1337, 1: 1994, 2: 2022}. The indeces are used as the key. The same thing goes for strings.
+
+{..."hello"}
+
+this is not that common, but it is something we can do. 
+
+But what do we use this for, why would we want to spread into an object? A lot of times we use it when we are creating copies of an object, which is something we actually do a lot when we work with libraries and tools like React. But there are valid reasons why we copy objects rather than mutating them. Another situation though is, imagine that we have some data coming from a form, from a user:
+
+// SPREAD IN OBJECTS
+const feline = { legs: 4, family: 'Felidae' };
+const canine = { isFurry: true, family: 'Caninae' };
+
+const catDog = { ...feline, ...canine };
+
+
+const dataFromForm = {
+    email: 'blueman@gmail.com',
+    password: 'mypass123!',
+    username: 'blueman'
+}
+
+and we want to take that email, password and username and combine it with some additional information. Let's suppose that is something required to register on our website and that is all that the user needs to provide, but we also want to add in an unique identifier and maybe an isAdmin property set to true or false. So we can copy everything over into a new object and we'll add two more extra properties:
+
+// SPREAD IN OBJECTS
+const feline = { legs: 4, family: 'Felidae' };
+const canine = { isFurry: true, family: 'Caninae' };
+
+const catDog = { ...feline, ...canine };
+
+
+const dataFromForm = {
+    email: 'blueman@gmail.com',
+    password: 'mypass123!',
+    username: 'blueman'
+}
+const newUser = { ...dataFromForm, id: 2345, isAdmin: false }
+
+So the last two items: id and isAdmin are not items coming from the form. They are coming from us, we added our own stuff. This is how it could be useful in the future.
+
+So that wraps up spread. There's a lot to it but at the end of the day it has to do with spreading one source of information into some destination. Weather that is spreading arrays or iterables into function arguments or spreading arrays or iterables into actual array literals or spreading objects into objects. It all has to do with spreading.
+
+Next up we'll talk about rest [s9]. Which kind of looks like spread because it uses three dots but it does something completely different. To help explain this, we need to go back and talk about something called the arguments object. Inside every function we've written so far, we have access to this magical thing created for us automaticall called arguments. It kind of looks and acts like an array. It's what we call an array-like object. We can use indeces to access elements out. In that sense it works exactly like an array, except we don't have access to array methods like push, pop, reduce and all of that stuf. So what does it contain and what does it do? It will automatically hold all of the arguments we pass to our function. So let's head over to rest_starter/app.js and demonstrate this:
+
+function sum(){
+  console.log(arguments)
+}
+
+we're not going to expect any arguments and we're going to console.log() the arguments object. If you remember Math.min(1,2,3,4,2,2,3,44) where we could pass in as many arguments as we wanted, there was no way to specify how many arguments: one, two, a thousand, we want in a function in our parameter list. But the arguments object is going to collect them anyway. If we call
+
+sum()
+
+we see that arguments is empty. But if we call
+
+sum(1337, 1994 ,2022)
+
+Arguments now contains those values in an order. So they are indexed in arguments. So it looks like an array, it acts like an array but it's not an array. So if we wanted to make sum() sum up all arguments that get passed in together (3,4,5,1), we would need to loop over and sum them up together or we could use reduce, a standard array method:
+
+function sum() {
+    return arguments.reduce((total, el) => total + el)
+}
+
+This would work, but the problem we will run into here is the fact that arguments is not an array and it doesn't have a reduce method. So this will return an error. This is where rest comes in [s11]. Which is three dots, goes into our parameter list and it's going to collect all remaining arguments and put them in an actual array. So instead let's create a new function called sum and use it with rest.
+
+// function sum() {
+//     return arguments.reduce((total, el) => total + el)
+// }
+
+// COLLECT THE "REST" IN NUMS:
+function sum(...nums) {
+    console.log(nums)
+
+}
+
+we added a parameter in there called nums. If we left it without the three dots, it would of been just one parameter. If we call this with 
+
+sum(1,2,34)
+
+we get an actual array. So can now do things like reduce as we tried before.
+
+// function sum() {
+//     return arguments.reduce((total, el) => total + el)
+// }
+
+// COLLECT THE "REST" IN NUMS:
+function sum(...nums) {
+    return nums.reduce((total, el) => total + el)
+}
+
+instead of arguments.reduce we use nums.reduce. Arguments, we cannot choose that name, it's always that name. And it now works for multiple parameters:
+
+sum(1,2,3,4)
+
+Alright, now this is called rest. So collect the rest of the values. And that means that we can have some named parameters that we call out first. For example if we have a function called raceResults and it hands out gold and silver medals to the first two participants and then for the other participants it just hands out a thanks message:
+
+function raceResults(gold, silver, ...everyoneElse) {
+    console.log(`GOLD MEDAL GOES TO: ${gold}`)
+    console.log(`SILVER MEDAL GOES TO: ${silver}`)
+    console.log(`AND THANKS TO EVERYONE ELSE: ${everyoneElse}`)
+}
+
+so if we run:
+
+raceResults("Tobi", "Charlie", "Christian", "Johnny")
+
+so what we did there is call out the first two specifically and then collect the rest into everyoneElse. This is super useful and we cannot do that with arguments. Arguments just holds everything in it. So if we tried to replicate this we would have to call arguments[0] arguments[1] to the the first two and then arguments[2] and so on to get the rest. The last thing about arguments to not is that it does not work inside arrow functions at all. So that's another reason to use the rest parameters. So it's three dots, it's different than spread, we're not spreading things out, we are doing the opposite, we are collecting things in to a single parameter.
+
+Next up we'll look at destructuring [s12]. This is another new syntax improvement, it's a nice way of unpacking, extracting or singling out values from arrays or form objects. We can unpack them and then basically put them into distinct variables. Let's see some examples of this. Let's head over to destructuring_starter/app.js and let's start with arrays. We have this array const scores with some scores from a game. They are ordered from biggest to smallest.
+
+const scores = [929321, 899341, 888336, 772739, 543671, 243567, 111934];
+
+What we want to do is take the first and second scores and award them or separate them into separate variables so that we have:
+
+const scores = [929321, 899341, 888336, 772739, 543671, 243567, 111934];
+
+const highScore = scores[0];
+const secondHighScore = scores[1];
+
+this works just fine but there is actually a much shorter way of doing this and that shorter syntax looks like this using destructuring:
+
+const scores = [929321, 899341, 888336, 772739, 543671, 243567, 111934];
+
+// const highScore = scores[0];
+// const secondHighScore = scores[1];
+
+const [gold, silver] = scores;
+
+gold
+silver
+
+so we want the first value to be called gold, the second one silver. So the first element was saved to gold and the second to silver. We can also do:
+
+const scores = [929321, 899341, 888336, 772739, 543671, 243567, 111934];
+
+// const highScore = scores[0];
+// const secondHighScore = scores[1];
+
+const [gold, silver, bronze, ...everyoneElse] = scores;
+
+The remaining rest that was not singled out is going to be saved to everyoneElse with the rest operator we've seen before. 
+
+gold
+silver
+everyoneElse
+scores
+
+and scores remains the same, we did not change anithing in the original array. We just copied some values into their own variable. In the slides [s13] we have another similar example with some marathon runners. 
+
+So that's how we can destructure from an array. This is pretty common. But what's even more common is destructuring from objects [s14]. So let's see how we can use destructuring to extract values not from an array but from objects. This is more commonly used and more practical because it's not always about order. Often we'll have some object and we will need to single out or access a couple of properties frequently. So let's see this at work in our destructuring_starter/app.js. Here we have an user with some different properties. Let's say we wanted to get just the firstName, lastName and email from const user:
+
+const user = {
+    email: 'harvey@gmail.com',
+    password: 'sCoTt1948sMiTh',
+    firstName: 'Harvey',
+    lastName: 'Milk',
+    born: 1930,
+    died: 1978,
+    bio: 'Harvey Bernard Milk was an American politician and the first openly gay elected official in the history of California, where he was elected to the San Francisco Board of Supervisors',
+    city: 'San Francisco',
+    state: 'California'
+}
+
+const firstName = user.firstName;
+const lastName = user.lastName;
+const email = user.email;
+
+now this is alright but imagine we had to do this also for born, died, bio and so on. But we can destructure them using a similar syntax using curly brackets.
+
+const user = {
+    email: 'harvey@gmail.com',
+    password: 'sCoTt1948sMiTh',
+    firstName: 'Harvey',
+    lastName: 'Milk',
+    born: 1930,
+    died: 1978,
+    bio: 'Harvey Bernard Milk was an American politician and the first openly gay elected official in the history of California, where he was elected to the San Francisco Board of Supervisors',
+    city: 'San Francisco',
+    state: 'California'
+}
+
+// const firstName = user.firstName;
+// const lastName = user.lastName;
+// const email = user.email;
+const { email, firstName, lastName, city, bio } = user;
+
+email
+firstName
+city
+
+here the order does not matter as it does with array. But the name matters, there must be a property there in the object called email for example in order to access it. So this makes us a variable called email from user. It also makes a variable for firstName, lastName, city and bio which all get their values from the object named user. So we got five new variables based upon values in that object. Also the object remained unchanged after doing this. So this can be really helpful.
+
+Now sometimes there are properties that have particular name like for example born and died which we want to extract or destructure but we also want to rename them. In our  
+
+const { email, firstName, lastName, city, bio } = user;
+
+example the newly created variable is going to be called exactly email. But let's say we want them to have another name. birthYear for born and deathYear for died. So we can do this:
+
+const user = {
+    email: 'harvey@gmail.com',
+    password: 'sCoTt1948sMiTh',
+    firstName: 'Harvey',
+    lastName: 'Milk',
+    born: 1930,
+    died: 1978,
+    bio: 'Harvey Bernard Milk was an American politician and the first openly gay elected official in the history of California, where he was elected to the San Francisco Board of Supervisors',
+    city: 'San Francisco',
+    state: 'California'
+}
+
+// const firstName = user.firstName;
+// const lastName = user.lastName;
+// const email = user.email;
+const { email, firstName, lastName, city, bio } = user;
+
+const { born: birthYear, died: deathYear } = user;
+
+so property name from object (born) colon new custom name (birthYear) will make us a variable called birthYear but it will be using the value from user.born. So the born property extracted that from the user into a new variable called birthYear. The same was done for deathYear. Now we have two custom named variables. Now let's do something else. Let's say we want to destructure died from const user2. We notice that this property is not present in user2. Let's see what happens if we try to destructure it like it is:
+
+const user = {
+    email: 'harvey@gmail.com',
+    password: 'sCoTt1948sMiTh',
+    firstName: 'Harvey',
+    lastName: 'Milk',
+    born: 1930,
+    died: 1978,
+    bio: 'Harvey Bernard Milk was an American politician and the first openly gay elected official in the history of California, where he was elected to the San Francisco Board of Supervisors',
+    city: 'San Francisco',
+    state: 'California'
+}
+
+const user2 = {
+    email: 'Stacy@gmail.com',
+    firstName: 'Stacy',
+    lastName: 'Gonzalez',
+    born: 1987,
+    city: 'Tulsa',
+    state: 'Oklahoma'
+}
+
+// const firstName = user.firstName;
+// const lastName = user.lastName;
+// const email = user.email;
+const { email, firstName, lastName, city, bio } = user;
+
+// const { born: birthYear, died: deathYear = 'N/A' } = user;
+
+const { city, state, died } = user2;
+
+died
+
+we will get undefined. This is not an error, it just means that died has no value in user2. For this we can add default values while destructuring. 
+
+const user = {
+    email: 'harvey@gmail.com',
+    password: 'sCoTt1948sMiTh',
+    firstName: 'Harvey',
+    lastName: 'Milk',
+    born: 1930,
+    died: 1978,
+    bio: 'Harvey Bernard Milk was an American politician and the first openly gay elected official in the history of California, where he was elected to the San Francisco Board of Supervisors',
+    city: 'San Francisco',
+    state: 'California'
+}
+
+const user2 = {
+    email: 'Stacy@gmail.com',
+    firstName: 'Stacy',
+    lastName: 'Gonzalez',
+    born: 1987,
+    city: 'Tulsa',
+    state: 'Oklahoma'
+}
+
+// const firstName = user.firstName;
+// const lastName = user.lastName;
+// const email = user.email;
+const { email, firstName, lastName, city, bio } = user;
+
+// const { born: birthYear, died: deathYear = 'N/A' } = user;
+
+const { city, state, died = 'N/A' } = user2;
+died
+
+so this is how we can give it a default value with equal signs. Now the default value will be used for died because there was no value found in user2 for died.
+
+So we can pull out individual properties, single them out into variables using the same name or we can assign a new name using colon and then the new variable name. We can also assign a fallback or default value using an equal sign. That was destructuring from objects.
+
+The last use case for destructuring is actually in our function parameter list [s15]. So when we're defining a function or writing our parameters wihin those parantheses, we can destructure the values that are being passed in. This is most frequently used with objects. Let's then head over to destructuring_starter/app.js to see an example. Let's write a function that is expecting us to pass in some sort of user object:
+
+const user = {
+    email: 'harvey@gmail.com',
+    password: 'sCoTt1948sMiTh',
+    firstName: 'Harvey',
+    lastName: 'Milk',
+    born: 1930,
+    died: 1978,
+    bio: 'Harvey Bernard Milk was an American politician and the first openly gay elected official in the history of California, where he was elected to the San Francisco Board of Supervisors',
+    city: 'San Francisco',
+    state: 'California'
+}
+
+function fullName(user) {
+    return `${user.firstName} ${user.lastName}`
+}
+
+and this will work, we'll get Harvey Milk back. But we can also use destructuring as we just saw. So we can just destructure those two and use:
+
+// function fullName(user) {
+//     return `${user.firstName} ${user.lastName}`
+// }
+
+function fullName(user) {
+    const { firstName, lastName } = user;
+    return `${firstName} ${lastName}`
+}
+
+so we've destructured those two and we just returned them without having to write user. It's not that big of an improvement. It is shorter though if we had something that did a lot of work with firstName and lastName. If we plan to not use anything else from user like: bornd, died, bio and so on and we just want the firtName and lastName, we can destructure on the way into the function. So we can do this:
+
+// function fullName(user) {
+//     return `${user.firstName} ${user.lastName}`
+// }
+// function fullName(user) {
+//     const { firstName, lastName } = user;
+//     return `${firstName} ${lastName}`
+// }
+
+function fullName({ firstName, lastName }) {
+    return `${firstName} ${lastName}`
+}
+
+So we are expecting an object and from that object we want to destructure firstName and lastName and we'll just return the same string template literal. So it's much shorter and we don't have to bother with const user at all anymore, it's just firstName and lastName. If we try:
+
+fullName(user)
+
+and it works. So that's just a simple example, but we will see this frequently. We will also get a default value just like we would when we are destructuring any other object like we saw previously like this:
+
+function fullName({ firstName, lastName = "defaultLastName" }) {
+    return `${firstName} ${lastName}`
+}
+
+and that's our default lastName if it can't fine one in the object we're passing in. 
+
+We can also change the name of the variables with colon as we previously saw:
+
+function fullName({ firstName: first, lastName: last = "defaultLastName" }) {
+    return `${first} ${last}`
+}
+
+and this also works. So this is frequently used as well with array methods. Let's look at movies and let's say we want to filter the movies based upon score:
+
+const movies = [
+    {
+        title: 'Amadeus',
+        score: 99,
+        year: 1984
+    },
+    {
+        title: 'Sharknado',
+        score: 35,
+        year: 2013
+    },
+    {
+        title: '13 Going On 30',
+        score: 70,
+        year: 2004
+    },
+    {
+        title: 'Stand By Me',
+        score: 85,
+        year: 1986
+    },
+    {
+        title: 'Waterworld',
+        score: 62,
+        year: 1995
+    },
+    {
+        title: 'Jingle All The Way',
+        score: 71,
+        year: 1996
+    },
+    {
+        title: 'Parasite',
+        score: 95,
+        year: 2019
+    },
+    {
+        title: 'Notting Hill',
+        score: 77,
+        year: 1999
+    },
+    {
+        title: 'Alien',
+        score: 90,
+        year: 1979
+    }
+]
+
+movies.filter((movie) => movie.score >= 90)
+
+so just like we did when we worked with filter, we returned only the higher rated movies after we tested it they scored more than or equal to 90. Another way of doing this would be to destructure them immediately on the way in:
+
+const movies = [
+    {
+        title: 'Amadeus',
+        score: 99,
+        year: 1984
+    },
+    {
+        title: 'Sharknado',
+        score: 35,
+        year: 2013
+    },
+    {
+        title: '13 Going On 30',
+        score: 70,
+        year: 2004
+    },
+    {
+        title: 'Stand By Me',
+        score: 85,
+        year: 1986
+    },
+    {
+        title: 'Waterworld',
+        score: 62,
+        year: 1995
+    },
+    {
+        title: 'Jingle All The Way',
+        score: 71,
+        year: 1996
+    },
+    {
+        title: 'Parasite',
+        score: 95,
+        year: 2019
+    },
+    {
+        title: 'Notting Hill',
+        score: 77,
+        year: 1999
+    },
+    {
+        title: 'Alien',
+        score: 90,
+        year: 1979
+    }
+]
+
+// movies.filter((movie) => movie.score >= 90)
+movies.filter(({ score }) => score >= 90)
+
+so that's definitely shorter. Let's say that we want title score and year. So let's use map first for that:
+ 
+movies.map(movie => {
+    return `${movie.title} (${movie.year}) is rated ${movie.score}`
+})
+
+so we can shorten this up using destructuring, even thoug that's pretty short as it is. But we can destructure those things on the way in:
+
+// movies.map(movie => {
+//     return `${movie.title} (${movie.year}) is rated ${movie.score}`
+// })
+
+movies.map(({ title, score, year }) => {
+    return `${title} (${year}) is rated ${score}`
+})
+
+and it still works. It's a little bit of an improvement because we don't have to reference movie all over the place, we don't have to make separate variables, we don't have to extract things ourselves because it's all done for us on the way in thanks to those curly braces. So that's destructuring parameters when they are passed into a function.

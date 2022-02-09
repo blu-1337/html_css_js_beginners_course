@@ -2,3 +2,653 @@ ____________________________________________________________________________
 22_callbacks_and_array_methods____________________________________________22
 ____________________________________________________________________________
 
+We wrapped up in the previous section talking about passing functions to other functions or returning functions from within functions and there is a reason we covered that first. This section [s2] is a about a subset of array methods, built-in methods that we have access to on every single array in JavaScript. And thos array methods require us to pass in functions. It seems a little odd, but it's a very, very crucial part of working with arrays in JavaScript. And arrays are very crucial to JavaScript. So let's simplify that and say that this pattern, these array methods that we are going to introduce, are critical to understanding JavaScript. All of these array methods are array methods that require us to pass in a function. If we look at an example for filter https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter on mdn we'll see that when the filter method is called, a function is passed in. So we'll spend some time here to talk about that pattern, different methods and also about a different function that we haven't seen yet, a newer, fancier and modern syntax called arrow functions. Arrow functions happen to be used all the time when we're using these array methods. Array methods that require us to pass in functions, that's the central idea here.
+
+So the firs tof the array methods we'll have a look at is forEach() [s3]. This used to be a lot more commonly used before the advent of the for...of loop. Basically what it does is it allows us to run a function, run some code once per item in some array. So whatever function we pass in, that function will be called once per item, where each iteam will be passed into the function automatically. So let's head over to for-each_starter/app.js and let's try to print out each number from const numbers:
+
+numbers.forEach()
+
+we can do .forEach() and this expects us to pass in a callback. We can define our function separately and then pass it in numbers.forEach() like so:
+
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+function print(element){
+  console.log(element)
+}
+
+numbers.forEach(print)
+
+this will call the print function for each element. So it will execute print once per element and it's going to pass in the element, so it will pass in 1 to print, 2 to print, 3 to print and so on. So we get every element printed out. But this is pretty uncommon to do for each and just pass in an a function that we've already defined. What we most commonly see is defining a function inline like:
+
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+numbers.forEach(function (el) {
+        console.log(el)
+})
+
+this is more common. This format or pattern is what we'll see most of the time, passing a function that exists solely for that moment in time, so it's not something we plan on calling again. And this gives us the same outcome.
+
+But we already know how to print out every element now using a for...of like so:
+
+for (let el of numbers) {
+    console.log(el);
+}
+
+and this is easier to read, shorter and doesn't have to involve functions. But this has not always been a thing. for...of is newer, so for...each for a long time was most people's first choice for doing something once per element in some array. So instead of printing things we can do something more complicated like printing out only the even numbers:
+
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+numbers.forEach(function (el) {
+    if (el % 2 === 0) {
+        console.log(el)
+    }
+})
+
+if a number is cleanly divisible by two, that number is even and we print it out. Let's do one more example on the data structure from const movies. This array contains objects, each movie is an object with a title and a score and what we'd like to do is print out something like 'Alien - 90/100'. So we're going to call a function once per element in this array:
+
+const movies = [
+    {
+        title: 'Amadeus',
+        score: 99
+    },
+    {
+        title: 'Stand By Me',
+        score: 85
+    },
+    {
+        title: 'Parasite',
+        score: 95
+    },
+    {
+        title: 'Alien',
+        score: 90
+    }
+]
+
+movies.forEach(function (movie) {
+    console.log(`${movie.title} - ${movie.score}/100`)
+})
+
+so we use an annonimous function that exists just for this purpose. So "movie" is going to be each element, one at a time from our array. It will passed in automatically to our function. So we're simply providing a function to forEach(). We are not executing the function, we are just defining it. So we printed out the movie title and score via string template literals.
+
+forEach() is not really used that very often these days because we now have for...of, but it's our first and simples example of these array callback methods, these methods that expect a function to be passed in.
+
+The next of these callback arrays methods that we'll talk about it map [s4]. map is similar to forEach in the sense that it accepts a callback function and it runs that function once per element in the array, but what's very different is that it then generates a new array using the result, using the return value of that callback. So it's a way to map an array from one state to another. We can double every number or like in this example [s4] we have a text array with some lowercase strings and then we're calling texts.map(function (t){}) with t as a parameter and we're returning t.toUpperCase(). So whatever that return value is, coming back from that callback function, map is going to take that and add it into a new array that it creates and returns. Then we can save that returned array into a variable called caps. Let's go into map_starter/app.js and do our own version. Here we have our const numbers again, some consecutive integers. Let's say we wanted to double every single one. We can do this:
+
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+const doubles = numbers.map(function (num) {
+    return num * 2;
+})
+
+so it's going to call that function(num) on every element and they are each added to a new array. So this does not mutate const numbers, it just makes a new array which is then saved to doubles. So we've taken each element, ran it through the function that we passed into map and that generated a new array with results.
+
+Let's now try working with the movies array this time. Let's form an array with just the movie titles and let's make them uppercase. To do that we can use map:
+
+const titles = movies.map(function (movie) {
+    return movie.title.toUpperCase();
+})
+
+so we're mapping over the movie titles and we are returning them .toUpperCase() and then the resulting new array is saved to const titles. So we're just taking data in a starting array and usually we're transforming it as we map it into a new copied array. So we could just use map to make a direct copy. We could also just use map to make a direct copy of an array (return movie) but there are easier ways of doing that. So it's typically used when we need to transform every element from a starting array and make a new array based upon that starting array. map is often a good choice for this. It accepts a callback and then it runs that callback on every element and it takes that return value we get back and it shoves it in a new array that it returns to us that we can save in a variable or do something with. So that's an intro to map.
+
+Now we get to arrow functions. They are super useful. [s5] They are a newer syntax for defining functions and they unfortunately have no internet explorer support. Usually the newer features are not supported in internet explorer. It's a newer and compacter alternative to normal function expressions. It allows us to write functions without having to write the actual keyword function. So the syntax for it consists of parantheses, then our list of parameters, then an arrow made with equals and greater than sign and then the curly braces.
+
+They are used to create function expressions. Let's open arrow-functions_starter/app.js and try it out:
+
+const add = function(x,y) {
+    return x + y;
+}
+
+this is a function expression, we can pass it as an argument, we can return it and so on. But what we cannot do is:
+
+function(x,y) {
+    return x + y;
+}
+
+declare this function on it's own. We need to use a function statement and give it a name. like
+
+function add(x,y) {
+    return x + y;
+}
+
+Arrow functions are the same. We cannot write arrow functions on their own like
+
+(x,y) => {
+  return x+y;
+}
+
+but we can save it in a variable:
+
+const add = (x, y) => {
+    return x + y;
+}
+
+so instead of writing function we write the parameters directly and then equals greater than curly braces with whatever we want to do inside of them. Now to execute add, we call it like with a normal function:
+
+add(1,5);
+
+we just created it with a compacter syntax. Let's do one more example of an arrow function for making a square of a number:
+
+const square = (num) => {
+    return (num) * (num);
+}
+
+Now if we have an arrow function with no arguments, how would that look like? Let's make one for rollDie, we don't nee any arguments to be passed in there:
+
+const rollDie = () => {
+    return Math.floor(Math.random() * 6) + 1
+}
+
+So we have to have those empty parantheses in order for this to work. Then we call it with 
+
+rollDie()
+
+On the other side, if we have just one parameter like in square, those parantheses are actually optional, so we can also write it this way:
+
+const square = num => {
+    return num * num;
+}
+
+that only works when there is only one argument to be passed in. It will not work if we have zero parameters or if we have more than one.
+
+const add = a,b => {return a+b} //will give us a syntax error
+
+So those were the basics of arrow functions, a syntactically compact alternative to a regular old function expression.
+
+So as we've seen arrow functions are already compact, but there is a way we can shrink them even more in certain situations by using implicit returns [s7]. This is something we can only do with arrow functions. This does not work with a typical function expression. Basically we can leave off the return keyword in certain situations. So if we look in arrow-functions_starter/app.js at the rollDie() function all that it does is return a single value. There is nothing else that happens there, it's just an one liner. What we can actually do is eliminate that return statement/keyword.
+
+const rollDie = () => {
+    Math.floor(Math.random() * 6) + 1
+}
+
+but his just vanishes into thin air. It's as if we write in dev tools f12 
+
+1+1
+
+so what we need to do is and here's where the novelty comes in:
+
+const rollDie = () => (
+    Math.floor(Math.random() * 6) + 1
+)
+
+we write instead of curly braces, with parantheses (). This is the new syntax with arrow functions to make an implicit return. This tells JavaScript: we are just returning this one thing, we don't need to write the return keyword, just automatically, implicitly return it for us. So this is how it's working now. What's more useful is when we have an one liner function like:
+
+const add = (a, b) => a + b;
+
+we can use an implicit return and remove even the parantheses and do it on one line. We could do the same with rollDie but we have to make a determination: is it worth to put on one line? Maybe it will become harder to read and understand what's happening. But this works good for short functions. And this will work also without the curly braces, if we only have one line to return. 
+
+In the slide [s7] we see the evolution of isEven, first with a function expression, then arrow function, then arrow function with not parens, then the arrow with implicit return and lastly the final version, an one liner with implicit return. These are nice improvements, we don't have to use them neccessarily but we have to know about them because they will come up in JavaScript code. These can shorten things up significantly. So to remmber, implicit return functions only work if only one expression exists in the body of our function, otherwise we'll get an error because JavaScript will not know what to return.
+
+Now that we've learned a bit about arrow functions, let's revisit things like map and forEach and see how we can use arrow functions there to shorten things up even more. So here's our movies array aggain in arrow-functions_starter/app.js. And let's say we wanted to map over them using a typical function expression for each movei first. We want to return the movie title and movie score divided by 10 via string template literal as we did a while ago:
+
+const movies = [
+    {
+        title: 'Amadeus',
+        score: 99
+    },
+    {
+        title: 'Stand By Me',
+        score: 85
+    },
+    {
+        title: 'Parasite',
+        score: 95
+    },
+    {
+        title: 'Alien',
+        score: 90
+    }
+
+const newMovies = movies.map(function (movie) {
+    return `${movie.title} - ${movie.score / 10}`
+})
+
+so we map the return function and then save the newly created array to const newMovies. 
+
+newMovies;
+
+If we wanted to rewrite this with an arrow function, we could do:
+
+const newMovies = movies.map(movie => (
+    `${movie.title} - ${movie.score / 10}`
+))
+
+we have now an implicit return and we can also do it on one line if we wanted to, but it's kind of long. So this is still shorter than what we had before. This is where arrow functions pop up a lot, where we pass in a function into another function or method. In our above case we were passing our function to map. It really just cleans things up and it's easier to read. With this we wrap up our arrow functions.
+
+Next up we're going to have a look at two functions that expect us to pass a callback function in, but they are not array methods. They have nothing to do wit arrays. They have to do with delaying or waiting, pausing execution and postponing execution for later dates, basically scheduling something.  
+
+The first function is called setTimeout() and it expects us to pass two things in: first a callback and second a number of milliseconds to delay the execution of the function. If we start writing it in set-timeout_starter/app.ks VS Code will automatically sugges what arguments we can pass in: timeout handler and a timeout number for the delay. So let's try this out:
+
+setTimeout(() => {
+  console.log("HELLO!")
+}, 3000)
+
+3000 milliseconds means three seconds. So first we have the callback function and then the delay number: 3000 milliseconds. If we execute this script on our page, we wait three seconds and we get "HELLO!". So that's all there is to setTimeout(). It's going to run one time after that number of milliseconds. If we passed in just:
+
+setTimeout(
+  console.log("HELLO!"),3000
+)
+
+without the callback, that's going to execute right away without waiting. So the point here is that the browser will wait to call that function, the arrow function, up until the appropiate time determined by the delay number. If we do something like:
+
+console.log("HELLO!!!...")
+setTimeout(() => {
+    console.log("...are you still there?")
+}, 3000)
+
+console.log("GOODBYE!!")
+
+we write first HELLO immediately and after three seconds we write "are you still there?" and immediately after we write "goodbye". Alright, that's all there is to setTimeout(), it's very important to give it a callback function and also a delay timer for its execution in milliseconds.
+
+Another function that is pretty similar is setInterval(). setInterval() will cal a function that we pass in every number of milliseconds we specify. So it's going to repeat something at an interval. Let's see an example for this and print out some random numbers every two seconds:
+
+setInterval(() => {
+    console.log(Math.random())
+}, 2000);
+
+This continues over and over again to call that function every two seconds. We also notice that his function has the same format as the setTimeout() function. So what would also be useful here to know is how to stop this from running. All that we need to do is save the return value of setInterval to a const id:
+
+const id = setInterval(() => {
+    console.log(Math.random())
+}, 2000);
+
+every time we call setInterval(), it gives us an id corresponding to whatever interval we set up. So we could have like five or six, seven or a whole bunch of these different setInterval() function calls running at different intervals and we can specity which one we want to stop by using that id. So we can stop it by using:
+
+const id = setInterval(() => {
+    console.log(Math.random())
+}, 2000);
+
+clearInterval(id);
+
+Now our setInterval() will stop. But if we run it straight away, nothing will be displayed, so we can first let it run a bit and then write that in the console. 
+
+const id = setInterval(() => {
+    console.log(Math.random())
+}, 2000);
+
+// clearInterval(id);
+
+And that's all there is to it.
+
+Here we've see other examples of passing functions to other functions that are run after a number of milliseconds with setTimeout or repeatedly in an interval with setInterval. 
+
+Now we'll have a brief look at the find method. In slide [s8] this method returns the value of the first element in the array that satisfies the provided testing function. The callback function has to return a true or false value. It has to be a boolean function. In let movie we are searching for the element in the movies array that contains the word "Mrs.". This is tested within the arrow function with movie.includes('Mrs.'). The returned element is then saved in the let movie variable. The let movie2 example uses an implicit return arrow function for when the indexOf one movie containing ('Mrs') is equal to 0, meaning that the first thing in the movie name has to be "Mrs." and then the element gets returned and savet in let movie2 variable. For more example on find we can have a look at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+
+The next of these callback methods we'll see is called filter [s9]. Filter is used when we have some array of elements where we want to filter out or make a subset in a new array. That sounds like we're changing the original array but we're not altering it in any way. Let's say we have an array of numbers and we want to pull out just the even numbers and add just the even numbers into their own array. To do this, we pass in a callback and this callback needs to return true or false. It needs to be a boolean function. If that callback returns true for any element, that element will be added to this filtered array that we get at the end, otherwise it's ignored. Let's see a demonstration for this in our filter_starter/app.js where we have const numbers: 
+
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+const evenNumbers = numbers.filter(n => {
+    return n % 2 === 0
+})
+
+so we used an arrow function for each number n. We returned if n % 2 === 0, a true or false value. So we run every element from numbers as n through our function and return true or false for it. The n for which the return value was true, gets stored in the new array evenNumbers. Our old number array stays unchanged. 
+
+This is also really useful when we're trying to filter the highest rated things or filter old items or new items. So we have an updated movies array in filter_starter/app.js with more movies and an extra year key-value pair. So let's say we want to get an array with just higher rated movies, for exampe movies with score greater than 80. Well, we can do this: 
+
+movies.filter(movie => {
+  return movie.score > 80
+})
+
+so we are returning the movies with score greater than 80. But we still need to save that new array to a variable to have access to it:
+
+const goodMovies = movies.filter(movie => {
+  return movie.score > 80
+})
+
+we can also write this compacter with implicit return from arrow function:
+
+const goodMovies = movies.filter(m => m.score > 80)
+
+and this should give us the same result. We can also do something like badMovies for movies with score less than 70:
+
+const goodMovies = movies.filter(m => m.score > 80)
+const badMovies = movies.filter(m => m.score < 70)
+
+also recent movies for year greater than 2000:
+
+const goodMovies = movies.filter(m => m.score > 80)
+const badMovies = movies.filter(m => m.score < 70)
+const recentMovies = movies.filter(m => m.year > 2000)
+
+So that's how filter is useful. We pass in a function that needs to return true or false. If it ever returns true for a given element, that element is added to the new filtered array that is created. The term filter makes it sound like we are filtering something out of the original, like we are impacting the original array, but we're never changing it. We are forming a new array containig the those filtered elements and our oroginal array is unchanged. 
+
+Let last thing we'll mention here is that we can actually combine things like map and filter. So let's say we want to get the good movies list but we want just an array of their titles. Right now what we're getting is an array of objects. We just want the titles in an array. So we can take goodMovies and map just the title like so:
+
+const goodMovies = movies.filter(m => m.score > 80)
+const badMovies = movies.filter(m => m.score < 70)
+const recentMovies = movies.filter(m => m.year > 2000)
+
+const goodTitles = goodMovies.map(m => m.title)
+
+so we now got only the goodTitles. We can also skip this extra step of filtering the goodMovies and do everything in one line like so: 
+
+const goodMovies = movies.filter(m => m.score > 80)
+const badMovies = movies.filter(m => m.score < 70)
+const recentMovies = movies.filter(m => m.year > 2000)
+
+// const goodTitles = goodMovies.map(m => m.title)
+
+const goodTitles = movies.filter(m => m.score > 80).map(m => m.title);
+
+so we chained those two methods and this gives us the same result. If they get very long we can also ident them, like this:
+
+const goodTitles = movies
+  .filter(m => m.score > 80)
+  .map(m => m.title);
+
+this is fine too. So we often use them together. We are filtering the objects out that have a good score and then we just want the title in a new array.
+
+The next two methods that we're going to cover are king of a pair: [s10-s11] every and some. Both of them are very similar, they are boolean methods, meaning they return true or false. So unline map and filter which return a new array, these two always return true or false. These are ways to test elements of an array. For the every method if every element of an array passed into that function passes some test and returns true then the entire every function call returns true.
+
+If we go to some-every_starter/app.js we have a const exams with some exam grades. We would like to know if everybody passed and our passing score is 75, so everything greater than or equal to 75 is a pass. So we can do this:
+
+const exams = [80, 98, 92, 78, 77, 90, 89, 84, 81, 77]
+
+exams.every(score => score >= 75)
+
+so this will return true because every number there is greater than 75. As soon as we change one of those values to less than 75, guess what happens when we run our function?
+
+const exams = [80, 98, 92, 70, 77, 90, 89, 84, 81, 77]
+
+exams.every(score => score >= 75)
+
+we would get false. Now we also have some, which is very similar, except that it's going to test if any of the elements or some of the elements pass the test. So it does not care like the every method that every element has to pass the test. With some it's only one or more. 
+
+const exams = [80, 98, 92, 70, 77, 90, 89, 84, 81, 77]
+
+exams.some(score => score >= 75)
+
+if we use some with our previosu example, even if we have a 70 value in there, we would still get true because some elements are over 75. Let's do one more example for some to see if we have any movies years from const movies that are newer than the year 2015. So for that we can do this:
+
+const movies = [
+    {
+        title: 'Amadeus',
+        score: 99,
+        year: 1984
+    },
+    {
+        title: 'Sharknado',
+        score: 35,
+        year: 2013
+    },
+    {
+        title: '13 Going On 30',
+        score: 70,
+        year: 2004
+    },
+    {
+        title: 'Stand By Me',
+        score: 85,
+        year: 1986
+    },
+    {
+        title: 'Waterworld',
+        score: 62,
+        year: 1995
+    },
+    {
+        title: 'Jingle All The Way',
+        score: 71,
+        year: 1996
+    },
+    {
+        title: 'Parasite',
+        score: 95,
+        year: 2010
+    },
+    {
+        title: 'Notting Hill',
+        score: 77,
+        year: 1999
+    },
+    {
+        title: 'Alien',
+        score: 90,
+        year: 1979
+    }
+]
+movies.some(movie => movie.year > 2015)
+
+So this returns true because one of them is from 2019 and thats greater than 2015. If we change the year to 2020, we would get flase because there are no movies from 2021 in that list:
+
+movies.some(movie => movie.year > 2015)
+
+So every and some go together, they are both boolean, they return true or false and the function callback that we call should return true or false as well.
+
+Next up we have reduce [s12]. It is also useful, but it takes a little bit of time to get used to. What it does, it's main goal is to take some array and reduce it down to a single value. Somehow like in the image in the slides, we take a bunch of random stuff and we make it into golden coins, like a funnel. How it does that it's up to us. 
+
+Now let's see how it works. [s13] First we have to provide a reducer function. This is just a function that follows a particular format where there are two parameters, which we can name however we want. The first is called the accumulator or the total and it is going to be the thing that we are reducing down to. In this case we are summing all things together, this accumulator parameter will hold the sum. Then the second parameter is called the current value or each number which represents each individual element from the array we are working with. From our function, from our reduce function, we return some value, in this case, the accumulator plus the current value. Whatever we return here, will be used for the next iteration's accumulator. So at the beggining, at the first call, our accumulator starts at 3, our current value starts at 5 and then we return 3+5 which is 8. Now next time through on the second call, our accumulator is going to be 8 and so on. This is how it works. Whatever we return in our arrow function will be used for our next iteration, the next go around when our function is called. We do this until the final return value is 35. 
+
+Now let's see this in practice and head over to reduce_starter/app.js where we'll find a const prices. Let's see how we can figure out and display the total of this without reduce:
+
+const prices = [9.99, 1.50, 19.99, 49.99, 30.50];
+
+let total = 0;
+for (let price of prices) {
+    total += price
+}
+console.log(total)
+
+so we have a price for each prices and we add it to the total and then we console logg it out at the end. Now let's use reduce. It's the same idea but we go about it in a different way:
+
+const prices = [9.99, 1.50, 19.99, 49.99, 30.50];
+
+const total = prices.reduce((total, price) => {
+    return total + price;
+})
+
+so we pass in a callback with two parameters, the first one is total and the second one represents each individual element in the array. Then we're going to return that total plus the price of each element. We then save the output to a const total. And we get the same exact answer that we got before, but with our code in a different format. We can also shrink this down a bit with an implicit return:
+
+const prices = [9.99, 1.50, 19.99, 49.99, 30.50];
+
+const total = prices.reduce((total, price) => total + price)
+
+now we have on one single line. So in this case we've been summing up every element. If we wanted to we could multiply them instead to get a product for example and much more. We are not limited only to adding. We can also find a maximum or minimum value in an array. Let's do this for our const prices and use reduce:
+
+const prices = [9.99, 1.50, 19.99, 49.99, 30.50];
+
+const total = prices.reduce((total, price) => total + price)
+
+const minPrice = prices.reduce((min, price) => {
+    if (price < min) {
+        return price;
+    }
+    return min;
+})
+
+Now we're not really accumulating any value that's going to be totalled or summed or multiplied, but what we are accumulating is the minimum value as we go through the array. So our accumulator, the first parameter, it's just going to hold the value that's currently the smalles as we are making our way through the array and we'll call it min. And then the second parameter is the individual element, the current element and we'll call it price. So if we remember how reduce works, whatever we return from our callback function will be used as the next version of the accumulator and in our case here, as the next min. So basically what we want to do is return the current minimum value or the new price that we are accessing, only if it's smaller than our current min. We can also do it the other way around if we want it for maximum. In the end we save that value to const minPrice to have access to it later.
+
+Let's do one more example with our movies array. Let's find the highest rated movie with reduce:
+
+const movies = [
+    {
+        title: 'Amadeus',
+        score: 99,
+        year: 1984
+    },
+    {
+        title: 'Sharknado',
+        score: 35,
+        year: 2013
+    },
+    {
+        title: '13 Going On 30',
+        score: 70,
+        year: 2004
+    },
+    {
+        title: 'Stand By Me',
+        score: 85,
+        year: 1986
+    },
+    {
+        title: 'Waterworld',
+        score: 62,
+        year: 1995
+    },
+    {
+        title: 'Jingle All The Way',
+        score: 71,
+        year: 1996
+    },
+    {
+        title: 'Parasite',
+        score: 95,
+        year: 2019
+    },
+    {
+        title: 'Notting Hill',
+        score: 77,
+        year: 1999
+    },
+    {
+        title: 'Alien',
+        score: 90,
+        year: 1979
+    }
+]
+
+const highestRated = movies.reduce((bestMovie, currMovie) => {
+    if (currMovie.score > bestMovie.score) {
+        return currMovie;
+    }
+    return bestMovie;
+})
+
+Here we'll set the accumulator to bestMovie and current movei as currMovie. What we want to do is check if the currMovie.score is greater than the bestMovie.score we'll return the currMovie, otherwise we'll return bestMovie. Finally we save all to a variable.
+
+So those were some applications of reduce. So the gist of reduce is to boil everything down to a single value via math or as we saw just now via comparissons for example.
+
+The last thing we'll see is that we can also specify an initial starting point for our accumulator parameter. So let's see an example for that:
+
+const evens = [2,4,6,8];
+
+and let's start summing all these elements up with reduce:
+
+const evens = [2,4,6,8];
+evens.reduce((sum, num) => sum + num); //20
+
+but we can also pass in a second argument to reduce. So it's not a parameter that we're adding to the reducer function, it's a separate second argument for reduce and that argument will be used as the initial value for sum. Let's say we started with 100:
+
+const evens = [2, 4, 6, 8];
+evens.reduce((sum, num) => sum + num) //20
+evens.reduce((sum, num) => sum + num, 100) //120
+
+so we specified an initial value for the reducer function of 100. Now our sum is 120. So this second argument that we can specify is the initial value for our reducer function. There is definitely a lot more we can do with reduce, it's pretty powerful, but we have to get comfortable with the basics, with it's signature of the reducer functions, before we worry about anything else.
+
+Now we're going to quickly return to arrow functions. This is one very important aspect of working with arrow functions that has to do with the keyword "this". Arrow functions behave very differently in terms of value for the keyword "this" inside of an arrow function, versus non-arrow functions or just a traditional function. So let's see an example:
+
+const person = {
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
+    fullName: function () {
+        return `${this.firsname} ${this.lastname}`
+    }
+}
+
+if we execute 
+
+person.fullName()
+
+it works, the keyword this refers to what comes left to the function, so that means here the object and we get the first and last name. If we replace it with an arrow function:
+
+const person = {
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
+    fullName: () => {
+        return `${this.firsname} ${this.lastname}`
+    }
+}
+
+person.fullName()
+
+it has the exact same logic, but we get undefined, undefined. What happens here is that inside of the keyword "this" is going to refer to the scope it was created in. So in this case that means the keyword "this" refers to the window object:
+
+const person = {
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
+    fullName: () => {
+        console.log(this)
+        return `${this.firsname} ${this.lastname}`
+    }
+}
+
+person.fullName()
+
+now we can see that it is the window object. So when it tries to do window.firstName it does not find it and it gets undefined. When we use a non arrow function, the keyword "this" has nothing to do with this scope where the function is created, it has to do with where the function is executed. That is not how arrow functions work. This is by design. Sometimes this can be annoying having to worry about the execution context and how that impacts the keyword this. Let's see an example with a delay. We want to call fullName after three seconds:
+
+const person = {
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
+    fullName: () => {
+        return `${this.firsname} ${this.lastname}`
+    },
+    shoutName: function() {
+        setTimeout(function () {
+            console.log(this.fullName())
+        }, 3000)
+    }
+}
+
+person.shoutName()
+
+so we put a setTimeout where we wait three second before we console.log this.fullName(). We get an error because this.fullName is not a function. What was the keyword "this" here then? It has to do again with the execution context. setTimeout() is a method on the window object:
+
+const person = {
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
+    fullName: () => {
+        return `${this.firsname} ${this.lastname}`
+    },
+    shoutName: function() {
+        setTimeout(function () {
+            console.log(this)
+            console.log(this.fullName())
+        }, 3000)
+    }
+}
+
+person.shoutName()
+
+now we can see this via our log too, the keyword "this" in setTimeout points to the window object. So this is kind of annoying, this value that changes even within the same function, when it might not seem that the context has changed. But it actually did change. We can instead use an arrow function instead in setTimeout. This is one situation where it is common enough and makes sense to use an arrow function.
+
+const person = {
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
+    fullName: () => {
+        return `${this.firsname} ${this.lastname}`
+    },
+    shoutName: function() {
+        setTimeout(() => {
+            console.log(this)
+            console.log(this.fullName())
+        }, 3000)
+    }
+}
+
+person.shoutName()
+
+now our function inside setTimeout is on the right object, the keyword "this" points to the person object and we can see it in our first log of the keyword "this". But because we set the fullName() with an arrow function, it means that the keyword "this" in fullName() is not set to the individual object, to person. So we'll set that to a regular function expression, this is some mixing and matching here, which is common.
+
+const person = {
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
+    fullName: function () {
+        return `${this.firstName} ${this.lastName}`
+    },
+    shoutName: function () {
+        setTimeout(() => {
+            //keyword 'this' in arrow functions refers to the value of 'this' when the function is created
+            console.log(this);
+            console.log(this.fullName())
+        }, 3000)
+    }
+}
+
+person.shoutName()
+
+So to summarize, the keyword "this" behaves differently in arrow functions and sometimes we can use that to our advantage like we did here, but other times that's a problem. For example we wouldn't use an arrow function to define a method, or at least it's not common to do that like in fullName() when it did not work properly and the firstName and lastName were undefined, the keyword "this" did not refer to the object person. The other case is when we used the arrow function inside setTimeout() so that we won't worry about getting a new value for the keyword "this".
+
+This is one of the more confusing aspects in JavaScript, but the key point here is to test it out and learn it's behaviour. All that we should take away here is that the keyword "this" behaves differently in an arrow function compared to a regular function. That's the only thing we need to remember here, even if we forget how it differs.
+

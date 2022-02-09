@@ -1,6 +1,9 @@
-const exams = [80, 98, 92, 78, 77, 90, 89, 84, 81, 77]
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
-exams.every(score => score >= 75)
+
+
+
+
 
 const movies = [
     {
@@ -36,7 +39,7 @@ const movies = [
     {
         title: 'Parasite',
         score: 95,
-        year: 2010
+        year: 2019
     },
     {
         title: 'Notting Hill',
@@ -51,4 +54,4 @@ const movies = [
 ]
 
 
-movies.some(movie => movie.year > 2015)
+

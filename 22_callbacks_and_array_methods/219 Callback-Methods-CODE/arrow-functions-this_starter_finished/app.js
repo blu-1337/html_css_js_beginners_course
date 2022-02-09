@@ -1,6 +1,6 @@
 const person = {
-    firstName: 'Viggo',
-    lastName: 'Mortensen',
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
     fullName: function () {
         return `${this.firstName} ${this.lastName}`
     },
@@ -12,3 +12,5 @@ const person = {
         }, 3000)
     }
 }
+
+person.shoutName()

@@ -1,7 +1,8 @@
-const nums = [13, 4, 5, 21, 3, 3, 1, 2, 7, 6, 4, 2, 53456];
+const nums = [13, 4, 5, 21, 3, 3, 1, 53456, 2, 7, 6, 4, 2, 7];
 // SPREAD IN FUNCTIONS
 Math.max(nums) //NaN
 Math.max(...nums) //53456
+Math.min(...nums) //
 
 
 // SPREAD IN ARRAYS
@@ -20,7 +21,7 @@ const catDog = { ...feline, ...canine };
 
 const dataFromForm = {
     email: 'blueman@gmail.com',
-    password: 'tobias123!',
-    username: 'tfunke'
+    password: 'mypass123!',
+    username: 'blueman'
 }
 const newUser = { ...dataFromForm, id: 2345, isAdmin: false }
