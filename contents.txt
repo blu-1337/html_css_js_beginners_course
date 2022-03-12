@@ -1,3 +1,78 @@
+What you'll learn:
+
+The ins and outs of HTML5, CSS3, and Modern JavaScript for 2022
+Create responsive, accessible, and beautiful layouts
+Continue to learn and grow as a developer, long after the course ends
+Create static HTML and CSS portfolio sites and landing pages
+Think like a developer. Become an expert at Googling code questions!
+Create complex HTML forms with validations
+Use CSS Frameworks including Bootstrap 5 and Bulma
+Implement responsive navbars on websites
+Use JavaScript variables, conditionals, loops, functions, arrays, and objects
+Write Javascript functions, and understand scope and higher order functions
+Write JavaScript based browser games
+Use common JS data structures like Arrays and Objects
+Make a beautiful, responsive photographer's portfolio page
+Create a beautiful, responsive landing page for a startup
+Create a beautiful animated todo list application
+
+Requirements:
+Have a computer with Internet
+Basic math knowledge like addition and multiplication
+
+
+
+
+
+
+This is the only Udemy course taught by a professional bootcamp instructor with a track record of success.
+
+94% of my in-person bootcamp students go on to get full-time developer jobs. Most of them are complete beginners when I start working with them.
+
+The previous 2 bootcamp programs that I taught cost $14,000 and $21,000.  This course is just as comprehensive but with brand new content for a fraction of the price.
+
+
+
+We build 13+ projects. No other course walks you through the creation of such a substantial application.
+
+The course is constantly updated with new content, projects, and modules.  Think of it as a subscription to a never-ending supply of developer training.
+
+You get to meet my cats and chickens!
+
+When you're learning to program you often have to sacrifice learning the exciting and current technologies in favor of the "beginner friendly" classes.  With this course, you get the best of both worlds.  This is a course designed for the complete beginner, yet it covers some of the most exciting and relevant topics in the industry.
+
+Throughout the brand new version of the course we cover tons of tools and technologies including:
+
+HTML5
+CSS3
+Flexbox
+Responsive Design
+JavaScript (all 2022 modern syntax, ES6, ES2018, etc.)
+Bootstrap 4 and 5 (alpha)
+Bulma CSS Framework
+DOM Manipulation
+
+This course is also unique in the way that it is structured and presented. Many online courses are just a long series of "watch as I code" videos.  This course is different. I've incorporated everything I learned in my years of teaching to make this course not only more effective but more engaging. The course includes:
+
+Lectures
+Code-Alongs
+Projects
+Exercises
+Research Assignments
+Slides
+Downloads
+Readings
+
+If you have any questions, please don't hesitate to contact me.  I got into this industry because I love working with people and helping students learn.  Sign up today and see how fun, exciting, and rewarding web development can be!
+
+Who this course is for:
+This course is for anyone who wants to learn about web development, regardless of previous experience
+It's perfect for complete beginners with zero experience
+It's also great for anyone who does have some experience in a few of the technologies(like HTML and CSS) but not all
+
+
+
+
 luăm din webdev bootcamp până la scorekeeper inclusiv
 
 
@@ -14,3 +89,6 @@ Bootstrap 4 & 5
 JavaScript Basics
 All Modern JS Syntax
 DOM Manipulation
+
+
+

@@ -1,0 +1,114 @@
+____________________________________________________________________________
+04_html_next_steps_and_semantics__________________________________________04
+____________________________________________________________________________
+
+What exactly is HTML5? https://developer.mozilla.org/en-US/docs/Glossary/HTML5
+It contains newer html features like video player, audio player and so on.
+
+Let's now have a look at div's and span's. Consequently we'll look at block and inline elements. This means how the elements will fit inside our page. For example if we put two <a href></a> after another, we will see that they are happy to coexist together on the same line. These are inline elements. If we put a <p> tag between those two anchor tags, it will force them to split, having the paragraph on its separate line. <p> tags are block elements. If we inspect the webpage, we can see that the inspector highlights also empty space to the right of the <p> tag element, which indicates that it is a block element and has some extra space to the right side because it was not filled but was just reserved for it. The <a> tags do not have extra space and are highlighted.
+
+<div> is the content division element and it is a generic container to group elements together. It is a block level element. In this example here https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div it can group together an image and a paragraph. This will make more sense when we will begin with CSS. In the leopard frame we see that the border is not around only the image or text but around both, because they are grouped together in a div.
+
+For a very similar purpose we have the <span> which is an inline container element as opposed to <div> which is a block container element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span The <span> does not require a new line and can be used when we want to change elements that are on the same line.
+
+Let's now go through an assortment of unrelated HTML elements that are short and easy to understand. The first one is the <hr>. It has no closing tag, it makes a horizontal line that goes across the screen. This line can also be customized to your needs - color, thickness and so on.
+
+Another element that is not so commonly used is the <br> element. This produces a break in text. The most useful case for it is for example when you write a poem or an address, where the division of lines is significant.  https://developer.mozilla.org/en-US/docs/Web/HTML/Element/br here is the example. If we just hit enter on the keyboard when we have a poem-like text, it will not insert the desired line break in HTML. We can think of it like: I want this whole thing to be a paragraph but I want to control de spacing of the lines.
+
+The next two elements are like a pair, also not commonly used but they are used for example in Wikipedia. These are <sup> and <sub>. Superscript and subscript. Superscript elevates from the baseline, for example the Wikipedia citations - they also nest it and put an anchor tag inside it. The subscript element renders text below the baseline, sometimes smaller as well. For example in chemical formulas - see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sub Another example that uses both is: <sup>1</sup>/<sub>2</sub> + <sup>1</sup>/<sub>2</sub> = 1
+
+Our next topic is: HTML Entities. They are special codes or special sequences that we can use inside HTML that result in different characters. These characters could be reserved in HTML or symbols that are tricky to write on a keyboard like: diamonds, hearts, clubs symbols and so on.
+Here is a list of entities we could add in our HTML: https://dev.w3.org/html5/html-author/charref
+There are still more than what are here listed. 
+If we go in HTML and we try to write stuff that uses reserved characters like >, <, we could cause unwanted behaviour and our code might not run properly because the HTML will get parsed wrong because it does not know if the symbols are used for tags or calculus for example - greater than, smaller than. In this case we use entity codes. For the less than and greater than we can use: &lt; and &gt;. We get those tow by searching on google after them.
+Another reserved character in HTML is the ampersand itself: &. Its replacement is &amp;
+Here is a list with reserved characters in HTML: https://developer.mozilla.org/en-US/docs/Glossary/Entity
+If we go and have a look on https://entitycode.com/#misc-content we will see that some entities have an entity name as well as an entity number. For example we can write &clubs; also as &#9827; and get the same symbol.
+In conclusion if you see something that starts with an ampersand & and ends with a semicolon ;, it means that it will get rendered into a symbol when the HTML gets displayed onto the browser. Once again they are used for reserved characters and symbols that are hard to type like clubs, spades, hearts etc.
+
+Next up is one of the newer developments of HTML: Semantic Markup. Semantic means relating to meaning so thus semantic markup is meaningful markup of the content of an element. 
+First off, let's have a look at an example: https://medium.com/ a website with articles and news etc. If we inspect the page with F12 we will see that the page has a lot of divs for its elements. If we go on stripe.com we will see that the page is similarly built but there are some other elements present such as: <main>, <section> of content, <header> which means the header of the page, <nav> for navigation, <footer>. These all behave just as a <div>. On medium all of these are named just like that: with <div>. But why does this matter? They add meaning to our markup: for other computer, for applications like a crawler like Google. These would help Google find the sections of the page, where the navigation content is (navbar), the header/footer and so on. So search engines will consider its contents as important keywords to influence the page's search rankings (see SEO). Alos useful for screen readers to help the visually impared read and navigate web pages - navbar, read me the header and footer etc. Lastly it makes your own code more clear for yourself. So semantic markup adds no new feature but just meaning to our divs.
+
+Let's see where we could use semantic elements. If we go on https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main we will see in the usage notes that we can only have a single <main> on the page. For example if we go on wikipedia to https://en.wikipedia.org/wiki/Car we would wrap it around the div id="content" or just use the main there directly instead. The nav element represents anything on the page that provides navigation links. An example:
+
+
+    <nav>
+        <ul>
+            <li><a href="home">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact">Contact</a></li>
+        </ul>
+    </nav>
+
+The <section> element is a standalone secton of your website. 
+
+        <section>
+            <h2>Terminology</h2>
+            <p>Some long paragraph.</p>
+        </section>
+
+The article element is a self-contained composition in a document. For example this weather widget on mdn: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article One important thing to note here is that some developers use these differently. The purpose of going through these is to familiarize you with their existance.
+
+The <aside> element https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside is something that is indirectly related, tangential and not that neccessary - often used as sidebars. 
+
+The <header> and <footer>. The upper part of wikipedia could be a header. If we go on stripes.com is used for the first big portion of the website - as the introductory portion. The header is at the end of the page with links and navigation. Also they can be used inside other elements such as article: with header and footer.
+
+The <time> element is an inline element which is used to wrap around content that represents a time/date. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time On mdn the time text is made bold but through CSS, this is not its purpose though/normal behaviour.
+
+The <figure> is a self-contained piece of content with an optional caption. It also contains the optional <figcaption> which is the actual caption that goes on the figure. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure
+
+There are also others that we will not cover like <abbr>, <data> as they are not that essential forn now. The most important is the semantic markup where instead of generic containers we can use <section> <nav> and so on to add meaning to the actual markup itsel, useful for us as developers, screen readers accessibility and SEO (search engine optimization).
+
+We will have a look now at emmet which is included in VS Code bundled and comes as a plugin for text editors as well. Emmet improves the HTML and CSS workflow. It uses a shortened syntax that we can use to create HTML elements quickly. This is the cheatsheet for it https://docs.emmet.io/cheat-sheet/ You don't need to memorize the entire thing, just the things you need the most. For example:
+
+Create a new document emmet.html, press ! and TAB and this creates us the basic HTML template, we can now give the page a title.
+
+
+ul>li
+makes us:
+    <ul>
+        <li></li>
+    </ul>
+ 
+main>section>h1
+makes us:
+
+    <main>
+        <section>
+            <h1></h1>
+        </section>
+    </main>
+
+Also writing h1 and then TAB makes us the opening an closing tag of an h1 element: <h1></h1>
+
+
+h1+h2+h3
+gives us the adjacent/siblings
+    <h1></h1>
+    <h2></h2>
+    <h2></h2>
+
+ul>li*5
+the multiplication is nice and useful, this give us:
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+nav>ul>li*5>a[href=www.$.com]{Click Me}
+the dollar sign here gives us increasing numbers which translates to:
+
+    <nav>
+        <ul>
+            <li><a href="www.1.com">Click Me</a></li>
+            <li><a href="www.2.com">Click Me</a></li>
+            <li><a href="www.3.com">Click Me</a></li>
+            <li><a href="www.4.com">Click Me</a></ li>
+            <li><a href="www.5.com">Click Me</a></li>
+        </ul>
+    </nav>
+
+But the most frequent shortcuts are the >, the multiplication * and the +. The others are harder to remember. Emmet has to do with HTML but it's not part of HTML, it's just a tool. 
+

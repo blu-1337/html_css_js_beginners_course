@@ -2,3 +2,1566 @@ ____________________________________________________________________________
 26_score_keeper_code_along________________________________________________26
 ____________________________________________________________________________
 
+Next up we're going to get a little practice using the DOM manipulation content we've learned, working with events, HTML and some basic CSS. We're going to wrap it all together and make this simple ping pong scorekeeping widget. It's very straightforward, a two player game, each player has a button +1 player one and +1 player two and a reset button. We can select what we want to play up to. We add a point and the score changes on the page. When the playing to score is reached, the numbers change color showing in green the player who won and in green the player who lost. With the reset button we can start all over. That's it.
+
+(If you want, you can try to do this on your own as homework.)
+
+We have some styling in here as well. For this project we'll use another CSS framework that is not Bootstrap, but another similar tool called Bulma.
+
+So let's get into it. Let's open our scorekeeper_starte/index.html and add in our app.js script.
+
+<body>
+
+    <script src="app.js"></script>
+</body>
+
+let's also add an h1 called "0 to 0":
+
+<body>
+    <h1>0 to 0</h1>
+    <script src="app.js"></script>
+</body>
+
+before we go any further let's discuss how this is going to work, where we are updating just one number out of this h1.And then we're applying a class to make something green just to one number and not the other. If we have the h1 with the markup just as it is now, it's going to be very difficult. So we need a way to single out the two zeros and then select them and change them using JavaScript. We're going to use a span for that:
+
+<body>
+    <h1><span>0</span> to <span>0</span></h1>
+    <script src="app.js"></script>
+</body>
+
+That's what a span is supposed to do, wrap a single inline content that we can then single out. So we'll wrap the 0's in a span and we'll now give them each an id like p1Display and p2Display
+
+<body>
+    <h1><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+    <script src="app.js"></script>
+</body>
+
+And now let's add three buttons text +1 Player One, +1 Player Two and Reset respectively. Let's also give them and id of p1Button, p2Button and reset.
+
+<body>
+    <h1><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+    <button id="p1Button">+1 Player One</button>
+    <button id="p2Button">+1 Player Two</button>
+    <button id="reset">Reset</button>
+
+    <script src="app.js"></script>
+</body>
+
+now we have the bare minimum. Now we can get the logic to work for our buttons. Let's assume we're playing to five and hardcode that to begin with. Now let's move to our scorekeeper_starter/app.js and add in an alert('sometghin') to test if it's connected. 
+
+alert('hello')
+
+it is. Now what we whant to do is begin by selecting the buttons and the doing something when we click on the buttons. So let's select them up top:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+
+Now let's add an event listener for click and in our callback function let's alert something to see if it works:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+
+p1Button.addEventListener('click', function(){
+  alert('clicked')
+})
+
+and it works. Now let's talk about the logic that we want to do. When we click on player one, we want ot take whatever the current score is for player one and add one to it and then update this span to have that new score. So we need to keep track of whatever the current score is for player one. So let's have a variable do that for us:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+
+let p1Score = 0;
+
+p1Button.addEventListener('click', function(){
+  p1Score += 1;
+})
+
+so when we click on the p1Button we should have a score increase. Now we want to update what we see in our span. So let's select the spans from our h1 too:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+
+p1Button.addEventListener('click', function(){
+  p1Score += 1;
+})
+
+now all we need to do is change that span's text: 
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+
+p1Button.addEventListener('click', function(){
+  p1Score += 1;
+  p1Display.textContent = p1Score
+})
+
+now if we click, we add one to our p1 score and then it updates our display and it looks like it's working. Now we also need to pay attention to what we're playing to. We're going to start by playing to 5. So let's make a variable called winningScore = 5;
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let winningScore = 5;
+
+p1Button.addEventListener('click', function(){
+  p1Score += 1;
+  p1Display.textContent = p1Score
+})
+
+Now inside the p1Button event listener we could do something like if Player1 score is no equal to winning score, increase the Player1 score and update the p1Display span:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let winningScore = 5;
+
+p1Button.addEventListener('click', function(){
+  if(p1Score !== winningScore){
+    p1Score += 1;
+    p1Display.textContent = p1Score
+  }
+})
+
+now it stops when we reach five. We can now duplicate this logic for player 2:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+
+p1Button.addEventListener('click', function(){
+  if(p1Score !== winningScore){
+    p1Score += 1;
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(p2Score !== winningScore){
+    p2Score += 1;
+    p2Display.textContent = p2Score;
+  }
+})
+
+now if we get with player 1 to five for example, we can still add points to player 2. That's not really what we want. So we want to make it that if any of player 1 or 2 make it to 5, we are done increasing the score. To make that work we need to keep track of that winningScore like we arleady are doing, but also we need to track wheather if any of the player has reached it. Another way of saying it is we need to know wheather we are still playing the game or not. It's just a yes or a no. So we would need a boolean for that. So let's make one named isGameOver and let's initialize it with false:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(p1Score !== winningScore){
+    p1Score += 1;
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(p2Score !== winningScore){
+    p2Score += 1;
+    p2Display.textContent = p2Score;
+  }
+})
+
+now we need to add more logic to our event listeners. So if anybody hits five, we're going to set isGameOver to true. So inside our callback functions we're going to rewrite our code a bit: 
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(p2Score !== winningScore){
+    p2Score += 1;
+    p2Display.textContent = p2Score;
+  }
+})
+
+so now we look for isGameOver. If it is false, !false gives us true, we will increase the p1Score. After increasing the p1Score, we check if it's the winningScore already, in which case we set isGameOver to true so that we cannot increase p1Score anyore. And at the end of the first if we update the textContent with the p1Score. Inside the p1Score === winningScore if statement we will also add in the class styling for our elements later on. So let's now duplicate the code from player one and adapt it to player too as well:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+Now let's make our reset button reset the game. So let's first select it:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+now we need to add an event listener on our click for the reset button and the first thing we'll do in our callback function is set isGameOver to false, second we'll set player one and two's score to 0:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+resetButton.addEventListener('click', function(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+})
+
+now we also need to update the display when we reset:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+resetButton.addEventListener('click', function(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+})
+
+so that's working. Now we can add in our select, so that we can play to a different range, so that we can set a different winning score. We'll just begin by adding in a select befor our buttons in our index.html and we'll give it an id of "playto":
+
+<body>
+    <h1><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+
+    <select name="" id="playto">
+
+    </select>
+
+    <button id="p1Button">+1 Player One</button>
+    <button id="p2Button">+1 Player Two</button>
+    <button id="reset">Reset</button>
+
+    <script src="app.js"></script>
+</body>
+
+now we need to give it some options. We need to specify a value attribute and then the inner text for the option that the user sees. So let's do 3, 4, 5, 6, 7 up to 11:
+
+<body>
+    <h1><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+
+    <select name="" id="playto">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+    </select>
+
+    <button id="p1Button">+1 Player One</button>
+    <button id="p2Button">+1 Player Two</button>
+    <button id="reset">Reset</button>
+
+    <script src="app.js"></script>
+</body>
+
+now all we want to do is, when we make a change in our play to select, we want to make sure our winning score is set to whatever that value is. We also want to reset the game, so that the user cannot change the playto mid-game. So we go to our app.js and we will select our playto and add an event listener to it on 'change', also let's add an alert first to see if it works to its callback function:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  alert('CHANGE!')
+})
+
+resetButton.addEventListener('click', function(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+})
+
+so it works. The next thing we need to figure out is how to get the value out. The easiest option is to reference "this". Then we have access to the value. Let's test this out in our alert with this.value:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  alert(this.value)
+})
+
+resetButton.addEventListener('click', function(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+})
+
+So this gives us a number and unfortunately, it's not quite as easy as updating the winning score, because it's going to be a string. So we need to convert it into a number using parseInt. So we'll do something like:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  winningScore = parseInt(this.value)
+})
+
+resetButton.addEventListener('click', function(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+})
+
+now this should update whatever the winning score variable is. Now we need to reset the values for p1Score and p2Score. We could copy the code from the resetButton, but the better approach here is to move the code from it to a separate function called reset() that we can call in both callbacks:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  winningScore = parseInt(this.value);
+  reset();
+})
+
+resetButton.addEventListener('click', reset)
+
+function reset(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+}
+
+for the reset button we pass it in as a callback function and we do not call it directly. It will be called when the time has come. On the other hand in winningScoreSelect, we call the function directly because it is already in an anonymous callback function. Now if we change the select to another number, it should reset our scores. 
+
+Now all that we have left is adding in a color to whoever wins and loses. Now as we mentioned before, we're going to use a CSS framework called Bulma and it comes with classes to make things red and green. But for now we'll just come up with a class name in our index.html that we'll remove later so that we don't make a new stylesheet. So we'll add an inline <style></style> element in our head with two classes: .winner and .loser with color: green and red respectively:
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Keeper</title>
+    <style>
+      .winner{
+        color: green;
+      }
+      .loser{
+        color: red
+      }
+    </style>
+</head>
+
+What we want to do now is when someone wins, meaning p1Score is equal to winningScore or p2Score is equal to winningScore, we want to add the appropiate class to each one with classList.add:
+
+so we can do that with:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('winner');
+      p2Display.classList.add('loser');
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('loser');
+      p2Display.classList.add('winner');
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  winningScore = parseInt(this.value);
+  reset();
+})
+
+resetButton.addEventListener('click', reset)
+
+function reset(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+}
+
+Alright. But the reset is not working for the class. So let's call classList.remove in the reset function:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('winner');
+      p2Display.classList.add('loser');
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('loser');
+      p2Display.classList.add('winner');
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  winningScore = parseInt(this.value);
+  reset();
+})
+
+resetButton.addEventListener('click', reset)
+
+function reset(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+  p1Display.classList.remove('winner', 'loser');
+  p2Display.classList.remove('winner', 'loser');
+}
+
+nice, now it also works if we reset via the select playto number.
+
+Now we'll introduce Bulma. Bulm is essentially a full-blown CSS framework that we can use to replace something like Bootstrap. It's very simple to pick up, the terminology a bit simpler than Bootstrap. The styles are a bit different. It's nice and customizable. It does not force us to use something like jquery, which Bootstrap has for a very long time, or popper.js, another dependency of Bootstrap. These were the driving forces for Bulma, not having those dependencies. So if we look at the documentation https://bulma.io/documentation/ it's broken down into Helpers, Form, Elements and Components. Components includes things like cards, very similar to Bootstrap. We're going to use a card to make our scorekeeper. Now we need to include it in our app. So if we go to overview > start https://bulma.io/documentation/overview/start/ we just need that min css file:
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+So let's put that at the top of our index.html in the head tag:
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Keeper</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+
+now we should see some changes to our page. The next thing we're going to do is go on the documentation to a card: https://bulma.io/documentation/components/card/ then from there let's copy a card (the second last one to be more exact):
+
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+      Component
+    </p>
+    <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+      <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+      <br>
+      <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <a href="#" class="card-footer-item">Save</a>
+    <a href="#" class="card-footer-item">Edit</a>
+    <a href="#" class="card-footer-item">Delete</a>
+  </footer>
+</div>
+
+and just paste it into our document at the top of body. And it's super wide. Now we need to figure out how we can control that. This is very different from how Bootstrap works, but it's the same concept of dividing up space, although the class names are different. If we go to columns > basics https://bulma.io/documentation/columns/basics/ it says we need a column container and as many columns elements as we want. In addition we can change the size of a single column, using one of the following classes: is-half, is-quarter etc. (see website https://bulma.io/documentation/columns/sizes/ for more info). We don't use things as in bootstrap like column-6 or column-md-5. So we'll first cut the card we just inserted out and make a div container with another div columns inside it. Inside the columns div we'll make another column div:
+
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+              
+                </div>
+            </div>
+        </div>
+
+now let's paste the card inside the column div.
+
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Component
+                      </p>
+                      <button class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                        <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <a href="#" class="card-footer-item">Save</a>
+                      <a href="#" class="card-footer-item">Edit</a>
+                      <a href="#" class="card-footer-item">Delete</a>
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+now if we want to go halfway across we can use the class "column is-half" on the column div:
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Component
+                      </p>
+                      <button class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                        <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <a href="#" class="card-footer-item">Save</a>
+                      <a href="#" class="card-footer-item">Edit</a>
+                      <a href="#" class="card-footer-item">Delete</a>
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+Now to center it, we can use one of the offset classes https://bulma.io/documentation/columns/sizes/ like in the docs. So if our card is 50% that means it's half and we want it to be centered, we would need to put one quarter on the left and one quarter on the right. For that we would need to add in "column is-half is-offset-one-quarter":
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Component
+                      </p>
+                      <button class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                        <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <a href="#" class="card-footer-item">Save</a>
+                      <a href="#" class="card-footer-item">Edit</a>
+                      <a href="#" class="card-footer-item">Delete</a>
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+Next up we can begin adding our content inside the card. So let's start wit hthe card header and replace that with "Ping Pong Score Keeper". We're also going to delete the button tag that comes after the paragraph:
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                        <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <a href="#" class="card-footer-item">Save</a>
+                      <a href="#" class="card-footer-item">Edit</a>
+                      <a href="#" class="card-footer-item">Delete</a>
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+Now we have the div's class="card-content" and inside it div with class "content". We'll delete everything inside that div and we'll put inside our h1 tag.
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <a href="#" class="card-footer-item">Save</a>
+                      <a href="#" class="card-footer-item">Edit</a>
+                      <a href="#" class="card-footer-item">Delete</a>
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+now we have inside our score display. Our h1 itself is going to have a new typography class from Bulma. So if we go Helpers > Typograpy https://bulma.io/documentation/helpers/typography-helpers/ we can see that there are seven sizes that Bulma offers. We also have elements > title https://bulma.io/documentation/elements/title/ from which we will use "title is-1" on our h1 as a class:
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1 class="title is-1"><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+
+
+
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <a href="#" class="card-footer-item">Save</a>
+                      <a href="#" class="card-footer-item">Edit</a>
+                      <a href="#" class="card-footer-item">Delete</a>
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+in the div after our h1 we can put a paragraph with a class of subtitle that says: Use the buttons below to keep score
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1 class="title is-1"><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+                        
+                        <p class="subtitle">Use the buttons below to keep score</p>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <a href="#" class="card-footer-item">Save</a>
+                      <a href="#" class="card-footer-item">Edit</a>
+                      <a href="#" class="card-footer-item">Delete</a>
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+Now let's get our buttons in the card where we have Save, Edit and Delete. They are all anchor tags with card-footer-item class, which we will keep, but we'll make them buttons instead. In elements > button we can se how we can make a button in Bulma: https://bulma.io/documentation/elements/button/ we just use the actual word "button" as our class. We can also change the color of the button just as in Boostrap and also their size. So let's add in our first button with class "is-primary button card-footer-item" and take the id from our first player 1 button of "p1Button" and add it too. The text inside the button will say "+1 Player One":
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1 class="title is-1"><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+                        
+                        <p class="subtitle">Use the buttons below to keep score</p>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <button class="is-primary button card-footer-item" id="p1Button">+1 Player One</button>
+
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+now we'll duplicate that for our player two and the reset buttons and we'll give the player two button a color of is-info and the reset is-danger to their classes:
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1 class="title is-1"><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+                        
+                        <p class="subtitle">Use the buttons below to keep score</p>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <button class="is-primary button card-footer-item" id="p1Button">+1 Player One</button>
+                      <button class="is-info button card-footer-item" id="p2Button">+1 Player Two</button>
+                      <button class="is-danger button card-footer-item" id="reset">Reset</button>
+
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+
+alright, now we need to add our select in. This is also a Bulma piece at Form > Select https://bulma.io/documentation/form/select/ to make a regular select we need a div where we use the class "select", for a rounded one class "select is-rounded", which we'll use. So let's make an extra div after the subtitle with class "select is-rounded" and then paste in the select we made before inside it:
+
+<body>
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1 class="title is-1"><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+                        
+                        <p class="subtitle">Use the buttons below to keep score</p>
+
+                        <div class="select is-rounded">
+                          <select name="" id="playto">
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <button class="is-primary button card-footer-item" id="p1Button">+1 Player One</button>
+                      <button class="is-info button card-footer-item" id="p2Button">+1 Player Two</button>
+                      <button class="is-danger button card-footer-item" id="reset">Reset</button>
+
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+    <script src="app.js"></script>
+</body>
+
+If we wanted to add a label to it like "Play to:" we can add in a label before our div "select is-rounded" with a for="playto" attribute and a class of "label is-large is-inline":
+
+<body>
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1 class="title is-1"><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+                        
+                        <p class="subtitle">Use the buttons below to keep score</p>
+
+                        <label for="playto" class="label is-large is-inline">Playing to</label>
+                        <div class="select is-rounded">
+                          <select name="" id="playto">
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <button class="is-primary button card-footer-item" id="p1Button">+1 Player One</button>
+                      <button class="is-info button card-footer-item" id="p2Button">+1 Player Two</button>
+                      <button class="is-danger button card-footer-item" id="reset">Reset</button>
+
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+    <script src="app.js"></script>
+</body>
+
+Alright, now we can add in our image at the top. So we can put inside the card div at the top before the header a div with class card-image. Inside this card-image div we need to create a figure tag wich class="image is-2by1" the 2by1 is a ratio constraint. Inside the figure tags we will put the image itself which has this src="https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3784&q=80": 
+
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <div class="card-image">
+                      <figure class="image is-2by2">
+                        <img src="https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3784&q=80">
+                      </figure>
+                    </div>
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1 class="title is-1"><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+                        
+                        <p class="subtitle">Use the buttons below to keep score</p>
+
+                        <label for="playto" class="label is-large is-inline">Playing to</label>
+                        <div class="select is-rounded">
+                          <select name="" id="playto">
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <button class="is-primary button card-footer-item" id="p1Button">+1 Player One</button>
+                      <button class="is-info button card-footer-item" id="p2Button">+1 Player Two</button>
+                      <button class="is-danger button card-footer-item" id="reset">Reset</button>
+
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="app.js"></script>
+</body>
+
+Now we're going to wrap everything with a section element with a class of section, which is what Bulma shows us to do. It just adds some extra space in. If we want to use the Bulma colors and classes instead of our inline styles, we can delete those and add the ones from Bulma which are under Helpers > Colors https://bulma.io/documentation/helpers/color-helpers/ we'll take "has-text-success" for the winner and "has-text-danger" for the loser. Now let's go replace them in our app.js:
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('has-text-success');
+      p2Display.classList.add('has-text-danger');
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('has-text-success');
+      p2Display.classList.add('has-text-danger');
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  winningScore = parseInt(this.value);
+  reset();
+})
+
+resetButton.addEventListener('click', reset)
+
+function reset(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+  p1Display.classList.remove('has-text-success', 'has-text-danger');
+  p2Display.classList.remove('has-text-success', 'has-text-danger');
+}
+
+also we should delete the winner and loser classes from index.html because we do not use them anymore. One more thing that we can do is that we can disable the buttons so that when someone wins, we see that cannot continue to click, because the buttons look disabled. Bulma has built in styles for disabled buttons. We disable then whenever there's a game over. So we'll add a p1Button.disabled = true when isGameOver = true in both our button addEventListeners.
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('has-text-success');
+      p2Display.classList.add('has-text-danger');
+      p1Button.disabled = true;
+      p2Button.disabled = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('has-text-success');
+      p2Display.classList.add('has-text-danger');
+      p1Button.disabled = true;
+      p2Button.disabled = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  winningScore = parseInt(this.value);
+  reset();
+})
+
+resetButton.addEventListener('click', reset)
+
+function reset(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+  p1Display.classList.remove('has-text-success', 'has-text-danger');
+  p2Display.classList.remove('has-text-success', 'has-text-danger');
+}
+
+we also need to un-disable them, so we need to add in the .disabled = false in our reset function: 
+
+const p1Button = document.querySelector('#p1Button')
+const p2Button = document.querySelector('#p2Button')
+const resetButton = document.querySelector('#reset')
+const p1Display = document.querySelector('#p1Display')
+const p2Display = document.querySelector('#p2Display')
+const winningScoreSelect = document.querySelector('#playto')
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+
+p1Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p1Score += 1;
+    if(p1Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('has-text-success');
+      p2Display.classList.add('has-text-danger');
+      p1Button.disabled = true;
+      p2Button.disabled = true;
+    }
+    p1Display.textContent = p1Score;
+  }
+})
+
+p2Button.addEventListener('click', function(){
+  if(!isGameOver){
+    p2Score += 1;
+    if(p2Score === winningScore){
+      isGameOver = true;
+      p1Display.classList.add('has-text-success');
+      p2Display.classList.add('has-text-danger');
+      p1Button.disabled = true;
+      p2Button.disabled = true;
+    }
+    p2Display.textContent = p2Score;
+  }
+})
+
+winningScoreSelect = addEventListener('change', function(){
+  winningScore = parseInt(this.value);
+  reset();
+})
+
+resetButton.addEventListener('click', reset)
+
+function reset(){
+  isGameOver = false;
+  p1Score = 0;
+  p2Score = 0; 
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+  p1Display.classList.remove('has-text-success', 'has-text-danger');
+  p2Display.classList.remove('has-text-success', 'has-text-danger');
+  p1Button.disabled = false;
+  p2Button.disabled = false;
+}
+
+One last detail that we need to add in is making our buttons larder. So we'll add to our index.html in the button's classes and extra "is-large" value:
+
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <div class="card-image">
+                      <figure class="image is-2by2">
+                        <img src="https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3784&q=80">
+                      </figure>
+                    </div>
+                    <header class="card-header">
+                      <p class="card-header-title">
+                        Ping Pong Score Keeper
+                      </p>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <h1 class="title is-1"><span id="p1Display">0</span> to <span id="p2Display">0</span></h1>
+                        
+                        <p class="subtitle">Use the buttons below to keep score</p>
+
+                        <label for="playto" class="label is-large is-inline">Playing to</label>
+                        <div class="select is-rounded">
+                          <select name="" id="playto">
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <button class="is-primary button card-footer-item is-large" id="p1Button">+1 Player One</button>
+                      <button class="is-info button card-footer-item is-large" id="p2Button">+1 Player Two</button>
+                      <button class="is-danger button card-footer-item is-large" id="reset">Reset</button>
+                    </footer>
+                  </div>                
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="app.js"></script>
+</body>
+
+Alright, so we're done. What's left to do now is some refactoring. This means that if there is some potential to clean up our code and reduce some duplication. Let's go ahead, fix things up and try to refactor in our app.js. One area that we can improve is the addEventListener for p1Button and p2Button. It's almost duplicated, it's the exact same flow except one is happening for p1Button and the other for p2Button. So how could we rewrite this? if we did something like
+
+function updateScores(score, button, display){
+
+}
+
+write some code in there and then call updateScores in the callback function for p1Button with updateScores(p1Score, p1Button, p1Display) but that would not be enough because we're also updating player two. So the approach here would be to group everything into an object:
+
+const p1 = {
+    score: 0,
+    button: document.querySelector('#p1Button'),
+    display: document.querySelector('#p1Display')
+}
+const p2 = {
+    score: 0,
+    button: document.querySelector('#p2Button'),
+    display: document.querySelector('#p2Display')
+}
+
+now we'll get rid of the const p1Button and p2Button selectors and p1Display and p2Display. We'll also delete p1Score and p2Score. What we'll do now is write a generic function that will replicate the p1Button and p2Button addEventListener callback function so that it can do it for either direction:
+
+const p1 = {
+    score: 0,
+    button: document.querySelector('#p1Button'),
+    display: document.querySelector('#p1Display')
+}
+const p2 = {
+    score: 0,
+    button: document.querySelector('#p2Button'),
+    display: document.querySelector('#p2Display')
+}
+
+const resetButton = document.querySelector('#reset');
+const winningScoreSelect = document.querySelector('#playto');
+let winningScore = 3;
+let isGameOver = false;
+
+function updateScores(player, opponent) {
+    if (!isGameOver) {
+        player.score += 1;
+        if (player.score === winningScore) {
+            isGameOver = true;
+            player.display.classList.add('has-text-success');
+            opponent.display.classList.add('has-text-danger');
+            player.button.disabled = true;
+            opponent.button.disabled = true;
+        }
+        player.display.textContent = player.score;
+    }
+}
+
+so now it can go either direction, depeneding on what the values for each player are: which one is player, and which one is opponent. Now there is no reference to p1 or p2 in our updateScores. Now we have this generic function. Now we can update the old p1Button and p2Button with p1.button and p2.button addEventListener:
+
+const p1 = {
+    score: 0,
+    button: document.querySelector('#p1Button'),
+    display: document.querySelector('#p1Display')
+}
+const p2 = {
+    score: 0,
+    button: document.querySelector('#p2Button'),
+    display: document.querySelector('#p2Display')
+}
+
+const resetButton = document.querySelector('#reset');
+const winningScoreSelect = document.querySelector('#playto');
+let winningScore = 3;
+let isGameOver = false;
+
+function updateScores(player, opponent) {
+    if (!isGameOver) {
+        player.score += 1;
+        if (player.score === winningScore) {
+            isGameOver = true;
+            player.display.classList.add('has-text-success');
+            opponent.display.classList.add('has-text-danger');
+            player.button.disabled = true;
+            opponent.button.disabled = true;
+        }
+        player.display.textContent = player.score;
+    }
+}
+
+
+p1.button.addEventListener('click', function () {
+    updateScores(p1, p2)
+})
+p2.button.addEventListener('click', function () {
+    updateScores(p2, p1)
+})
+
+so for p1: p1 is going to be player and p2 is going to be opponent. The same goes for p2 but the other way around. Lastly, we just have to change the function reset.
+
+const p1 = {
+    score: 0,
+    button: document.querySelector('#p1Button'),
+    display: document.querySelector('#p1Display')
+}
+const p2 = {
+    score: 0,
+    button: document.querySelector('#p2Button'),
+    display: document.querySelector('#p2Display')
+}
+
+const resetButton = document.querySelector('#reset');
+const winningScoreSelect = document.querySelector('#playto');
+let winningScore = 3;
+let isGameOver = false;
+
+function updateScores(player, opponent) {
+    if (!isGameOver) {
+        player.score += 1;
+        if (player.score === winningScore) {
+            isGameOver = true;
+            player.display.classList.add('has-text-success');
+            opponent.display.classList.add('has-text-danger');
+            player.button.disabled = true;
+            opponent.button.disabled = true;
+        }
+        player.display.textContent = player.score;
+    }
+}
+
+
+p1.button.addEventListener('click', function () {
+    updateScores(p1, p2)
+})
+p2.button.addEventListener('click', function () {
+    updateScores(p2, p1)
+})
+
+
+winningScoreSelect.addEventListener('change', function () {
+    winningScore = parseInt(this.value);
+    reset();
+})
+
+resetButton.addEventListener('click', reset)
+
+function reset() {
+    isGameOver = false;
+    for (let p of [p1, p2]) {
+        p.score = 0;
+        p.display.textContent = 0;
+        p.display.classList.remove('has-text-success', 'has-text-danger');
+        p.button.disabled = false;
+    }
+}
+
+Now our logic at the end just happens for every player. And it look like it's working. This kind of sets us up for multiple players. We would still need to refactor updateScores with player and opponnents where we would pass in an array for opponents if we had more than two players. There might still be room for improvement and we could also add more features to this little app if we wanted to like previous scores, allow players to enter their names and so on. 
+
+That was it. Thank you for participating in this course. The next steps from here would be to start building more projects of your own and start applying for jobs and showcasing your projects.

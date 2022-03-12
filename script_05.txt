@@ -1,0 +1,587 @@
+____________________________________________________________________________
+05_html_forms_and_tables__________________________________________________05
+____________________________________________________________________________
+
+This is the final designated HTML section. Although HTML will resurface throughout this course. We will start in this chapter with tables, then we will continue with forms for modern complex HTML with validation, labels and best practices - for ecommerce, stores, mailinig lists etc.
+
+First let's have a look at tables. A very basic example is here: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table and a more complicated example would be here: https://en.wikipedia.org/wiki/List_of_largest_cities
+
+In the early HTML days it was very hard to make the websites look and behave like they do today due to the novelty of the technology. For example the Kemp Dole website http://www.dolekemp96.org/main.htm used table for laying out the content of the website. This allowed the developer to better space out the items on the website. Nowadays we should only use tables for content that should actually be in a table like a list of cities as we saw eralier.
+
+We will now jump into defining our own tables. There are some table elements for us to go through but don't worry, we will go through them together. In the beginning we will have a look at the first four: <table> <td> <tr> and <th>. For our first exampel we will make a table with the heavies living bird species: https://en.wikipedia.org/wiki/List_of_largest_birds#Table_of_heaviest_extant_bird_species We will only get some of the headers of the table and birds. The <td> stands for table data and represents a single cell of a table that contains data.
+
+We first make some <td>'s but they will appear all on the same line:
+
+<h1>Heaviest Birds</h1>
+<table>
+ <td>Ostrich</td>
+ <td>104(230)</td>
+ <td>No</td>
+
+ <td>Somali Ostrich</td>
+ <td>90(200)</td>
+ <td>No</td>
+</table>
+
+If we actually look in the browser, the browser automatically added a <tr> automatically. We do no want to rely on that.
+
+We now need to add a <tr> table row element to wrap each of our birds.
+
+<h1>Heaviest Birds</h1>
+<table>
+ <tr>
+  <td>Ostrich</td>
+  <td>104(230)</td>
+  <td>No</td>
+ </tr>
+
+ <tr>
+  <td>Somali Ostrich</td>
+  <td>90(200)</td>
+  <td>No</td>
+ </tr>
+</table>
+
+If we add another <td> for the maximum mass to the Ostrich we will see that our table kind of breaks and and our cells do not align anymore as we would like them to be:
+
+<h1>Heaviest Birds</h1>
+<table>
+ <tr>
+  <td>Ostrich</td>
+  <td>104(230)</td>
+  <td>156.8 (346)<td> 
+  <td>No</td>
+ </tr>
+
+ <tr>
+  <td>Somali Ostrich</td>
+  <td>90(200)</td>
+  <td>No</td>
+ </tr>
+</table>
+
+To solve this we could add in an empty <td> to Somali Ostrich. But for now we will just add the maximum value given by wikipedia.
+
+<h1>Heaviest Birds</h1>
+<table>
+ <tr>
+  <td>Ostrich</td>
+  <td>104(230)</td>
+  <td>156.8 (346)<td> 
+  <td>No</td>
+ </tr>
+
+ <tr>
+  <td>Somali Ostrich</td>
+  <td>90(200)</td>
+  <td>130(287)</td>
+  <td>No</td>
+ </tr>
+</table>
+
+So the problem now is that we don't know what each of the cells is: name, weight, what No means and so on. We sill need table headers for this. The <th> element. Let's also add a flighted bird.
+
+<h1>Heaviest Birds</h1>
+<table>
+ <tr>
+  <th>Animal</th>
+  <th>Average mass [kg (lb)]</th>
+  <th>Maximum mass [kg (lb)]</th>
+  <th>Flighted</th>
+ </tr>
+
+ <tr>
+  <td>Ostrich</td>
+  <td>104(230)</td>
+  <td>156.8 (346)<td> 
+  <td>No</td>
+ </tr>
+
+ <tr>
+  <td>Somali Ostrich</td>
+  <td>90(200)</td>
+  <td>130(287)</td>
+  <td>No</td>
+ </tr>
+
+ <tr>
+  <td>Wild Turkey</td>
+  <td>13.5 (29.8)</td>
+  <td>39 (86)</td>
+  <td>Yes</td>
+ </tr>
+</table> 
+
+Next up we will have a look at three elements that we use to section off our table: <thead> <tfoot> and <tbody>. These don't do much except breaking your table up in logical sections where we can tell where the header, footer and body of the table are. In our example we can find use for <thead>.
+
+<h1>Heaviest Birds</h1>
+<table>
+ <thead>
+    <tr>
+        <th>Animal</th>
+        <th>Average mass [kg (lb)]</th>
+        <th>Maximum mass [kg (lb)]</th>
+        <th>Flighted</th>
+    </tr>
+ </thead>
+
+ <tbody>
+    <tr>
+        <td>Ostrich</td>
+        <td>104(230)</td>
+        <td>156.8 (346)<td> 
+        <td>No</td>
+    </tr>
+
+    <tr>
+        <td>Somali Ostrich</td>
+        <td>90(200)</td>
+        <td>130(287)</td>
+        <td>No</td>
+    </tr>
+
+    <tr>
+        <td>Wild Turkey</td>
+        <td>13.5 (29.8)</td>
+        <td>39 (86)</td>
+        <td>Yes</td>
+    </tr>
+ </tbody>
+</table> 
+
+These make no obvious change in how our table looks but this helps us understand table better when we look at the code as the header, body and footer are designated and can be observed. It is best practice to use them.
+
+Let's now have a look into cells that span over multiple columns and multiple rows. If we look at https://en.wikipedia.org/wiki/List_of_largest_cities#List some headers are spanned over multiple columns. We will try to do the same for average mass. We'll make a version two of the table and remove the maximum mass. We will modify the fourth <td> in all bird items for the pounds and change the third and fourth <th></th> to KG and LB.
+
+
+<h2>Heaviest Birds V2</h2>
+<table>
+ <thead>
+    <tr>
+        <th>Animal</th>
+        <th>KG</th>
+        <th>LB</th>
+        <th>Flighted</th>
+    </tr>
+ </thead>
+
+ <tbody>
+    <tr>
+        <td>Ostrich</td>
+        <td>104</td>
+        <td>230<td> 
+        <td>No</td>
+    </tr>
+
+    <tr>
+        <td>Somali Ostrich</td>
+        <td>90</td>
+        <td>200</td>
+        <td>No</td>
+    </tr>
+
+    <tr>
+        <td>Wild Turkey</td>
+        <td>13.5</td>
+        <td>29.8</td>
+        <td>Yes</td>
+    </tr>
+ </tbody>
+</table> 
+
+Now we need to add the colspan to make it look like in large cities table. The Average mass needs to span over two columns. For this we need a new <tr></tr> and in that we add the KG and LB <th></th>'s. Instead of KG and LB we add Average Mass <th></th>. 
+
+<h2>Heaviest Birds V2</h2>
+<table>
+ <thead>
+    <tr>
+        <th>Animal</th>
+        <th>Average Mass</th>
+        <th>Flighted</th>
+    </tr>
+    <tr>
+        <th>KG</th>
+        <th>LB</th>
+    </tr>
+ </thead>
+
+ <tbody>
+    <tr>
+        <td>Ostrich</td>
+        <td>104</td>
+        <td>230<td> 
+        <td>No</td>
+    </tr>
+
+    <tr>
+        <td>Somali Ostrich</td>
+        <td>90</td>
+        <td>200</td>
+        <td>No</td>
+    </tr>
+
+    <tr>
+        <td>Wild Turkey</td>
+        <td>13.5</td>
+        <td>29.8</td>
+        <td>Yes</td>
+    </tr>
+ </tbody>
+</table> 
+
+Now we are not there yet, we just have 5 equally sized <th></th>'s. What we want is for Animal to take up two full rows in height. Average mass to take one row in height but two columns across. Flighted should take two rows in height. We can do this as follows: on Animal we can set rowspan="2"; the same can be done for flighted. We are not done yet. We need to make average mass span over two columns: so we add colspan="2".
+
+<h2>Heaviest Birds V2</h2>
+<table>
+ <thead>
+    <tr>
+        <th rowspan="2">Animal</th>
+        <th colspan="2">Average Mass</th>
+        <th rowspan="2">Flighted</th>
+    </tr>
+    <tr>
+        <th>KG</th>
+        <th>LB</th>
+    </tr>
+ </thead>
+ <tbody>
+    <tr>
+        <td>Ostrich</td>
+        <td>104</td>
+        <td>230</td> 
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Somali Ostrich</td>
+        <td>90</td>
+        <td>200</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Wild Turkey</td>
+        <td>13.5</td>
+        <td>29.8</td>
+        <td>Yes</td>
+    </tr>
+ </tbody>
+</table> 
+
+And that's it. It's still pretty ugly but we did what wanted to. Don't get too hung up on these attributes.
+
+We will now move on to forms. We will now focus on the <form></form> element. It's like a shell or a container for individual form controls - like text inputs, password imputs, checkboxes and buttons which we group together inside a form. Here is an example of a form: https://dashboard.stripe.com/register we see that the input for password is dotted, it is different from the other normal ones. The <form></form> element is not just about grouping content together but also dictates where the form data should be sent when the form gets submitted. We could send data to reddit for example. The parent <form></form> with which we wrap everything else, that element is where we specify how the data should be sent and where.
+
+Before we go on let's make a demo forms.html file. If we just tab form and hit tab with emmet, we get the opening and closing tag and also the empty attribute called action="". If we now refresh the page we won't see anything at all as this is an empty container. The action="" attribute specifies where the data should be sent when the form is submitted. If we go on reddit.com and inspect with F12 the search menu: we see that he form has action="/search/". This means that our text input gets sent to search/?q=searchInputTextHere so that the results for our search can be displayed. The server recognises the search page and searches for our query we have provided and gives us the results as a webpage back. We can also edit the ?q=searchInputTextHere and put in a search directly there - chocolate. So when we submit a form a HTTP request will be sent and we control where that request goes to using the action="" attribute and we control which type of HTTP method is used. In the case of reddit the method="get". There are two basic terms that you'll come across often for the method="": get and post. When we get to handling forms, this will make more sense. 
+
+OK, now let's talk about what goes inside a <form></form>. The most common <form></form> control is the <input> element. This is extremely versatile, we can make 20+ different inputs: checkbox, color picker, date picker, password input etc. The most important attribute is the type="" attribute, and it alter how the <input> behaves. The <input> is also an element that does not have a closing tag. There is no content between two tags. Let's now add a single input. It defaults to a text input. We usually have to specify the type="text" so that it is clearer what we are working with.
+
+
+<h1>Forms Demo</h1>
+<form action="/tacos">
+    <input type="text">
+</form>
+
+Let's now duplicate this a couple of times and change the input type for it. We can use the password, color and number. We can also use placeholder="username". This makes some text appear on the input field, grayed out by default. This makes it easier for others users of the form to know what to type into your inputs.
+
+<h1>Forms Demo</h1>
+<form action="/tacos">
+    <input type="text" placeholder="username">
+    <input type="password" placeholder="password">
+    <input type="color">
+    <input type="number" placeholder="enter a number">
+</form>
+
+So using using just one <input> element and changing the type="" attribute we can get a variety of different types of input for different form controls.
+
+The next essential HTML form element is the <label></label>. The label is easy to write off and are very important in terms of accessability and making your forms easier to use. If we look at https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label we can see that labels are linked to the checkboxes, so if we click on the text, the checkbox will get checked. This is alos useful for screen readers as they can correlate the text to the checkbox, otherwise it would be impossible. The way we make the connection from a label to an input is by using two attributes: id="" it can be anything, short and simple, this is put in the input as attribute. Then we use that exact same value and we set it for the for="" attribute on the <label></label>. Only one element on the page should have a given id. The id's have to be unique.
+
+We can now build on our <form></form> with the labels. If I now click on the label, it will focus me on the input field for the username, because they are connected. If we change the id, they will not be connected anymore and this will not work anymore.
+
+<h1>Forms Demo</h1>
+<form action="/tacos">
+    <label for="username">Enter a Username: </label>
+    <input type="text" placeholder="username" id="username">
+    <label for="password">Enter a Password: </label>
+    <input type="password" placeholder="password" id="password">
+    <input type="color">
+    <input type="number" placeholder="Enter a Number:">
+</form>
+
+Let's also wrap them in paragraphs so that they look a little bit better.
+
+<h1>Forms Demo</h1>
+<form action="/tacos">
+    <p>
+        <label for="username">Enter a Username: </label>
+        <input type="text" placeholder="username" id="username">
+    </p>
+    <p>
+         <label for="password">Enter a Password: </label>
+        <input type="password" placeholder="password" id="password">
+    </p>
+    <p>
+        <label for="color">Enter a Color: </label>
+        <input type="color" id="color">
+    </p>
+    <p>
+        <label for="number">Enter a Number: </label>
+        <input type="number" placeholder="Enter a Number:" id="number">
+    </p>
+</form>
+
+This is an alternative way to label an input (this is less common). We have to nest the input inside a label.
+
+    <label>
+        Enter a Number:
+        <input type="number" placeholder="enter a number" name="num" min="1" max="1000">
+    </label>
+
+It makes more sense not to nest them because it allows us to style things easier, even though the nested method is shorter.
+
+Now we'll have a look at buttons. They are very important to your webpage. We can have a "create account" button, email button, google button and so on. Often we also have buttons that not necessarily exist inside a form: a sign up button, a log in button (from reddit.com), also downarrow, uparrow buttons to upvote. The <button></button> tag has an opening and closing tag. And whatever text you put inside it, will be used to label the button. Just like all of these other inputs that we've seen, these different form contorls, each browser has some default styling and we can change that. So the button we see right now is not the permanent button that we will be stuck with. Let's add a button at the end of the form that says Submit:
+
+
+<h1>Forms Demo</h1>
+<form action="/tacos">
+    <p>
+        <label for="username">Enter a Username: </label>
+        <input type="text" placeholder="username" id="username">
+    </p>
+    <p>
+         <label for="password">Enter a Password: </label>
+        <input type="password" placeholder="password" id="password">
+    </p>
+    <p>
+        <label for="color">Enter a Color: </label>
+        <input type="color" id="color">
+    </p>
+    <p>
+        <label for="number">Enter a Number: </label>
+        <input type="number" placeholder="Enter a Number:" id="number">
+    </p>
+     <button>Submit!!!</button>
+</form>
+
+If we push now submit it will send us to /tacos?. A not found page/file. This is sending a request because I have a form that gets submitted. The default behaviour of a button in a form is submitting the form. If the button is outside the form, the button does nothing by default. We have an option to pass in an attribyte type="". We can give buttons that we do not want to have the submit function type="button". Then they will no longer submit the form. The default type is set to type="submit". Another, odder way to make a submit button is:
+
+<input type="submit">
+
+This also makes the submit button but it is harder with the input type="submit" because we cannot change the text that easily. We can change the text with value="click me".
+
+<input type="submit" value="click me!">
+
+This is a full form example:
+
+<form action="/tacos">
+    <p>
+        <label for="username">Enter a Username:</label>
+        <input id="username" type="text" placeholder="username" name="username">
+    </p>
+    <p>
+        <label for="password">Enter a Password:</label>
+        <input type="password" placeholder="password" id="password" name="password">
+    </p>
+    <p>
+        <label for="color">Enter a Color:</label>
+        <input type="color" id="color" name="color">
+    </p>
+    <p>
+        <!-- Alternative way to label an input (less common) -->
+        <label>
+            Enter a Number:
+            <input type="number" placeholder="enter a number" name="num" min="1" max="1000">
+        </label>
+    </p>
+    <!-- this button doesn't submit the form b/c of the "type" attribute -->
+    <button type="button">Regular button (won't submit)</button>
+    <!-- This button submits the form! -->
+    <button>Submit!!!</button>
+    <!-- So does this one: -->
+    <input type="submit" value="Click Me!">
+</form>
+
+Another really important attribute for inputs is name="". In the reddit search bar example we have name="q". That q is simply a name that refers to the value that is in the input when the data is sent into the server. They are often short and the server will be looking for them.
+
+
+<form action="https://www.reddit.com/search">
+    <input type="text" name="q">
+    <button>Search Reddit</button>
+</form>
+
+Another example from the previous taco form for better understanding could be this: 
+
+<form action="/tacos">
+    <p>
+        <label for="username">Enter a Username:</label>
+        <input id="username" type="text" placeholder="username" name="username">
+    </p>
+    <button>Submit!!!</button>
+</form>
+
+We will get from this file:///tacos?username=yourInputTextHere. Whatever we have for name="" will then be sent to the server as a pair with the actual input. When the data is sent it will be labelled under that name="".
+
+
+<form action="/tacos">
+    <p>
+        <label for="username">Enter a Username:</label>
+        <input id="username" type="text" placeholder="username" name="username">
+    </p>
+    <p>
+        <label for="password">Enter a Password:</label>
+        <input type="password" placeholder="password" id="password" name="password">
+    </p>
+    <p>
+        <label for="color">Enter a Color:</label>
+        <input type="color" id="color" name="color">
+    </p>
+    <p>
+        <!-- Alternative way to label an input (less common) -->
+        <label>
+            Enter a Number:
+            <input type="number" placeholder="enter a number" name="num" min="1" max="1000">
+        </label>
+    </p>
+    <!-- this button doesn't submit the form b/c of the "type" attribute -->
+    <button type="button">Regular button (won't submit)</button>
+    <!-- This button submits the form! -->
+    <button>Submit!!!</button>
+    <!-- So does this one: -->
+    <input type="submit" value="Click Me!">
+</form>
+
+We can put for all inputs names and then submit them to see what we get. Also we would not like the password to be in the URL, for this we need to use other types of requests. But for now we will not deal with that.
+
+We will now do an exercise together. We will now build our own search form for Reddit, Google and others. We will send data to their server from our form and end up getting a search page. We need to take advantage of the form attribute for action="", where our form submits and make sure we are following the correct pattern and using the correct name for our search query or whatever the input will be that we are sending, the value. 
+
+So now we are going to the reddit website and we are going to copy the search url. From our form we will submit to that exact url. We will set the input name="q". This value will be sent to reddit.com/search. If we named the name="query" we would go to query=dogOrWhateverYouWantToSearchFor but the actual reddit server is expecting q=... so we will leave it as name="q". If we search for puppy for example we should get... puppies.
+
+
+<h2>Hijacking Searches</h2>
+<h3>Search Reddit</h3>
+<form action="https://www.reddit.com/search">
+    <input type="text" name="q">
+    <button>Search Reddit</button>
+</form>
+
+If we go on the google.com search URL, it will be massive. It has a lot of stuff that we do not care about. We need to find the search term we searched for and remove the unnecessary stuff. We do the same as above for input name="" and action.
+
+<h3>Search Google</h3>
+<form action="https://www.google.com/search">
+    <input type="text" name="q">
+    <button>Search Google</button>
+</form>
+
+Let's have a look at youtube now. Here we notice when we search on youtube.com that the name="" here should be search_query. So let's make the form:
+
+<h3>Search Youtube</h3>
+<form action="https://www.youtube.com/results">
+    <input type="text" name="search_query">
+    <button>Search Youtube</button>
+</form>
+
+The last thing to be mentioned here is that when we have an input here in the form without the button and we hit ENTER, this will submit the form. Even if we put the button and press ENTER then without pressing the button it will still submit the form.
+
+We will now cover some other inputs that we have not yet seen such as: checkboxes, radio buttons, selects or drop downs and text areas. Here is a list with all thep ossible inputs https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input They are created with the type="" attribute. Let's have a look at checkboxes: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox We always need to label our checkboxes so that it makes it more recognisable and easier to click on it otherwise it can get very confusing. Then, we can specify if the checkbox is checked to begin with or not. We can control that, too. Let's set up a checkbox for agreeing (to maybe some terms and conditions). If we add a submit button and send the input with the checkbox ticked it will send with agree_tos=on and if it is not checked it does not send anything at all, it just goes to /birds?. It's just missing but this is how it works.
+
+
+<h2>More Inputs!</h2>
+<form action="/birds">
+    <input type="checkbox" name="agree_tos" id="agree">
+    <label for="agree">I agree to everything</label>
+    <button>Submit</button>
+</form>
+
+Let's now have a look at radio buttons. They are very similar to checkboxes except for one key difference which is that in a group of radio buttons, we can only select one. These different options are connected so the browser knows that if one is clicked, the others have to be unchecked. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio For radio buttons we have input type="radio". If we just simply add them and put that in they will be standalone radio buttons, that means that they will not be connected to each other. We have to give them the exact same name="" in order to make them connected to each other. In this example we will give them name="size" and simulate T-Shirt sizes. We will put the buttons in a separate <p></p>. If we write inp and TAB we will get the input via emmet shortcut. We'll make three radio buttons:
+
+<h2>More Inputs!</h2>
+<form action="/birds">
+    <input type="checkbox" name="agree_tos" id="agree">
+    <label for="agree">I agree to everything</label>
+    <p>
+        <label for="xs">XS:</label>
+        <input type="radio" name="size" id="xs" value="xs">
+        <label for="s">S</label>
+        <input type="radio" name="size" id="s" value="s">
+        <label for="m">M</label>
+        <input type="radio" name="size" id="m" value="m">
+    </p>
+    <button>Submit</button>
+</form>
+
+If we click on submit it sends size=on if we do not have the vield value="" (we have to delete it from the above exmaple) specified and we don't know what gets sent. Now if we have value="xs" for example the following gets sent: size=xs.
+
+Next up we have the select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select which is essentially a dropdown menu and is actually a product of two elements working together. A <select></select> element and an <option></option> element. The <select></select> is the parenting element that groups together a bounch of options. The <option></option> is pretty straight forward: it has some text between the opening and closing tags; we also have a value="" attribute, just as we did with the radio buttons, this is what will be sent through when we submit the information. The <select></select> is where we put the name="" and id="" attributes if you want to label it and then we have the options inside. Actually in the t-shirt size example it would of been a better idea to use the select option but let's figure something else out for this. Let's do a meal selection menu.
+
+
+<h2>More Inputs!</h2>
+<form action="/birds">
+    <input type="checkbox" name="agree_tos" id="agree">
+    <label for="agree">I agree to everything</label>
+    <p>
+        <label for="xs">XS:</label>
+        <input type="radio" name="size" id="xs" value="xs">
+        <label for="s">S</label>
+        <input type="radio" name="size" id="s" value="s">
+        <label for="m">M</label>
+        <input type="radio" name="size" id="m" value="m">
+    </p>
+    <p>
+        <label for="meal">Please Select an Entree</label>
+        <select name="meal" id="meal">
+            <option value="fish">Fish</option>
+            <option value="veg">Vegetarian</option>
+            <option value="steak">Steak</option>
+        </select>
+    </p>
+    <button>Submit</button>
+</form>
+
+So these were the basics of select and option. We use the <option></option> inside the <select></select>.
+
+We'll now wrap up our discussion around inputs and form controls with range and text-area. There are also other inputs that we will not cover as they are not so often used like: week picker, month picker, datetime-local. So first is type="range": it creates a slider where the user can select some value on a sliding range. We can control the minimum and maximum value. We will insert a <label></label> too with for="cheese" corresponding to the input's id="cheese". The minimum is set by min="1" and the maximum with max="100". The attribute value="75" sets the default value, before we touch the range control. We can give it a step="7" attribute, too. This allows us to scroll through the range by jumping up each time by seven for example. We also have to give in a name="" attribute for it so that the information gets passed onto the server when we click on submit.
+
+<p>
+    <label for="cheese">Amount of Cheese:</label>
+    <input type="range" id="cheese" min="1" max="100" value="75" name="cheese_level">
+</p>
+
+The same min="" and max="" attributes can be used for the number input we used a while ago.
+
+The next thing we will look at is completely unrelated. It's not even an input, it's a completely separate element called <textarea></textarea> https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea It is a multiline text input. We can type longer texts here. Let's make one ourselves. We can also label it, so we'll put a label with a for="" attribute that matches the id="" attribute of the textarea. We can control the inital number of rows - it's default is two. We do this with the rows="10" attribute. This makes it longer and taller. We can set the width with cols="40" - the default here is 20. Here we can also set a placeholder="" attribute. We can also give it a name="" attribute.
+
+<p>
+    <label for="requests">Any Special Requests?</label>
+    <br>
+    <textarea id="requests" rows="10" cols="40" name="Requests?" placeholder="Type something here"></textarea>
+</p>
+
+That's pretty much it. The most notable this is that it is not an input with type="". 
+
+One more important topic about forms is Validation. The term validation refers to adding constraints or validating user input or data. For example requiring that some fields are not empty or that the password has to between 8 and 12 characters and that it has to have special characters. We will now look at the built-in browser validations that we can add to our forms and our inputs. The first attribute we will have a look into is: required. Let's make a new form and use the required. For username we can use minlength="5" and maxlength="20". The previously used min="" and max="" attributes can also be used as validation, too.
+
+<h2>Validations Demo</h2>
+<form action="/dummy">
+    <p>
+        <label for="first">Enter First Name</label>
+        <input type="text" id="first" name="first" required>
+    </p>
+    <p>
+        <label for="user">Username</label>
+        <input type="text" id="user" name="username" minlength="5" maxlength="20" required>
+    </p>
+
+    <p>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+    </p>
+    <p>
+        <label for="website">Website</label>
+        <input type="url" id="website" name="website">
+    </p>
+    <button>Submit</button>
+</form>
+
+If we try to submit without completing an input with required, the browser will not let us submit. We can also do this for date, time, range, number etc. We can also use regular expressions using the pattern="" attribute. We will not cover regular expressions now but keep in mind that they can be used there. They are used to better query the text to see if it matches a certain pattern - number of character, if the password for example begin with a capitalized letter and so on. We can use some of the existing elements that have pattern matching already built in like for example: <input type="email"> with the required attribute. This looks at the input and checks if it is an email address. It does not check if this is actually a real email address but just looks if there is a text and then an @ sign and then more text afterwards. Another pattern matching type is the <input type="url">, which checks for urlscheme://restofurl (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url). This wraps up our validation.
+
+Larger exercise around forms: build a form for a marathon. Labelled. Homework. 
+

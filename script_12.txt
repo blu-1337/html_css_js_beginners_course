@@ -1,0 +1,2294 @@
+____________________________________________________________________________
+12_css_frameworks_bootstrap_______________________________________________12
+____________________________________________________________________________
+
+So we are done with our main CSS content. Now we're going to talk about a third party library called Bootstrap. What is it? Well bootstrap calls itself "the world's most popular CSS Framework". Bootstrap is like a skeleton, it helps us quickly create nice lookin, responsive, modern websites. So we don't have to write as much CSS as we might have to. It provides the framerwork, or the starting point for all sorts of different websites. To get more specific, it consists of two main things: it consists firstly of a collection of components, different pieces that we can use, just insert into our app like a button that's premade, navbars and so on. Secondly it consists of the grid system, on which we'll spend a good amount of time on. This helps us layout our website.
+
+Let's have a look at some componennts from bootstrap. https://getbootstrap.com/docs/5.1/components/buttons/ on the left side we have different components that we can get like buttons. We can get them very easily. You don't have to do anything except include Bootstrap in your document and create a button with a particular class name. So no styles have to be written in order to get these buttons. We also have things like navbars: https://getbootstrap.com/docs/5.1/components/navbar/ here are some examples. What's here nice is that they are responsive, so as we resize the window, they collapse and we get a hamburger icon. Creating that requires a lot of CSS and a good amount of JavaScript, you have to know what you're doing, it takes time, it's a decent amount of code, but if you use Boostrap, you get it for free. There are also Forms: https://getbootstrap.com/docs/5.1/forms/overview/ nice looking forms, different inputs, things like responsive forms so that they change when we resize. These are all things we can actually do on our own. But it's just that it's faster and simpler if we use a tool like Bootstrap. That doesn't mean that we should always rely on something like Boostrap. But it's important for us to understand that they are out there and we should feel comfortable using at least one of these tools. There are other tools like: foundation, semantic ui etc. They all serve the same purpose: they'll give you this foundation, this basic set of tools to create websites. 
+
+So now let's talk about the grid system quickly. One of the most annoying parts of creating modern websites is laying out your content, div'ing up space. If we look on the boostrap website we see that there is a small amount of content on the left, a larger piece in the middle and a smaller part on the right. When we make the window smaller, the right side dissapears or goes below at some point and as we continue to shrink everything down, at some point it all collapses into the navbar and the whole layout changes. https://getbootstrap.com/docs/5.1/layout/grid/ The grid system is a bunch of CSS that is prewritten for us where we can relay on some particular classes like "row" and "col". Or more detailed ones like "col-4" or "col-sm-4" where sm stands for small. These all have to do with size, the amount of space that we want to be taken up by certain elements at different screen sizes. So we can easily say that we want one thing to take more space on a large size and less space on a smaller size or vice-versa. If we look at the "mix and match" example from the boostrap website and we make the windows smaller we see that in the beginning we had three things in the middle row that shared the space equally and as we shrunk it down, now they each take out half the space going across. Okay, that's really the point of the grid system: to help you layout your websites and let them have pieces take up space and redistribute that space depending on screen sizes.
+
+What many people ask is: aren't all websites going to look the same if we're all using websites. Yes, they could but they don't have to. They might all have navbars and buttons but things can definitely be customized. You can also omit them entirely and just use the grid system to space out things. We can also do a grid system with flexbox but bootstrap makes it easier and faster for us. So our goal is to spend some time with boostrap. There's a lot to cover but most of it is very very easy. So we're going to focus on the essentials so that we can get building nice responsive modern websites relatively quickly.
+
+Alright, the first thing we need to do is learn how to include Boostrap. It's just as if we would include a stylesheet in our document just like we've been doing for "app.css", but instead of a stylesheet we're writing, it's going to be a stylesheet from Bootstrap. There's a little bit more to it because Boostrap actually does come with some JavaScript too but the core mechanic, the most important piece is a single stylesheet. If we go to Getting started>introduction https://getbootstrap.com/docs/5.1/getting-started/introduction/ there are a couple of different options for how we include the Bootstrap stylesheet and the JavaScript scripts. One option is to download everything onto our machine and link to it as with "app.css" where it needs to be in the same folder or accessible with the correct path to find the file. The easier option to get started right now is to use something called the CDN - which stands for Content Delivery Network. Which is basically a hosted version of a stylesheet that we can access remotely and we don't have to download it on our machines. So if we copy the link tag from the website:
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+and we can actually open it and we see that it's compressed down: all the whitespace is removed but we can see some CSS in there. It's just a massive chunk of CSS. Let's add it in our starter file in basics_starter/index.html So we can add that in our index.html in the <head></head> and it will download the correct script that we need. We'll going to put it before our custom "app.css" stylesheet. That way we can write our own styles and they won't be undone or overwritten by Bootstrap. If Bootstrap made our h1 10px and we make it 20px in our app.css file, it will overwrite it. 
+
+At the time of making of this course the version was v5. If we are now at 5.6 for example, there are no major changes but if we are at v6.x there will be some significant changes.
+
+Ok. Let's add some Placeholder stuff. Let's add an h1 and a paragraph with some lorem ipsum.
+
+<h1>Placeholder</h1>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+neque hic
+minus
+harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+harum
+nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+</p>
+
+If we comment out the bootstrap link and we refresh we notice that we have different fonts and that some of the margin and padding is different. It's not that important because we can change all of this, what's important is that this tells us that boostrap is working. 
+
+Now the other things we should mention is that there are these scripts from the quickstart. https://getbootstrap.com/docs/5.1/getting-started/introduction/ We haven't covered scripts yet but we'll get there. If we want to have access of every part of boostrap, we need to include those scripts too. So certain components require JavaScript such as the: image carousel, collapsable navbar, tooltips and popovers, dropdown menus and so on. Just to be comprehensive we're going to put them in our index.html. The place we're going to put the scripts is at the very bottom right before the closing body tag.
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+
+Okay, so that's what we need to do in order to set up boostrap. Everytime we need to use it, we need that CSS file and optionally the scripts if you need to use certain components. It's better for real production applications to download the Bootstrap CSS file to our computer as the server might go down and we will not have access to the stylesheet. We now have Boostrap included in our document. 
+
+Let's have a look at our first component, our first piece of Boostrap syntax. We saw that there are some default font changes, size, margin and padding. But most of what we do in boostrap is enacted therough classes. Every component that we see there on their website like dropdowns https://getbootstrap.com/docs/5.1/components/dropdowns/ we're writing a buch of class="something" a lot of classes sometimes. These are all classes that are predefined in the Boostrap stylesheet. We're basically doing the same thing as with app.css but somebody else wrote it. The first component we'll have a look at is under layout and it's called a container. It's a very simple one but a very important one https://getbootstrap.com/docs/5.1/layout/containers/ A container is the most basic layout element in Bootstrap and it is required when using the default grid system. We'll get soon to the grid system. So what a container does is that it contains and pads content withing it. It's a quick way to get some space and contain our content. Right now the content goes all the way across the screen and usually that's not what we want for a website, we might have different pieces of content, it doesn't just go all the way across. So the container class, the simplest possible container, give us a responsive, fixed-width container. We'll talk about what that means later, but let's try it now. It does not have to be a div but the docs use divs a lot so we'll stick with that too. So let's put a div with class container around all of our content, excluding the script tag at the end:
+
+<div class="container">
+    <h1>Placeholder</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+neque hic
+minus
+harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+harum
+nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+    </p>
+</div>
+
+After a refresh we can see that there is a bunch of margin now around our content. As we resize, the space changes because there are breakpoints in there. They are predefined in boostrap. We have small, medium, large and so on. We'll get back to that when we get to the grid system. Another thing we'll look into is "container-fluid". This is going to be a full width container and it will span the entire width of the viewport, so basically all the way across. Unlike what we have right now, which goes all the way across only when we are on an extra-small screen size. So let's change that to container-fluid to see it's effect:
+
+<div class="container-fluid">
+    <h1>Placeholder</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+neque hic
+minus
+harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+harum
+nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+    </p>
+</div>
+
+Now as we resize, our container goes all the way across the screen the entire time. There's still some margin so it's not like there's no container at all. It still makes a difference compared to what we had without the container. But certainly it's not the same as just container. The last thing we'll look here at is the responsive versions like: "container-sm", -md, -lg-, xl and what these we'll do is allow us to say: we want the container to be all the way across the screen, 100% wide until you hit the small breakpoint, the large or the extra large, depending on what you have selected. Let's see that quickly by setting it to container-md (meaning medium):
+
+<div class="container-md">
+    <h1>Placeholder</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+neque hic
+minus
+harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+harum
+nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+    </p>
+</div>
+
+We start all the way across the screen and after we hit the breakpoint, it goes back to acting like the original container, just a plain container. This is getting a bit in the weeds but they are very simple. For the most part we'll use container and container-fluid. And the default container is full-width on very small screens and then it adds a bunch of margin on other sizes. So we're always going to work within a container. We don't have to for most of boostrap but for the grid system we need to work in a container. So that was the idea of setting up boostrap and the most basic boostrap component: the container which we give to elements by stating class="container". Let's set the container-md back to container on our div:
+
+<div class="container">
+    <h1>Placeholder</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+neque hic
+minus
+harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+harum
+nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+    </p>
+</div>
+
+Next up we'll have a look at more exciting components: buttons. https://getbootstrap.com/docs/5.1/components/buttons/ On the left side of the page we have the different components we can look at and on the right side there are the individual sections of the current page we're looking at. So Bootstrap comes with its default styles which we will use for now. They are customizable though. So everything we have to do with buttons will involve a class named "btn" and then different variations of that. Even with the variations we will still see the "btn". So let's pick one of them to start. Let's copy one of them into our index.html to see if it works. Let's put it under our h1 to begin with.
+
+    <button type="button" class="btn btn-primary">Primary</button>
+
+So very different than just a typical button if we added it wit
+
+<button>Primary</button>
+
+The Bootstrap one looks nicer. Now what's up with "btn-primary", "btn-success" and so on? Bootstrap comes with these different semantic colors, labelled: primary, secondary, success, danger, warning, info, light, dark and link. These are used all over the place. They are also used in alerts for example. If we look under utilites, which we will get back too, we have different a set of color utilities so that we can make different background colors, for example. They all have those same labels. These colors are not set in stone, we can change them. The point of having a "success" is not to have a green color necessarily, or that danger is supposed to be red. Those are just the default colors that come with Bootstrap. And the point it that semantics are just a meaning. So it's pretty common for a website to have a primary color like a brand color and then some secondary color that goes along with it and then some color that indicates that something is going horribly wrong: a danger versus a successful or warning which is not the same as danger. We can change them all up. As an example, the navbar from the Boostrap website is using a purple color as the primary color for their website. So they changed that. If we inspect with f12 a button on boostrap we should see a "primary" class on it. So don't get hung up on the specific colors, they are just built in options that we can customize and really, it's just about the meaning behind those terms and labels. Instead of assumig that every website is going to have a red and a green they instead just go with some primary color, some secondary color, some warning color and so on. Ok that's enough around colors.
+
+So we can make all those variations. Let's make a couple more buttons to see how they work. Let's make a "btn-success" and a "btn-info" alongside our existing one. Let's also change the text between the tags accordingly:
+
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+
+We won't do every possible option but keep in mind that there are more than these three. We have different options. We can use those classes on anchor tags, too, to make a button. Also on input where class="btn btn-primary" for example (see Boostrap website example on buttons). We also have outline variations of buttons which are different looking. They have the same colors but the syntax or better said the actual class name is different: "btn btn-outline-primary". Let's add one for warning in our index.html after our normal buttons:
+
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+
+Now we get this inverted highlight effect when we hover over. Let's add two more for "btn-outline-danger":
+
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+
+Let's make something very clear about Boostrap is that whenever we are using it, unless we are super-experienced and we have an amazing mind for memorization, we're going to consult the docs. It's just a part of it. So don't get hung up trying to memorize this. Just like with CSS and especially with Boostrap in particular there's just a lot here. If you mispell stuff just slightly, we don't get any of the effects of that class and the browser will actually return no error. So we have to keep an eye out for that, too. Copy and paste is totally fine. Ok let's see what we can do with sizes, let's make a "btn btn-outline-info btn-lg" button:
+
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+
+It's not massive but it is larger than the others. Let's do one more of class "btn btn-secondary btn-sm": 
+
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+
+This makes us a small secondary button. We can also make block buttons without having to change the disaply property ourselves, but that's all it's going to do for us: set the display to block. We also have active state, disabled state so they will have different styles if we add the disabled attribute. This is kind of nice as it will reflect the current color of the button. Let's make one "btn btn-success" disabled.
+
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+
+It gets slightly grayed out and less saturated. So that's all styles coming from Boostrap. So that's it for buttons. Remember: these colors can change, it's the meaning behind them that matters. They are just labels, they are like slots for different colors that we can fill in at will and make our own palette. So this was our first example of using the sort of Boostrap mechanic: a bunch of classes. We saw a "btn" and then some option for color, if it is outline, what it's size is, if it is a block and so on.
+
+Now we'll talk briefly about typography in Bootstrap. This is not under Components. This is under Content>Typography https://getbootstrap.com/docs/5.1/content/typography/ This page tells us a bit about some of the global change that have been made like the global font-size, the background color and so on. If we scroll down there are a couple of things we should pay attention to. First of all, the "display" classes. There are four of them: display-1, display-2, display-3 and display-4. They are used to make large headers. They are not responsive by default but we can change that. So let's use it in our h1 in the index.html file and let's add an h2 with class "display-4" that says "Buttons" just under the h1.
+
+        <h1 class="display-1">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons</h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+
+These "display-4" are just different sizes. They don't have to indicate meaning like: the h2 should be a subheader of h1, a sublevel of headings. Let's add another h2 of class display-4 just above our paragraph and have it say "Typography".
+
+        <h1 class="display-1">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons</h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <h2 class="display-4">Typography</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+    neque hic
+    minus
+    harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+    inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+    harum
+    nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+        </p>
+
+Alright. Aside from what we saw so far we also have the "lead" class. It's description is that it makes a paragraph stand out if we add the class="lead" to it. So let's add it to our paragraph.
+
+        <h1 class="display-1">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons</h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <h2 class="display-4">Typography</h2>
+        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+    neque hic
+    minus
+    harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+    inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+    harum
+    nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+        </p>
+
+This changes the font-size and font-weight so make it stand out a bit more. That is supposed to be the tagline or the lead text of a page. There are also blockquotes. Let's add a blackquote with a <p></p> inside it after our paragraph and add some lorem text into the <p></p> tags:
+
+        <h1 class="display-1">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons</h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <h2 class="display-4">Typography</h2>
+        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+    neque hic
+    minus
+    harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+    inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+    harum
+    nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+        </p>
+        <blockquote>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ab sed iusto alias numquam
+                ipsum tenetur
+                error nostrum similique sunt, quod deserunt totam pariatur consequatur ad exercitationem et ea odio?</p>
+        </blockquote>
+
+We can also give it a class of blockquote:
+
+        <h1 class="display-1">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons</h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <h2 class="display-4">Typography</h2>
+        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+    neque hic
+    minus
+    harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+    inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+    harum
+    nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+        </p>
+        <blockquote class="blockquote">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ab sed iusto alias numquam
+                ipsum tenetur
+                error nostrum similique sunt, quod deserunt totam pariatur consequatur ad exercitationem et ea odio?</p>
+        </blockquote>
+
+This makes it a little heavier, bolder and slightly larger. Then what's nice is that we have an easy way of adding in a footer. They use a footer element for semantics in the Boostrap docs but we can use anything. We'll stick for now with the docs and give it a class="blockquote-footer", let's also give it a text of "Mr. Lorem Ipsum": 
+
+        <h1 class="display-1">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons</h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <h2 class="display-4">Typography</h2>
+        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+    neque hic
+    minus
+    harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+    inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+    harum
+    nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+        </p>
+        <blockquote class="blockquote">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ab sed iusto alias numquam
+                ipsum tenetur
+                error nostrum similique sunt, quod deserunt totam pariatur consequatur ad exercitationem et ea odio?</p>
+           <footer class="blockquote-footer">Mr. Lorem Ipsum</footer>
+        </blockquote>
+
+Now it's grayed out and it give us a dash in front of the text and we didn't do anything: we didn't tell it to be gray or to have the dash. That's just the default style. If we notice on the boostrap website there is a class="mb-0" added to the paragraph of the blockquote. Even though we haven't covered it yet we can put that in there too.
+
+        <blockquote class="blockquote">
+            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ab sed iusto alias numquam
+                ipsum tenetur
+                error nostrum similique sunt, quod deserunt totam pariatur consequatur ad exercitationem et ea odio?</p>
+           <footer class="blockquote-footer">Mr. Lorem Ipsum</footer>
+        </blockquote>
+
+This is an easy way to add margin at the bottom. Or in this case removing it by setting it to 0. 
+
+Next we have different utilities, different ways of aligning text. If we want something to be centered, we can just add "text-center". If we want it right aligned we can just add "text-right". Let's do that on the entire blockquote:
+
+        <blockquote class="blockquote text-right">
+            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ab sed iusto alias numquam
+                ipsum tenetur
+                error nostrum similique sunt, quod deserunt totam pariatur consequatur ad exercitationem et ea odio?</p>
+            <footer class="blockquote-footer">Mr. Lorem Ipsum</footer>
+        </blockquote>
+
+We can easily achieve that through our own CSS so there's nothing revolutionary here. Let's add it to our h1 and make it text-center:
+
+        <h1 class="display-1 text-center">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons</h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <h2 class="display-4">Typography</h2>
+        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eaque, in autem cupiditate quasi
+    neque hic
+    minus
+    harum perferendis repellendus eos suscipit? Sunt laborum deserunt ea autem totam illum modi!Nobis expedita,
+    inventore provident reiciendis nostrum impedit, sunt magnam, labore ipsum sequi incidunt! Corrupti esse
+    harum
+    nesciunt soluta placeat, voluptates illo accusantium quam fuga ducimus quaerat minus laudantium, quo odit!
+        </p>
+        <blockquote class="blockquote text-right">
+            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ab sed iusto alias numquam
+                ipsum tenetur
+                error nostrum similique sunt, quod deserunt totam pariatur consequatur ad exercitationem et ea odio?</p>
+            <footer class="blockquote-footer">Mr. Lorem Ipsum</footer>
+        </blockquote>
+
+Obviously we could do that on our own like we can do pretty much all of the stuff we've covered here so far. But it makes our life easier, it's just a class that we are adding on. The idea of Boostrap is to make it faster and easier for us to get those styles. 
+
+Next up, we'll go to Utilities. Utilities help us center something, change the color, add a border or change it's display property or position property, add a shadow and so on. They are not necessarily components, they don't stand alone, we add them to something. So we'll start with Utilities>Colors. https://getbootstrap.com/docs/5.1/utilities/colors/ we have a lot of options to change the color of text: text-primary, text-secondary and all other semantic color names that we've seen so far. If we want to make something "info" coloured, we can do "text-info". Let's do that to our h1: 
+
+        <h1 class="display-1 text-center text-primary">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons</h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+
+And this makes it the primary color which happens to be the default blue. We also have the other ones like "succes, danger, warning, info" and so on. Hopefully that's self explainatory. We also have background colors like: bg-primary and then often we'll use a light text on top like text-white. So let's make something have a background here. Let's add for example the bg-light to our blockquote:
+
+        <blockquote class="blockquote text-right bg-light">
+            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est ab sed iusto alias numquam
+                ipsum tenetur
+                error nostrum similique sunt, quod deserunt totam pariatur consequatur ad exercitationem et ea odio?</p>
+            <footer class="blockquote-footer">Mr. Lorem Ipsum</footer>
+        </blockquote>
+
+Alright, we'll leave it at that. We can mix and match like give something a dark background colour and a white text or danger background color and warning text. So these are some utilities: color and background color.
+
+So far we've learnend a decent amount about text utilities, text-alignment, display classes, blockquote and then all the text utilities for color.
+
+Next up we'll look at more components. The first one we'll look at is a badge component  https://getbootstrap.com/docs/5.1/components/badge/ and it's typically used for displaying a count 1, 2, 3 and so one or some sort of label. That's kind of all you use it for. You can mix and match it in the heading, you can put it in the button. You can also make one that's rounded. All that they are is a <span></span> with a class of "badge" and a color. Also notice that they scale based on the element they are inside of. Let's add a badge in our display-4 h2 with color badge-success and let's put a text called "New" inside the span:
+
+        <h1 class="display-1 text-center text-primary">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons <span class="badge badge-success">New</span></h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+
+Another useful place to use badges is in a navbar situation if there is an alert or in some sort of button to display the number of notifications or updates or changes. Let's do an example of that. Let's add a primary button with a badge inside: let's set the text to be Updates on the button and give the badge a badge-light color and an inside text of 9:
+
+        <h1 class="display-1 text-center text-primary">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons <span class="badge badge-success">New</span></h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <button class="btn btn-primary">Updates <span class="badge badge-light">9</span></button>
+
+So there we go, there's our little badge. We also have the ability to make one of them a pill. This just gives it a border radius on the corner. Let's try badge-pill on one of our badges. Let's put it on our h2's badge: 
+
+        <h1 class="display-1 text-center text-primary">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons <span class="badge badge-success badge-pill">New</span></h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <button class="btn btn-primary">Updates <span class="badge badge-light">9</span></button>
+
+So that's all there is to badges. Very simple. Another component we'll take a look at now is the button group https://getbootstrap.com/docs/5.1/components/button-group/ This will group multiple buttons together into a group. This is pretty common to use nice looking selects where an user picks one option instead of a radio button or a group of radio buttons. We're not going to worry about how that works because it involves some JavaScript, we're only going to look at the syntax. So if we have one than one button and we group them, we will give that containing element the class "btn-group" and it will significantly alter things. So let's an h3 saying "Button Groups" and let's make three buttons after it with class of btn-warning:
+
+        <h1 class="display-1 text-center text-primary">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons <span class="badge badge-success badge-pill">New</span></h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <button class="btn btn-primary">Updates <span class="badge badge-light">9</span></button>
+        <h3>Button Groups</h3>
+        <button class="btn btn-warning">One</button>
+        <button class="btn btn-warning">Two</button>
+        <button class="btn btn-warning">Three</button>
+
+So no group yet, they are all separate buttons. Now we're going to group them together with that class of btn-group used by a div which will surround the three buttons:
+
+        <h1 class="display-1 text-center text-primary">Bootstrap Playground</h1>
+        <h2 class="display-4">Buttons <span class="badge badge-success badge-pill">New</span></h2>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button class="btn btn-outline-warning">Warning Outline</button>
+        <button class="btn btn-outline-danger">Danger Outline</button>
+        <button class="btn btn-outline-info btn-lg">Info Outline</button>
+        <button class="btn btn-secondary btn-sm">SM Button</button>
+        <button type="button" class="btn btn-success" disabled>Success Disabled</button>
+        <button class="btn btn-primary">Updates <span class="badge badge-light">9</span></button>
+        <h3>Button Groups</h3>
+        <div class="btn-group">
+            <button class="btn btn-warning">One</button>
+            <button class="btn btn-warning">Two</button>
+            <button class="btn btn-warning">Three</button>
+        </div>
+
+Now they are a single group. It changes what those buttons looked like: we don't have margin inbetween them, the border radius changes and they are not curved on the inside, just the outside edges have that curve. So that's kind of cool. This can expand as many times as we want, we can change colors and so on. So that's button group. There is some important stuff around accessibility that we should be aware of here. If we are going to use these buttons in a group to make some sort of fancy radio button or a select instead of having three separate radio buttons, if they are somehow associated in a way where you are only supposed to pick one or they are different options for something, we should give the containing element the attribute role="group". This is going to indicate the screen readers that this is a group of buttons. 
+
+We can also make toolbars, we can also nest them, we can nest them and change their size with "btn-group-lg", "btn-group-sm" and so on. These are not something we need to spend a ton of time on but they're here and this is your brief intro. So that's button groups.
+
+Another component we'll look at is the alert. https://getbootstrap.com/docs/5.1/components/alerts/ alerts is supposed to provide some sort of feedback to your user: after some action, or when the page loads like "this was saved." or "this failed to save" or "you don't have permission to do that" or "welcome back" or "you have logged out" and that sort of thing. They can be used for other purposes but that's the main goal: to alert the user about something important or it doesn't have to be crucial but just bring the user's attention to some piece of information. The way that we do this is similar to buttons. We need a div or some element with the class of "alert" as the base class and then the color variant: alert-primary, alert-secondary and so on just as with buttons. This is the simplest one. Let's add one in our index.html. Let's add an <h3></h3> that says "Alerts" and then after it we'll do a div of class="alert alert-danger". Inside the div we'll put some text. We can also put other elements inside the alert if we wanted to like buttons. But let's put some basic text like: "Danger! You are about to end the world as we know it!"
+
+        <h3>Button Groups</h3>
+        <div class="btn-group">
+            <button class="btn btn-warning">One</button>
+            <button class="btn btn-warning">Two</button>
+            <button class="btn btn-warning">Three</button>
+        </div>
+        <h3>Alerts</h3>
+        <div class="alert alert-danger">
+            Danger! You are about to end the world as we know it!
+        </div>
+
+So that's one option. Of course we can change it to success, primary and so on. What we'd like to see here is that we can actually make them dismissable, we can add extra content and we can also have an alert heading. Let's also add an alert heading as an h4 with the class of "alert-heading" and the text "Oh No!":
+
+        <h3>Button Groups</h3>
+        <div class="btn-group">
+            <button class="btn btn-warning">One</button>
+            <button class="btn btn-warning">Two</button>
+            <button class="btn btn-warning">Three</button>
+        </div>
+        <h3>Alerts</h3>
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">Oh No!</h4>
+            Danger! You are about to end the world as we know it!
+        </div>
+
+Alright, let's now have a look a dismissable alerts. As on the Boostrap website, we can make an alert that has that x button and we can make it so that it actually dismisses the alert. Now, that involves some JavaScript. Fortunately we don't have to write any of it, but we do have to do something we have not yet seen. So we'll build this up one piece at a time and all we have to do to begin with is add in our button. This button can look like anything but typically we'll use an x. The x is not the letter x, it's a close icon and we can just use the letter x but a lot of people like to use the entity code to make the times symbol. That is &times; and is different from the normal x. So let's put that inside of a button and put a span with the entity for times inside it. We'll also add the aria-hidden="true" attribute from the website too:
+
+        <h3>Button Groups</h3>
+        <div class="btn-group">
+            <button class="btn btn-warning">One</button>
+            <button class="btn btn-warning">Two</button>
+            <button class="btn btn-warning">Three</button>
+        </div>
+        <h3>Alerts</h3>
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">Oh No!</h4>
+            Danger! You are about to end the world as we know it!
+            <button>
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+The aria-hidden attribute means that on screen readers, this does not need to be showing up at all, because a screen reader does not know what this is. So in order for the screen reader to read the corect thing we need to add the attribute aria-label="Close" to our button:
+
+        <h3>Button Groups</h3>
+        <div class="btn-group">
+            <button class="btn btn-warning">One</button>
+            <button class="btn btn-warning">Two</button>
+            <button class="btn btn-warning">Three</button>
+        </div>
+        <h3>Alerts</h3>
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">Oh No!</h4>
+            Danger! You are about to end the world as we know it!
+            <button aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+Now it looks kind of looks bad. So we can add the class="close" to our button to make it look better:
+
+        <h3>Alerts</h3>
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">Oh No!</h4>
+            Danger! You are about to end the world as we know it!
+            <button aria-label="Close" class="close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+So we made it look better but it's still not going to close it. So in order for that to work, we need to add a data-dismiss="alert" attribute. This comes from Boostrap. It is not something we have access to on any button we make.
+
+        <h3>Alerts</h3>
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">Oh No!</h4>
+            Danger! You are about to end the world as we know it!
+            <button aria-label="Close" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+So it does work, right away, we are able to dismiss. There is another thing we can do. We can actually add in to this alert "alert-dismissible fade show" classes:
+
+        <h3>Alerts</h3>
+        <div class="alert alert-danger alert-dismissible fade show">
+            <h4 class="alert-heading">Oh No!</h4>
+            Danger! You are about to end the world as we know it!
+            <button aria-label="Close" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+This is going to move the x up to the top right corner and it adds some nice little fade out instead of it being immediately removed. This is a reasonably large amount of classes compared to what we've seen but it's just from the docs. What we're still missing is the role="alert", let's add that attribute to our alert too:
+
+        <h3>Alerts</h3>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <h4 class="alert-heading">Oh No!</h4>
+            Danger! You are about to end the world as we know it!
+            <button aria-label="Close" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+This is very important for accessibility as it indicates to the screen reader that this is important information. Often these alerts will show on the page after the page has loaded. We'll do something and the alert appears. If we're looking at it it's easy to see there's stuff on the screen but most screen readers are not going to read out content that changes or just shows up unless we add on this role="alert". Again, we can copy and paste from the docs at any point if we are ever confused or we're not sure how these alerts work or any of these other things work. If we don't have JavaScript, the Bootstrap JavaScript files down at the bottom, this is not going to work at all. We still get the alert but it doesn't dismiss anymore. That's all thanks to the Bootstrap JavaScript file and the other two dependencies, about which we won't worry about now. So keep that in mind if you didn't include those scripts and you tried to make a dimissable alert, it won't work unless you do have those scripts. 
+
+We're going to take a break from the components side of things to talk about the grid system. We still have more components like form, inputs, navbars to talk about, but the grid is a nice distraction as it's easy and really useful. So we'll have a look at it now and not at the end. The grid system helps us lay out our content on a webpage and it helps us create responsive layouts where the division of space might change depending on a screen size. We've seen this before but watch how https://getbootstrap.com/docs/4.0/layout/grid/ everything shifts around depending on the screen size. The grid system works upon a couple of really important concepts: the first thing we have to understand is that it only works inside of a container. So we have to have a container or more than one container on a page, but there has to be a container class anytime we want to use a grid. The next thing we need to know is that we need to create a row using the class of "row". Let's now jump into our grid_starter/index.html file. This is a pretty empty html document where we've got Bootstrap included, a container and a heading. Now let's add a div with a class of "row" after the heading and inside the div class="container".
+
+<body>
+    <div class="container">
+        <h1 class="display-1 text-center text-primary">The Grid System</h1>
+        <div class="row">
+        
+        </div>
+    </div>
+
+This is not going to do much for us, but the content will go inside there. This is the most imporant piece to understand: every row in Bootstrap has 12 units of space to divvy up. So on the bootstrap website there are boxes that take 50% and 50% of line space: those are 6 units each. If you have 3 blocks each taking equal space then block are 4 units each and so on. The total is always 12 units.
+
+The next thing to know is that we need to create columns in our row. So that every piece that we want to divvy up in a row is going to be a column. There are a couple of different classes that we'll see but they all start with "col". For example "col-sm-4", "col-sm" or "col-4". These are all column classes that begin with "col". Alright so we'll see now the first most basic way of dividing up space using classes "col-" and then a number afterwards. So for example if we wanted 50% and 50% we'd do col-6 and col-6. Let's add two divs with col-6 one with bg-success and the other with bg-info with the containing text saying "I AM 6 UNITS"
+
+<body>
+    <div class="container">
+        <h1 class="display-1 text-center text-primary">The Grid System</h1>
+        <div class="row">
+            <div class="col-6 bg-success">I AM 6 UNITS</div>
+            <div class="col-6 bg-info"></div>
+        </div>
+    </div>
+
+So that's all twelve units. Now we can shift that around. We're not going to change the text right away. We'll just change the numbers and the bg-info to bg-danger. Let's do the first col- div col-4 and the second col-8
+
+<body>
+    <div class="container">
+        <h1 class="display-1 text-center text-primary">The Grid System</h1>
+        <div class="row">
+            <div class="col-4 bg-success">I AM 6 UNITS</div>
+            <div class="col-8 bg-danger"></div>
+        </div>
+    </div>
+
+or we can do col-2 and col-8:
+
+<body>
+    <div class="container">
+        <h1 class="display-1 text-center text-primary">The Grid System</h1>
+        <div class="row">
+            <div class="col-2 bg-success">I AM 6 UNITS</div>
+            <div class="col-8 bg-danger"></div>
+        </div>
+    </div>
+
+if we do that we're going to have extra space over there that's not being used. That's fine, we'll talk later about what we can do with extra space like center things, add that space between our columns and so on. We can add another one at the end with class col-2 and bg-success and change the text between the tags according to the size
+
+<body>
+    <div class="container">
+        <h1 class="display-1 text-center text-primary">The Grid System</h1>
+        <div class="row">
+            <div class="col-2 bg-success">I AM 2 UNITS</div>
+            <div class="col-8 bg-danger">I AM 8 UNITS</div>
+            <div class="col-2 bg-success">I AM 2 UNITS</div>
+        </div>
+    </div>
+
+now this adds up to twelve. We can also add another row down below and have something entirely different. A row is just twelve units going across the screen and we can divide let's do the new row col-6, col-3 and col-3 and give them bg-info, bg-warning and bg-info.
+
+<body>
+    <div class="container">
+        <h1 class="display-1 text-center text-primary">The Grid System</h1>
+        <div class="row">
+            <div class="col-2 bg-success">I AM 2 UNITS</div>
+            <div class="col-8 bg-danger">I AM 8 UNITS</div>
+            <div class="col-2 bg-success">I AM 2 UNITS</div>
+        </div>
+        <div class="row">
+            <div class="col-3 bg-info">I AM 3 UNITS</div>
+            <div class="col-6 bg-warning">I AM 6 UNITS</div>
+            <div class="col-3 bg-info">I AM 3 UNITS</div>
+        </div>
+    </div>
+
+So they still add up to twelve. We can put whatever content we want inside those columns, not just background color and text. We can put form elements if we want a nice form that we can lay out, we can put images and other components we have yet to see like cards. We can actually get a little bit lazier than this and say if we want equally sized columns we can do class="col" and if there are two of them they will split the space 6-6, if there are three: 4-4-4. It will automatically figure out how much space each of them needs. So let's add some right now, let's make a new div class="row" and add three divs with class="col" and bg-primary, bg-secondary and bg-primary colors. Let's have the text in the middle of the div say "I AM AUTO SIZED".
+
+<body>
+    <div class="container">
+        <h1 class="display-1 text-center text-primary">The Grid System</h1>
+        <div class="row">
+            <div class="col-2 bg-success">I AM 2 UNITS</div>
+            <div class="col-8 bg-danger">I AM 8 UNITS</div>
+            <div class="col-2 bg-success">I AM 2 UNITS</div>
+        </div>
+        <div class="row">
+            <div class="col-3 bg-info">I AM 3 UNITS</div>
+            <div class="col-6 bg-warning">I AM 6 UNITS</div>
+            <div class="col-3 bg-info">I AM 3 UNITS</div>
+        </div>
+        <div class="row">
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+            <div class="col bg-secondary">I AM AUTO SIZED</div>
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+        </div>
+    </div>
+
+ If we double take a div out or add one more, they will still share the space equally. What's intereseting is that we can make one "col-10" for example and it will be 9 units and it will not autosize while the others will have to figure out for themselves how to split up the remaining space. This shows that we can do a mixture of autosized and sized columns. 
+
+ Alright so to recap the basics here: you need to have a container. That container can also be a fluid container - which is a full-width container - and we can nest containers inside of containers. Then we create our rows. A row is something with a class of row, typically a div. It can also be a section. It doesn't really represent anything itself. It's just there to help spread out or structure the content or lay it out. We have twelve units withing each row. We can divide those up however we want. We use "col-" and some number to create our column sizes or just "col" to create an automatically sized or autosized column that will share the space that is left over if we have some already divvied up like did in our example.
+
+ Now we get into the meat of the grid system. The most important part, the most exciting part, which is how we can create responsive layouts and shift content around based upon the screen size. So the way that we do this hinges upon the built in breakpoints in Boostrap. We briefly talked about them, they are different sizes that are predefined. So we have small 576-768px, below 576px is considered extra small. We also have medium large and xl for greater than 1200px wide. These are all predefined sizes and we can reference them at any point using the grid system. So we can have a 50-5 split on large and xl screens but on medium small and xs we might have 12 units and 12 units, in other words two full rows instead of sharing any space. There are a bunch of classes that help us do this. They all use these breakpoint sizes in the class names. We have things like "col-8" as we've seen but we also have "col-sm-8" or "col-lg-6". Let's demonstrate this by making a new section in our index.html. Let's first make an h2 with class "display-4" which says "Responsive Grid". Below that let's add a div with class row:
+
+        <div class="row">
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+            <div class="col bg-secondary">I AM AUTO SIZED</div>
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+        </div>
+        <h2 class="display-4">Responsive Grid</h2>
+        <div class="row"></div>
+    </div>
+
+Inside the class="row" div we'll put two divs of class col-6 to make them 50-50 with some lorem ipsum text inside them:
+
+        <div class="row">
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+            <div class="col bg-secondary">I AM AUTO SIZED</div>
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+        </div>
+        <h2 class="display-4">Responsive Grid</h2>
+        <div class="row">
+            <div class="col-6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+        </div>
+    </div>
+
+Alright, what if we want them at the small and below breakpoint to go all the way across on their own and not share space anymore. What we can do then is use "col-md-6" on them. Let's add it to them:
+
+        <div class="row">
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+            <div class="col bg-secondary">I AM AUTO SIZED</div>
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+        </div>
+        <h2 class="display-4">Responsive Grid</h2>
+        <div class="row">
+            <div class="col-md-6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-md-6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+        </div>
+    </div>
+
+The way we would read this "col-md-6" is: after the medium breakpoint and up, it should take up six units, everything below is assumed that it goes all the way across. So if we shrink the page down, they stack and as we make it larger, they take 6 units of space each. Let's give them a bg-info and bg-success to them to see them better.
+
+        <div class="row">
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+            <div class="col bg-secondary">I AM AUTO SIZED</div>
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+        </div>
+        <h2 class="display-4">Responsive Grid</h2>
+        <div class="row">
+            <div class="col-md-6 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-md-6 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+        </div>
+    </div> 
+
+So we have all these different sizes. Let's say we have four of them. Let's add two more divs by copying the last two and pasting them in:
+
+        <div class="row">
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+            <div class="col bg-secondary">I AM AUTO SIZED</div>
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+        </div>
+        <h2 class="display-4">Responsive Grid</h2>
+        <div class="row">
+            <div class="col-md-6 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-md-6 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-md-6 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-md-6 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+        </div>
+    </div> 
+
+So let's say we wanted to have four across when we made the screen larger. We can achieve this by adding "col-xl-3".
+
+        <div class="row">
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+            <div class="col bg-secondary">I AM AUTO SIZED</div>
+            <div class="col bg-primary">I AM AUTO SIZED</div>
+        </div>
+        <h2 class="display-4">Responsive Grid</h2>
+        <div class="row">
+            <div class="col-md-6 col-xl-3 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-md-6 col-xl-3 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-md-6 col-xl-3 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+            <div class="col-md-6 col-xl-3 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor consequatur voluptatem eligendi ducimus.
+                Expedita quia omnis, at itaque illo nemo dolorem aperiam. Rerum magnam eveniet dicta vel rem dolorem
+                voluptatem.
+            </div>
+        </div>
+    </div> 
+
+Now they go all the way across at small, we hit medium and they go 50-50, we go xl and they go 3-3-3-3 which adds up to twelve. So we read "col-xl-3" as do whatever until width size xl and then from there occupy 3 units. And we apply this to our four divs. If we were to overflow this: this means giving each of them "col-xl-4" this means that the four of them will not fit on the page. The last one will be put on a separate row. We can try this now. But still the same principle applies when we go from small to medium and from medium to xl as they change their spacing. We can specify sizes however we like. Often what we do is have them get smaller or take up less space as the screen gets wider. It's not that common to have the inverse relationship. Usually on a wider screen, our elements don't need that much room versus on a smaller screen we'll have them take up more units of space across the row. 
+
+Let's do one more example here. Let's add a new div class="row" and put three images in there with img:
+
+        <div class="row">
+                <img src="https://images.unsplash.com/photo-1589595363745-d842812a9db7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+                <img src="https://images.unsplash.com/photo-1511692277506-3be3a7ab1686?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+                <img src="https://images.unsplash.com/photo-1497206365907-f5e630693df0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+        </div>
+
+Take these links, they are some free images from unsplash. Now we're going to use a new class that we have not yet seen for responsive images. It's called "img-fluid". It's pretty straightforward, it makes the image scale based upon the size of its containing element. So if we put a "img-fluid" inside a column and that column changes size, the image changes size too. So let's give them all a class of "img-fluid" and wrap each one in a div with class="col"
+
+        <div class="row">
+            <div class="col">
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1589595363745-d842812a9db7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+            <div class="col">
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1511692277506-3be3a7ab1686?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+            <div class="col">            
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1497206365907-f5e630693df0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+        </div>
+
+Now they are all in a column, equally sized. They are not responsive yet. A quick note: if you are using different images and they are different heights, they're not going to be the same height in your row. You can change how your image displays. We are using here three square images but we're focusing on the width, the amount of space they take out horizontally, anyway. So what we'd like to do now is have them go three in a row on extra large and large but then two across on medium and then just one across for smaller. So let's add "col-xl-4" to our images' divs for extra large so that we have three across on size xl or greater than xl.
+
+        <div class="row">
+            <div class="col col-xl-4">
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1589595363745-d842812a9db7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+            <div class="col col-xl-4">
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1511692277506-3be3a7ab1686?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+            <div class="col col-xl-4">            
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1497206365907-f5e630693df0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+        </div>
+
+Now we want something inbetween because just before the xl breakpoint, the images are kind of large. The images are cropped to 800px width from unsplash and in the case of other images which are larger than that they would just occupy the whole width of the screen if smaller than extra large. So let's make them take up from medium and above six units. That would be "col-md-6" to be added to all three images' divs class:
+
+        <div class="row">
+            <div class="col col-xl-4 col-md-6">
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1589595363745-d842812a9db7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+            <div class="col col-xl-4 col-md-6">
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1511692277506-3be3a7ab1686?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+            <div class="col col-xl-4 col-md-6">            
+                <img class="img-fluid" src="https://images.unsplash.com/photo-1497206365907-f5e630693df0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                    alt="">
+            </div>
+        </div>
+
+This give full width across on small up until medium class where we go 50% with 6 units then we go to 4 units from xl. One other thing to mention here is the gutter, the spacing, there is a variation of the grid, or of the row rather where we can mention a class called "no-gutters" (see docs page), if we wanted to eliminate the space inbetween. If we wanted to use it we would need to write "row no-gutters". But it looks kind nice with them there so we'll keep them as they are for now.
+
+Alright this was our intro to responsive classes for our grid system. Remember: 12 units which we can divvy them up however we want and we can do that on a breakpoint basis. So from small and above I want this or rather from medium and above take up six units and actually from xl and above I want four. So it's alwasy from this breakpoint and above unless we specify something else.
+
+Next up we'll have a look at some helper classes, some nice utilities that we can use to align our content. So a couple of things upfront: one, remember our flex-box, we talked about flex-box and terms like align-items, justify-content and so on, well those are actually used in boostrap. Boostrap uses flex-box terminology because it's actually built on top of flex-box. Let's actually get something to align right now. Let's put the following code just after the "Responsive Grid" div and make an h2 that says "Grid Alignment". After that we'll make four one div with class="row" and inside it four other divs with lorem ipsum inside them and give them a class="col-3". The first one should have bg-danger, the next one bg-warning, the next bg-success and the last bg-info. 
+
+        <h2>Grid Alignment</h2>
+        <div class="row">
+            <div class="col-3 bg-danger">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+            <div class="col-3 bg-warning">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. 
+            </div>
+            <div class="col-3 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. 
+            </div>
+            <div class="col-3 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+        </div>
+
+They are all lorem ipsum and are exactly the same height. Let's make one of them twice the height. Let's try the success one. Let's add one more lorem ipsum in there:
+
+        <h2>Grid Alignment</h2>
+        <div class="row">
+            <div class="col-3 bg-danger">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+            <div class="col-3 bg-warning">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. 
+            </div>
+            <div class="col-3 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. Lorem
+                ipsum dolor sit amet consectetur adipisicing elit. Similique, blanditiis nisi fugiat vel unde ratione
+                aliquam incidunt provident sit, voluptates excepturi aspernatur aliquid ullam eaque eum nobis hic,
+                delectus corporis!
+            </div>
+            <div class="col-3 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+        </div>
+
+Alright now we have some extra space. We can see now theat they are all growing to take up that same height as that green box. Maybe that's not what we want, maybe we want all the other ones to be aligned at the top and to not stretch to take up that whole height, or maybe we want them to be centered, or maybe we want them aligned to the bottom. Well fortunately we have these classes we can use: align-items-start, align-items-center, align-items-end. With these classes we can vertically align our content. Thinking back to flex-box, how align items works: it works in the cross axis (which here is up and down). Our grid is built using flex-box already because we have the class of the main div set to "row" and if we inspect it with f12, we'll see that it has display: flex set to it. This gets set automatically when we put class="row" to our div. So we could manually go in and set the actual CSS that says align-items: center or align-items: start and so on. Or we can use the flex-box helpers. So that's what we're going to do. So first let's find the row div and set the align-items-center on it. 
+
+        <h2>Grid Alignment</h2>
+        <div class="row align-items-center">
+            <div class="col-3 bg-danger">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+            <div class="col-3 bg-warning">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. 
+            </div>
+            <div class="col-3 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. Lorem
+                ipsum dolor sit amet consectetur adipisicing elit. Similique, blanditiis nisi fugiat vel unde ratione
+                aliquam incidunt provident sit, voluptates excepturi aspernatur aliquid ullam eaque eum nobis hic,
+                delectus corporis!
+            </div>
+            <div class="col-3 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+        </div>
+
+We can also set it to align-items-end, or align-items-start. Center is used pretty frequently if we have content that is not exactly the same size, if we're making a product card where there are three subscription choices and there's information about each one, we can center align them together. So if we made the yellow - warning one - three times larger with lorem*2. It should look decent. Let's try it now:
+
+        <h2>Grid Alignment</h2>
+        <div class="row align-items-center">
+            <div class="col-3 bg-danger">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+            <div class="col-3 bg-warning">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. Lorem
+                ipsum dolor sit amet, consectetur adipisicing elit. Nisi quidem adipisci deleniti voluptatum sapiente
+                autem, veniam nostrum ipsum voluptatibus, voluptas non soluta accusantium amet suscipit, sint veritatis
+                dolorum commodi asperiores!Minima, id, a doloremque corporis qui non laborum reiciendis, at
+                necessitatibus harum dolorem tenetur quos nesciunt ratione aliquam aperiam beatae dolor nam. Iste
+                similique sequi vitae nesciunt cumque! Distinctio, assumenda?
+            </div>
+            <div class="col-3 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. Lorem
+                ipsum dolor sit amet consectetur adipisicing elit. Similique, blanditiis nisi fugiat vel unde ratione
+                aliquam incidunt provident sit, voluptates excepturi aspernatur aliquid ullam eaque eum nobis hic,
+                delectus corporis!
+            </div>
+            <div class="col-3 bg-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+        </div>
+
+So that's align items. Just like in flex-box, we can also control the alignment of a single column using align-self. We have align-self-start, align-self-center and align-self-end. Let's demonstrate this on our example, by aligning the blue one to the end:
+
+        <h2>Grid Alignment</h2>
+        <div class="row align-items-center">
+            <div class="col-3 bg-danger">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+            <div class="col-3 bg-warning">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. Lorem
+                ipsum dolor sit amet, consectetur adipisicing elit. Nisi quidem adipisci deleniti voluptatum sapiente
+                autem, veniam nostrum ipsum voluptatibus, voluptas non soluta accusantium amet suscipit, sint veritatis
+                dolorum commodi asperiores!Minima, id, a doloremque corporis qui non laborum reiciendis, at
+                necessitatibus harum dolorem tenetur quos nesciunt ratione aliquam aperiam beatae dolor nam. Iste
+                similique sequi vitae nesciunt cumque! Distinctio, assumenda?
+            </div>
+            <div class="col-3 bg-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit. Lorem
+                ipsum dolor sit amet consectetur adipisicing elit. Similique, blanditiis nisi fugiat vel unde ratione
+                aliquam incidunt provident sit, voluptates excepturi aspernatur aliquid ullam eaque eum nobis hic,
+                delectus corporis!
+            </div>
+            <div class="col-3 bg-info align-self-end">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quos quam minus recusandae nisi culpa,
+                in eius beatae quae blanditiis aliquam. Eum cumque ut atque fuga dolorem fugiat est suscipit.
+            </div>
+        </div>        
+
+Just to reiterate what's happening behind the scenes let's hit f12 for dev tools and look at the blue div and see what styles it has. We should notice that it has align-self: flex-end. So we can do that on our own too, we can do all of it on our own but the point of Bootstrap is to simplify that process. This is why we looked into flex-box first otherwise this terminology would of be very confusing if we didn't know what aling-self or justify-content are. 
+
+Speaking of justify-content, we have a set of utility classes justify-content-start, justify-content-center, justify-content-end, justify-content-around, justify-content-between. We can use them to control the horizontal spacing. Right now there's not a lot for us to control here, because our divs are taking up 100% of the space, but let's do something slightly different.  Let's make another row with an h3 that says "Justify Content" under our "Grid Alignment". Let's add a div with class="row" and a div inside it with class="col-4 bg-primary" and some lorem ipsum text inside it:
+
+        <h3>Justify Content</h3>
+        <div class="row">
+            <div class="col-4 bg-primary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+        </div>
+
+Right now we have a lot of extra space. We can actually add a border to our row div. Bootstrap gives us also a class called border that we can add to our elements.
+
+        <h3>Justify Content</h3>
+        <div class="row border">
+            <div class="col-4 bg-primary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+        </div>
+
+Now we can see the extra space better. Let's duplicate the div with class="col-md-4 bg-primary" and give it bg-info as the color:
+
+        <h3>Justify Content</h3>
+        <div class="row border">
+            <div class="col-4 bg-primary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+            <div class="col-4 bg-info">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+        </div>
+
+Ok, so we've got that extra space and by default, our elements are just aligned to the start of the main axis just at the left side of our row. But instead if we wanted them to move to the right or to split that space between them, we have for that justify-content helper classes. justify-content-start is what's happening now, so let's change the div row class and add to it justify-content-center:
+
+        <h3>Justify Content</h3>
+        <div class="row border justify-content-center">
+            <div class="col-4 bg-primary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+            <div class="col-4 bg-info">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+        </div>
+
+We can also try justify-content-end or justify-content-between. Just as with align-items this is just adding regular old flex-box properties that we already know. It's just an easier way of doing it, we don't have to touch our stylesheet. We haven't written anything, we have an empty app.css. It's still not pretty but we're laying things out without having to touch CSS. We just have to use the right classes. 
+
+What we haven't covered yet is that all of these utility classes actually have different variants for different screen sizes or different breakpoints. https://getbootstrap.com/docs/4.0/utilities/flex/ So justify-content-start can also have justify-content-sm-start so that it goes to start when the size is equal to or greater than small. We can use all these variants because sometime it's not enough to say "I want this to be centered, always". We might want to dynamically change that depending on the size of the screen. The same applies for align-items and align-self, all of these have these different breakpoint variants. We're not going to cover a ton of examples here but we'll just demonstrate this. Let's have a look at what we have now for "Justify Content". We'll give them col-md-4 instead of col-4 for the two inside divs:
+
+        <h3>Justify Content</h3>
+        <div class="row border justify-content-center">
+            <div class="col-md-4 bg-primary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+            <div class="col-md-4 bg-info">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+        </div>
+
+Now on smaller screens they just stack up in a column. Let's say on a bigger screen size we want them to move left. For that we would need to add justify-content-lg-start to the div with class row.
+
+        <h3>Justify Content</h3>
+        <div class="row border justify-content-center justify-content-lg-start">
+            <div class="col-md-4 bg-primary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+            <div class="col-md-4 bg-info">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+        </div>
+
+And then they move. Let's say for extra large we want them to go to space between. For that we need to add "justify-content-xl-between" to our div with class="row":
+
+        <h3>Justify Content</h3>
+        <div class="row border justify-content-center justify-content-lg-start justify-content-xl-between">
+            <div class="col-md-4 bg-primary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+            <div class="col-md-4 bg-info">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, vero iure provident, officia saepe
+                soluta accusantium repellat sunt repellendus fugit iste deleniti, blanditiis eveniet hic quas a ipsa
+                amet dolore?
+            </div>
+        </div>
+
+There we go. So when they start out there is no space, then we center them at medium and above and then from large and above they go to the left - flex-start and from extra large and above to space-between. The same thing holds true for other utilities for alignment: align-self and aling-items. They all have these variants where you can specify different versions at different breakpoints or different sizes. They are not that commonly used but there might be times where we need to redistribute the space depending on the size.
+
+So that's pretty much it for the grid. There's quite a lot to it but we'll get some practice as we'll build some layouts in projects. And we'll get more experience with it.
+
+Now let's talk about forms in Bootstrap. https://getbootstrap.com/docs/4.0/components/forms/ There are a lot of components for forms, but we'll cover the basics, some of the most important ones. Forms can be annoying to style, to make look nice, to lay them out, but Bootstrap makes it very easy. The first core component, the first class-name we need to know is called "form-control" and this is what we put on the input itself. So if we have a text input, an email input, a password input, a number input or whatever it is, we use class="form-control" and that's going to give use a nicer looking form input. So we would get some custom styles that come from Bootstrap (see forms page on Bootstrap), we can change them and overwrite them but the defaults look pretty good. On the div we can see another class called "form-group" that is used to group together a label and an input. It doesn't do a whole lot, as per Bootstrap's explaination: it's a flexible class that encourages the grouping of labels, controls, optional help text and form validation messaging. So it's just going to apply some margin and it will group things together. 
+
+So let's jump into our forms_starter/index.html file. Let's make a simple form here. It's just an h1 and it's got Bootstrap included for the moment. Let's add in a <form></form> and have it go with action="#nowhere". 
+
+        <form action="#nowhere">
+            
+        </form>
+
+Inside the form we'll start by adding a "form-group" div:
+
+        <form action="#nowhere">
+            <div class="form-group">
+            
+            </div>
+        </form>
+
+Inside of it we'll add a label with for="email" and the text between the tags will be "Email":
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+            </div>
+        </form>
+
+Then we'll add our inputs where type="email" and class="form-control", that's the Bootstrap class, we'll give it id="email" and a placeholder="Email":
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+        </form>
+
+Alright, there we are, this is our email. We've got our first form control. Notice that it goes all the way across, it takes the entire width of the containing element. But if we think back to the grid system, this means that we can use these form inputs and controls to lay them out using the grid so that we can create forms that look nicer, where we can have inputs sharing a row or three inputs across. We'll play with that in a moment. Let's now make one more "form-group" here for password. Let's copy the first div "form-group" and replace all "email" with "password"
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="password">
+            </div>
+        </form>
+
+We can actually use the same class of "form-control" to make a select, a multi-select, a text-area. Let's do a select maybe for state, we'll have the user pick a state. So we just need to use "form-control" on the select and then a label and a "form-group" div. These last two are not mandatory but they are always a good idea. So let's add first a div "form-group", then a label for="state" with the text between tags "State" and the <select name="state" id="state"></select>
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="password">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select name="state" id="state">
+                
+                </select>
+            </div>            
+        </form>
+
+Now let's add two in the <option value="AL">Alabama</option> and another option the same for AK Alaska, we're not going to do all 50 options:
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="password">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+        </form>
+
+So right now we do not have form-control set on our select. Let's add it in now with clas="form-control":
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="password">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+        </form>
+
+Now it looks significantly better. Alright that's how we can use form-control for selects and the same things goes for multi-selects and textarea. So it should be pretty straightforward now. We can make inputs larger and smaller using "form-control-lg" and "form-control-sm". We can do that for selects as well. Now checkboxes and radio buttons are a bit different. Without going into too much detail: changing the appearance of a checkbox in our browser is not as easy as we might think. We cannot do things like change the border size or the color. There are different things that are more challenging to do compared to a regular input like a text input or a password input. We have one option which is to use the browser's checkbox, use a class called "form-check" which sets the spacing slightly differently. Let's copy the code from https://getbootstrap.com/docs/4.0/components/forms/#default-stacked and add it after our states form and let's change the text of the label to "Sign Me Up":
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="password">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                    Default checkbox
+                </label>
+            </div>
+        </form>
+
+It's just a class of "form-check" for the div, then we have our checkbox and then we have our label. They each have a "form-check-label" label and a "form-check-input" class. There is also another option if we go down on the Boostrap website for custom form inputs. Boostrap comes with it's own customized versions that are brand new elements that are completely different than the browser's defaults. https://getbootstrap.com/docs/4.0/components/forms/#checkboxes This checkbox may not look radically different but it is. There's some animation, glow, the icon is different, the corner is rounded. This is a customized checkbox. There is a lot of work that goes into making that. What actually happens is that there is a hidden checkbox, a regular browser checkbox, that we cannot see and then there is this customized one on top and they are linked together. So without going into too much details, we'll just going to copy this checkbox from Bootstrap. And we'll see that it uses a class containing two classes called "custom-control custom-checkbox", then we have our checkbox and our label. Let's paste it in after our default browser checkbox so that we can compare them:
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="password">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                    Default checkbox
+                </label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+            </div>            
+        </form>
+
+It provides a nicer experience, it's also more work but with Boostrap we can just reference the docs and copy what we need and tweek it. So let's use the custom one and delete the old default one. Let's also change the text to "Sign Me Up" on the label. Let's also change the id="tos" which means terms of service. on the input and the for="tos" in the label too:
+
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="password">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+So there are lots of classes involved, but it's worth it. The same thing goes for radio buttons. We can get custom radio buttons that have little glow effect and look nicer. We can also do switches, which are built on top of a checkbox too, but we're not going to see the checkbox, we're going to see the custom switch that boostrap adds on top for us. There are also customized selects, where they have a slightly different interface. We also have customized range input. There are lots of options. We don't have to go through all of them, we can always find what we need in the docs. 
+
+The last thing we need to see here is creating form layouts. How we can break this form up, so it's not just everything on its own line, a super long long form. There's probably a better way of doing this. So there is. We can use the grid system. Let's say we want the email and password to go side by side, those look way too long. Let's start there. It's as simple as puttin them in a row and using column classes. For example we can create a "row" div and group those two inside it and we can also give the email and password divs an extra "col" class:
+
+        <form action="#nowhere">
+            <div class="row">
+                <div class="form-group col">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+Now they will share that space. Now there is a different class that we can use, it's called "form-row". It's very similar to row, it just changes the default spacing, that gutter size, so that our forms are little more compact. So let's do that instead and make the main div class="row", class="form-row":
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+So email and password go a little bit closer together. Let's expand upon our form and add another input for street address just after password on a new separate row. So that means a new div with class "form-group" without the col, a label with for="address" and the inside tag text "Street Address", an input of type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St":
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+Now what we probably want to do is make email and password take up a full row because they are getting too cramped on smaller screen sizes. So we know exactly how to do that. So instead of "col" we can just say "col-md-6", meaning that anything below that, will take the entire line. 
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+State is kind of large for a full row, so let's add in city text field just after address with div class="form-group, label for="city" and text inside "City" and input type="text" class="form-control" id="city":
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city">
+            </div>   
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+It now takes its own like too, but what we'd like it to do is share its space with state. Let's also add a zipcode text field the same way we added the city one, just after state this time with the inside text "Zip Code" and id="zip":
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city">
+            </div>   
+            <div class="form-group">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                </select>
+            </div>            
+            <div class="form-group">
+                <label for="zip">Zip Code</label>
+                <input type="text" class="form-control" id="zip">
+            </div>   
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+Alright so we want all of them to be in a row together and they're going to share the space. So we're going to create a "form-row" div around those last three:
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city">
+                </div>   
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select class="form-control" name="state" id="state">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                    </select>
+                </div>            
+                <div class="form-group">
+                    <label for="zip">Zip Code</label>
+                    <input type="text" class="form-control" id="zip">
+                </div>   
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+Okay, now we need to distribute the space between them. So we want city to take up the most space, let's try with col-6 on city and col-3 for zip and state.
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city">
+                </div>   
+                <div class="form-group col-3">
+                    <label for="state">State</label>
+                    <select class="form-control" name="state" id="state">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                    </select>
+                </div>            
+                <div class="form-group col-3">
+                    <label for="zip">Zip Code</label>
+                    <input type="text" class="form-control" id="zip">
+                </div>   
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+Alright but that's going to be a little cramped on small sizes. So we'll have that happen on medium and greater. So let's change col-6 and col-3 to col-md-6 and col-md-3:
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city">
+                </div>   
+                <div class="form-group col-md-3">
+                    <label for="state">State</label>
+                    <select class="form-control" name="state" id="state">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                    </select>
+                </div>            
+                <div class="form-group col-md-3">
+                    <label for="zip">Zip Code</label>
+                    <input type="text" class="form-control" id="zip">
+                </div>   
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+Here we could actually have zip and state share the space on small sizes. So let's give them an extra class of "col-6":
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city">
+                </div>   
+                <div class="form-group col-md-3 col-6">
+                    <label for="state">State</label>
+                    <select class="form-control" name="state" id="state">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                    </select>
+                </div>            
+                <div class="form-group col-md-3 col-6">
+                    <label for="zip">Zip Code</label>
+                    <input type="text" class="form-control" id="zip">
+                </div>   
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>            
+        </form>
+
+Now they share the same space for when the page is smaller than the medium size checkpoint. When it hits the medium mark, it will go to 6-3-3. It looks better, it's responsive, it looks decent on mobile. It's also missing a button at the very end, so let's add one now after the "Sign Me Up" checkbox with type="submit" class="btn btn-success and the text "Register":
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city">
+                </div>   
+                <div class="form-group col-md-3 col-6">
+                    <label for="state">State</label>
+                    <select class="form-control" name="state" id="state">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                    </select>
+                </div>            
+                <div class="form-group col-md-3 col-6">
+                    <label for="zip">Zip Code</label>
+                    <input type="text" class="form-control" id="zip">
+                </div>   
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="tos">
+                <label class="custom-control-label" for="tos">Sign Me Up</label>
+            </div>          
+            <button type="submit" class="btn-success">Register</button>
+        </form>
+
+It's a little bit cramped, because we don't have a "form-group" around that checkbox. So let's add such a div around the checkbox and the newly added button:
+
+        <form action="#nowhere">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="923 Chicken Ranch St">
+            </div>    
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city">
+                </div>   
+                <div class="form-group col-md-3 col-6">
+                    <label for="state">State</label>
+                    <select class="form-control" name="state" id="state">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                    </select>
+                </div>            
+                <div class="form-group col-md-3 col-6">
+                    <label for="zip">Zip Code</label>
+                    <input type="text" class="form-control" id="zip">
+                </div>   
+            </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="tos">
+                    <label class="custom-control-label" for="tos">Sign Me Up</label>
+                </div>          
+                <button type="submit" class="btn-success">Register</button>
+            </div>
+        </form>
+
+Of course, there are also other ways of adding some margin there but that's the easiest way in a form, just to keep the spacing consistent. So there we go, we got a relative nice looking form using Bootstrap. It's responsive, we layed it out exactly how we wanted, we can change the size of these inputs. There are some core concepts such as the "form-group" class and the "form-control" class that we've applied to most of the standard inputs and then we can get fancier with custom inputs like custom checkboxes and radio buttons and toggle switches. But this is really the core stuff we need to know for now. So that was a rough intro to forms in Boostrap. 
+
+Next up we'll cover one of the most important components, probably the signature Boostrap component aside from the grid system, which is the navbar. Navbars are usually found on on every website these days. It can be a lot of work making our own, especially if we're making a responsive navbar that's also accessible and also looks good. https://getbootstrap.com/docs/4.0/components/navbar/ So if look at the navbar from the bootstrap website we can see that it changes shape as some of its content moves around and shrinks and then it stacks. There is also another navbar from serach where there is an expandable or collapsable drawer. It's also called a burger menu. Let's find another quick example on the navbard docs: we can have a simple one where we don't have much going on, just some couple of links, we can have one with forms embedded and the behaviour here is that it collapses into a drawer shape when we shrink the page. There are different ways of collapsing, changing colors and so on. Like everything in Bootstrap, we can do this on our on, but it's just a lot of work. So we can customize these - change the color, the font, the height - but the core mechanic of having a collapsable navbar that works well on both small and large screen sizes is what draws people to using the navbar component. It is also not unusual to ferget the navbar syntax, that's why we need to refer back to the docs when we don't remember something. So don't feel pressured to recall this. Compared to the grid system or button components, it is a bit more syntax to remember. 
+
+Let's start nice and simple and make the easiest navbar: https://getbootstrap.com/docs/4.0/components/navbar/#brand It has a "navbar-brand", which is a class we use to create the title, the main branding for the navbar - often there will be a logo next to it as on Bootstrap on the left side. All we need to do is create a <nav></nav> with the class of navbar, navbar-light or -dark and then pick the background with bg-light. Let's copy this directly into our navbars_starter/index.html in the body:
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+
+This document only has boostrap included so far. There is nothing in there, nothing to collapse, there's only the brand. For the brand we can use the "h1" class to make it larger like in the documentation. Let's copy this navbar and change the navbar-light to navbar-dark and see what that actually changes:
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+
+You might think that this changes the background but it does not. It's simply changing the text. Then we can change the background to be whatever we want using CSS or we can set it for example to "bg-primary":
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+
+And now we have a blue navbar with light text. So the navbar-dark is for the text of the navbar, not for the background. If we wanted to add images in for a logo, we can do that too. We can embed an image inside that navbar brand. After that we can add a bunch of links in. This is pretty common: navigation -> we have nav links. There are a couple of ways we can do this. We can use an <ul></ul> with a bunch of li's or what's easier is to use just a div with a bunch of anchor tags inside of it just because the markup is shorter. Even like that https://getbootstrap.com/docs/4.0/components/navbar/#nav there is still a lot here. If we look at the docs it's pretty complex. We can add some as "active", "disabled"  and so on. Let's add some anchor tags to our second navbar. First let's make a div with class "navbar-nav" after our "Navbar" anchor tag:
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <div class="navbar-nav">
+
+        </div>
+    </nav>
+
+and inside of that let's make an anchor tag for hred="Home" class="nav-item nav-link" and inner text "Home":
+
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <div class="navbar-nav">
+                <a href="Home" class="nav-item nav-link">Home</a>
+        </div>
+    </nav>
+
+let's now duplicate that anchor tag two times to make a link with inner text "About" and the other one "Contact":
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <div class="navbar-nav">
+                <a href="Home" class="nav-item nav-link">Home</a>
+                <a href="Home" class="nav-item nav-link">About</a>
+                <a href="Home" class="nav-item nav-link">Contact</a>
+        </div>
+    </nav>
+
+Hmm, they don't really look as we were expecting to. What happened? We're missing a copule of things to make this work. We skipped unfortunately over some markup. We need to wrap our div class="navbar-nav" into another div with class="collapse navbar-collapse"
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+Now our content is now gone entirely. What happened? This has to do with what the collapse class does. The collapse plugin is part of bootstrap and we can use to collapse things, show and hide them to make for example a little accordeon. What we need to do now is add in another class called "navbar-expand" and then some size -lg or whatever to our first nav. Let's do "navbar-expand-sm":
+
+    <nav class="navbar navbar-light bg-light navbar-expand-sm">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+This is going to indicate to bootstrap when we want the collapse to stop and when we want it to expand. This is what we've just added. So our links go away on xs, sm and md until we hit lg and they show up. We're still missing an important piece though and that is how do we get that drawer toggle thing to work, to see the content. What we need to add now is our navbar-toggler button. This is going to create what people call the hamburger icon on the right side. So the way that we do this is a bit different: first we create a button after the "Navbar" anchor tag with the class of "navbar-toggler" and we put sa span inside it with the class "navbar-toggler-icon"  
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </na navbar-expand-smv>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+It appears but it does not do anything. We now need to connect it to the div class="collapse", the thing that's collapsing. The way we do this is by setting a data-target attribute and a data-toggle on our button. We'll set data-target="collapse" and data-toggle="#expandme". We also need to add an id="expandme" to the div class="collapse", the parent of our navbar nav div:
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-sm">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" data-target="#expandme"  data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="expandme">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+Now if we click on it, it should work. We must have JavaScript here. If we don't have JavaScript included it will not work. This is one of those examples where you need those scripts. We can also put other content inside our navbar such as dropdown menus, forms and so on. Let's try to add a search form https://getbootstrap.com/docs/4.0/components/navbar/#forms let's just copy the code:
+
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
+and paste this just avter our "navbar-nav" div inside our collapse div:
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-sm">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" data-target="#expandme"  data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="expandme">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+It kind of looks alright, but let's try moving it to the right handside. There are a couple of ways of doing these. The easiest one is using a class we haven't seen yet: "ml-auto". So let's add it
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-sm">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" data-target="#expandme"  data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="expandme">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+            <form class="form-inline ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+This is going to set the margin left to be auto on the whole form. We can also do it on our own. Let's also change the color of the search button from btn-outline-success to -light:
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-sm">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" data-target="#expandme"  data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="expandme">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+            <form class="form-inline ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+Now it looks better. We can also add a div "container" inside a navbar so that the content is constrained a bit inside the navbar. And there is a lot more to navbars, we can make much fancier navbars with a lot more content in them, we can make custom color schemes by setting the background color in them on the navbar itself and so on. Or we can place them differently, for example fixed to the top of the screen. Right now we cannot get a good feel for this. Let's add a bunch of content at the end of the screen inside a div class="container" to make the page full:
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-sm">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" data-target="#expandme"  data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="expandme">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+            <form class="form-inline ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container">lorem*100</div>
+
+lorem*100 100 times lorem ipsum. So now we have some stuff to scroll through. The default is that our navbar just goes away as we scroll, but we have some options here. We can change the placement to be "fixed-top". Let's comment out the first nav and give the second one that "fixed-top" class:
+
+    <!-- <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </nav> -->
+    <nav class="navbar navbar-dark bg-primary navbar-expand-sm fixed-top">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" data-target="#expandme"  data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="expandme">
+            <div class="navbar-nav">
+                    <a href="Home" class="nav-item nav-link">Home</a>
+                    <a href="Home" class="nav-item nav-link">About</a>
+                    <a href="Home" class="nav-item nav-link">Contact</a>
+            </div>
+            <form class="form-inline ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container">lorem*100</div>
+
+Now it's fixed to the top as we scroll. The other option is "fixed-bottom". We might need this if we want also a footer that stays in place. The last one is a "sticky-top". When we set this we need to have some content above it so that we can see it's effects. As we scroll it gets stuck, it sticks to the top hence the term sticky and it stays there. Alright so all of this is stuff that would be a lot of work on our own to recreate. So we'll leave it here.
+
+This is a lot of content around navbars. If we want to do something more complex, different features, dropdowns, different colors, buttons and so on, we should look at the docs from Boostrap to see some examples. 
+
+Next up we'll have a look at something different. Boostrap Icons. Which is actually a completely separate section of the website https://icons.getbootstrap.com/ This is a newer part of Bootstrap. They are a free set of icons, with very wide range of images. The way that we use them is a little different than what we've seen so far. Let's search for one icon and click on it. Let's go for trash. Let's copy the code for it. The code for it is an example of an HTML element we've not seen yet, it's called an SVG and it stands for scalable vector graphics. If you are familiar with adobe illustrator, you may have come across SVGs before. They can be used for building artistic, modern and cool looking websites, animations, games and so on. We should know a little bit about how svg's work. The information there describes the actual paths that we see there. That is not an image, something that has been saved and exported as an image, it is information that describes the shape and the different paths. They are scalable, we can make them bigger or smaller without losing quality, we can change their color, it's almost like a piece of our font, like a letter.
+
+So let's copy that and go into our icons_starter/index.html almost empty document and let's write an h1 of class "display-1" that says Icons and underneath it let's add a button of class "btn btn-large btn-danger" that says "Delete":
+
+        <h1 class="display-1">Icons <svg width="1em" height="1em" viewBox="0 0 16 16"
+        <button class="btn btn-lg btn-danger">Delete</button>
+
+It now depends on where we want this to go, let's paste the svg right after "Delete":
+
+        <h1 class="display-1">Icons </h1>
+        <button class="btn btn-lg btn-danger">Delete <svg width="1em" height="1em" viewBox="0 0 16 16"
+                class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+            </svg></button>
+
+Now our trash icons is right to our delete text inside the button. We could also change the position and font-size. We notice that the svg has a width and a height attribute so we can change those. What's nice about this, since we know how em's work, if we change the button size, the icon scales down as well. So it's not hardcoded, its fontsize responds to the font size of its parent. Let's now try a music note https://icons.getbootstrap.com/icons/music-note-beamed/ let's copy the SVG and put it in our h1 after the Icons text:
+
+        <h1 class="display-1">Icons <svg width="1em" height="1em" viewBox="0 0 16 16"
+                class="bi bi-music-note-beamed" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13c0-1.104 1.12-2 2.5-2s2.5.896 2.5 2zm9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2z" />
+                <path fill-rule="evenodd" d="M14 11V2h1v9h-1zM6 3v10H5V3h1z" />
+                <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4V2.905z" />
+            </svg></h1>
+        <button class="btn btn-lg btn-danger">Delete <svg width="1em" height="1em" viewBox="0 0 16 16"
+                class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+            </svg></button>
+
+If we change the text color of the h1 to "text-primary":
+
+        <h1 class="display-1 text-primary">Icons <svg width="1em" height="1em" viewBox="0 0 16 16"
+                class="bi bi-music-note-beamed" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13c0-1.104 1.12-2 2.5-2s2.5.896 2.5 2zm9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2z" />
+                <path fill-rule="evenodd" d="M14 11V2h1v9h-1zM6 3v10H5V3h1z" />
+                <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4V2.905z" />
+            </svg></h1>
+        <button class="btn btn-lg btn-danger">Delete <svg width="1em" height="1em" viewBox="0 0 16 16"
+                class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+            </svg></button>
+
+We notice that the icons changes as well. We can also change it using CSS, but we're not going to get too advanced with svg's right now aside from the fact that we can incorporate them.
+
+While we're talking about icons, there is one element or component that we commonly use called the input group. This is some sort of input that has been grouped together with a label, some text, a button, a dropdown so that they can look like this https://getbootstrap.com/docs/4.1/components/input-group/ or like some other examples. So we can use some icons there to make a search field. Let's take the first basic example and let's try to make a search field of our own. Let's add after our button a div with class="input-group" and inside of it another div with class="input-group-prepend":
+
+            </svg></button>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    
+                    </div>
+                </div>
+
+The prepend give us the space at the beginning where the @ resides, append would go at the end. Now let's add in a span of class="input-group-text" and let's put a $ inside it for the moment.
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                </div>
+
+Now we need to add in a an input of type="text" and class="form-control". Let's add it after the second div.
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control">
+                </div>
+
+Let's make this a little bit less wide and wrap it all up in div class="row" and in a div class="col-md-4":
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+
+Now let's add in a placeholder for the input that says "Search". Also let's add in our icon now, let's get a search icon https://icons.getbootstrap.com/icons/search/ and copy the svg and paste it instead of our $:
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </div>
+        </div>
+
+It looks decent. Nothing amazing, but it's a nice icon that is free to use and there are a bunch of them that are on Bootstrap's website whtat we can use for free, without worrying about licensing. On the topic of icons, there are other icon libraries and tools out there and probably the most popular is font-awesome: https://fontawesome.com/v5.15/icons?d=gallery&p=2 It was more icons than Boostrap and also more features. Some of them are paid ones. If we click on one icon we have more options for the same icon. If we're looking for icons that we cannot find on boostrap, we can try finding them here like social media icons like linkedin. Alright so these were SVG, scalable vector graphics, we can copy them, scale them and they kind of behave like text in our application.
+
+Now we're going to focus on a very useful set of utilites that boostrap gives us. These are not components, these are not things that make a huge impact righ away but they make our life a lot easier. We're not going to go over them, but we'll highlight the most important ones. We've seen some of them already. What all of these have in common is that they are quick ways of applying some CSS wheather it's turning a border on/off, adding a border radius or changing the display property or adding margin. These are all things we can do with CSS but these utilities allow us to do all this with a single class that we can add to our elements. 
+
+So first up we have a Border utility https://getbootstrap.com/docs/4.1/utilities/borders/ if we want to add a border to all four sides we can add "border". "border-top" just gives us the top, "border-left" the left and so on. We cannot control that width through Bootstrap, there's a default of whatever thickness that is, probably one pixel. We can use a subtractive version that turns it off on all sides with "border-0" or at the top with "border-top-0" and so on. We can also change the color with "border border-primary" -secondary -success and so on. We can also change the border radius with "rounded" which will make it circular only if we have a square to be acted upon, and there are more options like "rounded-pill", "rounded-top" and so on (see on website). You can also choose a smaller or larger rounding with "rounded-sm" and "rounded-lg". So let's jump in into our almost empty utilities_starte/index.html to have a quick go at this. Let's make an h1 with class "display-1" with text "Utilities" inside the container div:
+
+        <h1 class="display-1 mb-5">Utilities</h1>
+        
+after that let's add a div with class="row" and inside it another one with class="col-md-4" and inside it some lorem ipsum text:
+
+        <h1 class="display-1 mb-5">Utilities</h1>
+        <div class="row">
+            <div class="col-md-4">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet! Cupiditate quisquam fuga, dolores
+                quasi laborum beatae maiores hic numquam sint quae optio autem magni provident ratione earum?
+                Aspernatur, ullam!
+            </div>
+        </div>
+
+now let's add a border around that, by adding the class "border" to the second div:
+
+        <h1 class="display-1 mb-5">Utilities</h1>
+        <div class="row">
+            <div class="col-md-4 border">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet! Cupiditate quisquam fuga, dolores
+                quasi laborum beatae maiores hic numquam sint quae optio autem magni provident ratione earum?
+                Aspernatur, ullam!
+            </div>
+        </div>
+
+now we get that very light gray border. If we wanted it rounded we can just add in "rounded":
+
+        <h1 class="display-1 mb-5">Utilities</h1>
+        <div class="row">
+            <div class="col-md-4 border rounded">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet! Cupiditate quisquam fuga, dolores
+                quasi laborum beatae maiores hic numquam sint quae optio autem magni provident ratione earum?
+                Aspernatur, ullam!
+            </div>
+        </div>
+
+If we wanted to turn one side off we can write "border-top-0". But we'll keep it for now. We can also change color with "border-success"
+
+        <h1 class="display-1 mb-5">Utilities</h1>
+        <div class="row">
+            <div class="col-md-4 border rounded border-success">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet! Cupiditate quisquam fuga, dolores
+                quasi laborum beatae maiores hic numquam sint quae optio autem magni provident ratione earum?
+                Aspernatur, ullam!
+            </div>
+        </div>
+
+Next up, we've already seen the color utilities for text and for background. https://getbootstrap.com/docs/4.1/utilities/colors/ We also have the shadow utility https://getbootstrap.com/docs/4.1/utilities/shadows/ which we can use to quickly add a shadow. We do not have much control here but we can do things like "shadow-none", "shadow-sm", -sm, -lg or "shadow". Let's add shadow to our bordered div:
+
+        <h1 class="display-1 mb-5">Utilities</h1>
+        <div class="row">
+            <div class="col-md-4 border rounded border-success shadow">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet! Cupiditate quisquam fuga, dolores
+                quasi laborum beatae maiores hic numquam sint quae optio autem magni provident ratione earum?
+                Aspernatur, ullam!
+            </div>
+        </div>
+
+Alright, now we have a shadow. Now onto some other utilitites that have to do with spacing: margin and padding. https://getbootstrap.com/docs/4.1/utilities/spacing/ These are a little bit dense upfront and consist of a lot of letters. They might not make a lot of sense immediately but they are really commonly used. So here's the formula: 
+
+{property}{sides}-{size} 
+
+we have m and p: margin and padding. Then we have a number of sides to choose from: are we adding to the top, bottom, left, right, all sides, top and bottom or left and right? Then we have the ammount of margin and paddin that we're adding, where we have 7 options for size from 0-5 and then auto where 0 is no space and 5 being the most space. If you really want to get into it, into the nitty gritty, there is a predetermined spacer size that all other sizes are based upon as a multiple. So whatever the spacer is, we're going to have spacer * .25 for the value 1 and spacer * 3 for 5. Spacer can be for example 1em. 
+
+So let's play around with this, they all start with m or p: margin and botton, then we have
+
+t top
+b bottom
+l left 
+r right 
+x left and right
+y top and bottom
+blank all four sides
+
+Let's start with the last one that adds padding to all four sides. Let's make a div with 6 buttons of class "btn btn-primary" and text Padding 0, Padding 1 up until Padding 5 inside them:
+
+        <h1 class="display-1 mb-5">Utilities</h1>
+        <div class="row">
+            <div class="col-md-4 border rounded border-success shadow">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet! Cupiditate quisquam fuga, dolores
+                quasi laborum beatae maiores hic numquam sint quae optio autem magni provident ratione earum?
+                Aspernatur, ullam!
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary">Padding 0</button>
+            <button class="btn btn-primary">Padding 1</button>
+            <button class="btn btn-primary">Padding 2</button>
+            <button class="btn btn-primary">Padding 3</button>
+            <button class="btn btn-primary">Padding 4</button>
+            <button class="btn btn-primary">Padding 5</button>
+        </div>
+
+Now let's add "p-0" to the first button, p-1 to the next one and so on until p-5:
+
+        <div>
+            <button class="btn btn-primary p-0">Padding 0</button>
+            <button class="btn btn-primary p-1">Padding 1</button>
+            <button class="btn btn-primary p-2">Padding 2</button>
+            <button class="btn btn-primary p-3">Padding 3</button>
+            <button class="btn btn-primary p-4">Padding 4</button>
+            <button class="btn btn-primary p-5">Padding 5</button>
+        </div>
+
+So we don't have control over the exact amount of padding like: give me 25px of padding or 1em. But we have six different levels including zero. Let's replicate the above setup to make 6 more buttons to test out the padding top, left, bottom and so on:
+
+        <div>
+            <button class="btn btn-primary p-0">Padding 0</button>
+            <button class="btn btn-primary p-1">Padding 1</button>
+            <button class="btn btn-primary p-2">Padding 2</button>
+            <button class="btn btn-primary p-3">Padding 3</button>
+            <button class="btn btn-primary p-4">Padding 4</button>
+            <button class="btn btn-primary p-5">Padding 5</button>
+        </div>
+        <div>
+            <button class="btn btn-primary p-0">Padding 0</button>
+            <button class="btn btn-primary p-1">Padding 1</button>
+            <button class="btn btn-primary p-2">Padding 2</button>
+            <button class="btn btn-primary p-3">Padding 3</button>
+            <button class="btn btn-primary p-4">Padding 4</button>
+            <button class="btn btn-primary p-5">Padding 5</button>
+        </div>
+
+now let's set p-0 on all of them and add for the first one pt-5 and change the text to "Padding Top", pl-5 Padding Left, pb-5 Padding Bottom, pr-5 Padding Right, px-5 Padding X and py-5 Padding Y:
+
+        </div>
+        <div>
+            <button class="btn btn-primary p-0 pt-5">Padding Top</button>
+            <button class="btn btn-primary p-0 pl-5">Padding Left</button>
+            <button class="btn btn-primary p-0 pb-5">Padding Bottom</button>
+            <button class="btn btn-primary p-0 pr-5">Padding Right</button>
+            <button class="btn btn-primary p-0 px-5">Padding X</button>
+            <button class="btn btn-primary p-0 py-5">Padding Y</button>
+        </div>
+
+We can change that number pt-5 from 0 to 5 but we wanted to showcase here the most extreme example. Now to make things extra complicated, we can actually do this where it varies from one brakpoint to the next. So we can do:
+
+{property}{sides}-{breakpoint}-{size} 
+
+So as a quick example we can make a new button with text "I CHANGE! and give it a class of "btn btn-danger p-0 p-sm-1 p-md-2 p-lg-3 p-xl-5" and put it after our ending div from the paddin buttons:
+
+        </div>
+        <div>
+            <button class="btn btn-primary p-0 pt-5">Padding Top</button>
+            <button class="btn btn-primary p-0 pl-5">Padding Left</button>
+            <button class="btn btn-primary p-0 pb-5">Padding Bottom</button>
+            <button class="btn btn-primary p-0 pr-5">Padding Right</button>
+            <button class="btn btn-primary p-0 px-5">Padding X</button>
+            <button class="btn btn-primary p-0 py-5">Padding Y</button>
+        </div>
+        <button class="btn btn-danger p-0 p-sm-1 p-md-2 p-lg-3 p-xl-5">I CHANGE!</button>
+
+So we are going to give it padding 0 on all sizes to start, then padding 1 on small and above, padding 2 on medium and above, padding 3 on large and above and then jump to padding 5 on extra large and above. This is adding padding on all sides but we cann add things like "pt-xl-5" to only apply padding top. 
+
+Let's also do an example with margin. Let's add some margin to the last row of buttons and give the div the class of "my-5".
+
+        </div>
+        <div class="my-5">
+            <button class="btn btn-primary p-0 pt-5">Padding Top</button>
+            <button class="btn btn-primary p-0 pl-5">Padding Left</button>
+            <button class="btn btn-primary p-0 pb-5">Padding Bottom</button>
+            <button class="btn btn-primary p-0 pr-5">Padding Right</button>
+            <button class="btn btn-primary p-0 px-5">Padding X</button>
+            <button class="btn btn-primary p-0 py-5">Padding Y</button>
+        </div>
+        <button class="btn btn-danger p-0 p-sm-1 p-md-2 p-lg-3 p-xl-5">I CHANGE!</button>
+
+We can also go back to our h1 and give it an additional class "mb-5".
+
+        <h1 class="display-1 mb-5">Utilities</h1>
+
+We can also remove it entirely on the bottom with mb-0. So that's a brief rundown of some of these utilities, it takes some practice and some getting used to but they are incredibly useful. It's nothing we cannot do with plain old CSS, it's just a shorter way of achieving it. The margin and paddin ones in particular take a little bit of time to get the syntax down. But just remember m or p, then the sides and then the size. If not, just refer back to the documentation. Optionally we can also spcify a breakpoin if we want our classes to only apply on certain sizes. 
+
+To wrap these up, we're not going to go over the following in detail. We're just going to point them out, that they exist. So we have display: we can use this to change the display property, make it inline, block or flex and so on. https://getbootstrap.com/docs/4.1/utilities/display/ We can also set something to have the display to none. "d-none" will hide an element and we can do it responsively and change a breakpoint where we show something on a large size and then hide it otherwise. This is demonstrated on their website. For example: Hidden only on xs: .d-none .d-sm-block. When we get to small, it gets set to block. This is commonly used. 
+
+We also have here flex utilities https://getbootstrap.com/docs/4.1/utilities/flex/ we can change flex-direction, justify-content.
+
+We have the ability to change the size of the elements https://getbootstrap.com/docs/4.1/utilities/sizing/ like the width with "w-25" but we cannot do w-80 because it is not specified, but if we want something to take 50% we can say "w-50". And that's pretty much it. There are others but they are not that commonly used.
+
+It can feel a little bit overwhelming so don't feel like you need to use them all right away but it's important to know that they are there and if you plan on continuing to use Boostrap, it will help you to get familiar with all of them. So don't shy away from consulting the documentation page on Boostrap.
+
+Let's now quickly run through some other components we have not yet talked about. We'd like to highlight now some of the more important ones that we should know about. For example cards https://getbootstrap.com/docs/4.1/components/card/ this is a generic content container, holder where we can mix and match. These are often used in the grid system where we have a grid of cards and we can add titles, subtitles, images on top, list groups - this is another component which we'll look at in a bit. On the website we have some example for cards. We can also add a header and a footer. They are very flexible and there is a lot of stuff we can do with them. They are basically a box with a border with some special pieces inside like a title, a header and a footer. They are all optional, but we can create nice grids and display the content nicely using cards.
+
+Next up: a carousel https://getbootstrap.com/docs/4.1/components/carousel/ This is a bit more complicated, this is how we would make an image gallery or an image slider. There are a lot of parameters. We can show control indicators down at the bottom or we can have an automatic slider where everything is hidden and the user does not do anything. We can have a fade vs a slide effect. Behind the scenes this involves a lot of JavaScript but the way that we make this work is by connecting our controls like how we did with the navbar a while ago. See the data-... attributes on the carousel for the next and previous arrows that trigger it.
+
+Dropdown menus we did not cover but they look like this https://getbootstrap.com/docs/4.1/components/dropdowns/ We have different sizes and we can attach them to buttons, they can pup up, down, right, left. We can have different stuff in the menu, different alignments. 
+
+Spinner https://getbootstrap.com/docs/4.2/components/spinners/ something not essential, but nice to know about and very easy to make. Just a spinner with different options. Another similar thing is progress: https://getbootstrap.com/docs/4.2/components/progress/
+
+Then we've got modals https://getbootstrap.com/docs/4.2/components/modal/ which are basically popul dialogs and involve a lot of JavaScript too. We need t ospecify what should launch it, what should close it and there are different options that we can make: scorllable, center vertically, use grid system inside of them. There's a lot to them. But for the moment, we need to know that they exist.
+
+We've seen a lot of Boostrap and what we've seen so far kind of makes only 50% of it. Although if we only count the most commonly used stuff, we probably went through 80% of it. There are lots of niche things, but there are also useful things like a dropdown menu which might not be needed on every single website but if we do need it we have the tools now to make it.

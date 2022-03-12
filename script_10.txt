@@ -1,0 +1,1157 @@
+____________________________________________________________________________
+10_responsive_css_and_flexbox_____________________________________________10
+____________________________________________________________________________
+
+Here we're going through CSS stuff yet again. We'll now go through responsive CSS and the flex-box. Flexbox is a newer part of CSS and became in the recent years standardized. It is a series of properties that we use to layout items on a page, in a box of content. This is something we do all the time, we have some container and we want to distribute that space inside the container. How can we do that? https://developer.mozilla.org/en-US/ for example those buttons up top on this page, the buttons have some space between them, when we shrink the page, the space between them gets smaller, if we go even further they stack up and finally they dissappear. This happens to other elements on the page. https://www.airbnb.com/ is another example, see how the buttons are not equally spaced, observe how the space changes when we shrink the space, what gets the most space. The main tool is flexbox. With it we can create flexible layouts. When we resize the page, the size is not set in stone, it is flexing. 
+
+So let's get into it. Let's start by learning some of the properties. First let's see the code setup, there is a flexbox_starter folder where we have an index.html and an app.css file. It has some basic styles and inside index.html it has five divs with inline styling, which you don't see yet because we need to style them first. We're going to write the code in app.css. Flexbox consists of a bunch of properties such as the display property. So far we've seen display: block, inline and inline-block but we haven't seen yet display: flex. So let's select all <div></div>'s from the <section></section> with the id="container" and give them a width of 200px and a height of 200px:
+
+#container div {
+    width: 200px;
+    height: 200px;
+}
+
+Now the five divs appear on the container and are overflowing as they are block level elements. Let's now set the display: flex on the container.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+}
+
+Now the divs all line up from left to right in a nice row. This is the first step we need to do with flex: turn it on with the display flex property and it changes how it behaves. Now we can cover all of the other properties that rely on display being set to flex. Before going any further we need to understand some basic terminology. In flexbox world, when we designate some box or container, in that box there are two axis: the main axis and the cross axis. The main one goes from left to right and the cross axis from top to bottom. There is a property that allows us to change that, that property is flex-direction. This property allows us to decide on the main axis direction in our container. The default is flex-direction: row. So if we set flex-direction: row in our container:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+}
+
+We are not going to see any changes. Still left to right. So let's try flex-direction: row-reverse
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+This will make our main axis go from right to left. It's still horizontal but reversed. We have some other very different options: column and column-reverse. Let's try those:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;  
+}
+
+Now they go from top to bottom. The main axis goes from top to bottom. Notice that the elements are not 200x200px anymore. Why is that? That's because we set the container to have a height of 500px. If we change it to 800px, they will grow to occupy that space, but they are still not 200x200px each. If we set the height of 1200px they would have enough space and would be 200x200px. But we'll set it back to 500px for the moment. That was flex-direction: column. We can also now do flex-direction: column-reverse. Which will go from bottom to top.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column-reverse;  
+}
+
+You can use the slides for reference. Try to understand the concept that everywhere we set the display: flex it has a main axis which default to left to right. This determines how the content flows in the container. 
+
+The next property is an essential one and it's called justify-content. This determines how the content is distributed across the main axis. The defaul is going to be justify-content: flex-start. It is not always on the left handside but if our main axis goes from left to right, the start is on the left. Let's put our flex-direction: row and let's set justify-content: flex-start.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;  
+    justify-content: flex-start;
+}
+
+We can see that nothing changes, in comparisson to when we had flex-direction: row back some time ago. To the boxes are still piled up on the left handside. Then we have justify-content: flex-end which is going to take the content and move it to the end of the main axis and that's how it is going to be aligned along that main axis. If it's going from left to right, the start is left and the end is right: 
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;  
+    justify-content: flex-end;
+}
+
+So they get piled up on the right. Now we have some other options like center. Which centers it along the main axis. Let's try it justify-content: center
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;  
+    justify-content: center;
+}
+
+So it's now in the middle. The next options are space-between and space-around. space-between is going to take all of the extra space and distribute it between the elements but not on the outside edges, so between elements but not between the elements and container. Let's try it out.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;  
+    justify-content: space-between;
+}
+
+Just to be clear, there is a border added to the container and that's why there is a tiny amount of space. Otherwise there is no space. So the space is evenly distributed between the elements. Then we have space-around:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;  
+    justify-content: space-around;
+}
+
+This gives each element the same amount of space around it. So it ends up with half the amount o space on the far left and right which is a bit wonky. There is one option called space-evenly:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;  
+    justify-content: space-evenly;
+}
+
+This ensures that the space is even between every element and between the elements and the container. This all along the main axis. So that's justify-content. It depends on flex-direction and the way it behaves depends on the main axis and that main axis can change. It is up to you, up to how you've configured your flex direction, as that impacts the justify-content. We have yet to mention the cross-axis, but that's coming up soon.
+
+Our next property is flex-wrap. It determines wheather or not our elements are going to wrap along the main axis onto a new line, if it's horizontal, or a new column if it's a vertical main axis. Let's say we have flex-direction: column 
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;  
+    justify-content: space-evenly;
+}
+
+and the elements are shrunk so that they fit in that height. Let's set flex-wrap: wrap
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;  
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+our elements go top to botton and then a new column top to bottom and then a new column. If we change the space-evenly to flex-start we'll get:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;  
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+everything aligned to the top because our main axis is top to bottom and we're in a column. We also have flex-wrap: wrap-reverse
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;  
+    justify-content: flex-start;
+    flex-wrap: wrap-reverse;
+}
+
+Here our elements still go from top to bottom. Our main axis is unchanged but there's a second axis: the cross axis. So in our example: the main axis is top to bottom but because we set flex-wrap: wrap-reverse, our cross-axis goes now right to left. If we set it back to wrap, the corss axis is back to the default left to right. Let's switch it up entirely and let's do this with rows instead. Let's delete flex-wrap, change flex-direction: row and give the container div a 600px width:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#container div {
+    width: 600px;
+    height: 200px;
+    text-align:center;
+}
+
+now they all squish down to fit in there. But if we set flex-wrap: wrap
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+they now wrap onto the next line. What is the main axis here? It's a row: left to right. What is the cross-axis? Top to bottom. We can change that with wrap-reverse. What change do you think we are going to see?
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px; 
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap-reverse;
+}
+
+We're still going left to right but now we wrap upwards. So we go main axis: left to right, cross axis: bottom to top. It's really common to have elements in a row that you want to wrap over to the next row and the next row and so on. Or you can leave it off, the default is to not wrap. Or you can explicitly set it to flex-wrap: nowrap. This will dictate the direction of the cross axis. So in the slides it is pictured to go vertically but it can go horizontally if the main axis is vertical. So the next thing we need to learn is how to distribute space across the cross axis.
+
+So the next property is align-items. This is going to distribute space across the cross-axis. So justify-content is on the main-axis and align-items is on the cross-axis. It's not as simple as saying it's vertical space, or positioning things vertically because the cross-axis could be vertical but also horizontal and within each one it can be left to right, right to left, top to bottom, bottom to top. So it's called align-items and it has some similar values: flex-start aligns along the beginning of the cross axis. In the slides the start of the cross axis is at the top so our items are aligned to the start of that. This is the default value. So let's make the boxes smaller to 200px and justify them in the container to center to begin with.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+}
+
+Let's say we want to align them to the bottom of my container. Well that's the cross-axis which goes from top to bottom. So for the end of the cross-axis we could use flex-end:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+After a refresh our items are still centered on the main axis left to right but on the cross-axis top to bottom they are on the end of it. If we want to set something horizontally and vertically in the middle we can set justify content: center and align-items: center
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+Awesome. This also works for elements of different sizes. Let's give the divs in index.html some other inline heights:
+
+    <section id="container">
+        <div style="background-color: #80ffdb"></div>
+        <div style="background-color: #64dfdf"></div>
+        <div style="background-color: #48bfe3"; height 300></div>
+        <div style="background-color: #5390d9"></div>
+        <div style="background-color: #6930c3"; height 100px></div>
+    </section>
+
+We also have one more option called baseline. In order for this to make any sense, we're going to add some text to our divs:
+
+
+    <section id="container">
+        <div style="background-color: #80ffdb">H</div>
+        <div style="background-color: #64dfdf">E</div>
+        <div style="background-color: #48bfe3"; height 300>L</div>
+        <div style="background-color: #5390d9">L</div>
+        <div style="background-color: #6930c3"; height 100px>O</div>
+    </section>
+
+And also change the font-size to that in container div to 4em:
+
+#container div {
+    width: 200px;
+    height: 200px;
+    font-size: 4em;
+    text-align: center;
+}
+
+Currently these are aligned on the center of the element itself based upon the height of the element because our cross-axis is vertical top to bottom. It is not aligned on the text. If we set align-items: baseline
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+}
+
+It's now going to use the baseline of our text to align those elements. This now just looks as if they were aligned to the top and they are. But let's change one of the element's font size. Let's add it again inline to one of the divs and set it's font-size to 8em.
+
+    <section id="container">
+        <div style="background-color: #80ffdb">H</div>
+        <div style="background-color: #64dfdf">E</div>
+        <div style="background-color: #48bfe3"; height 300>L</div>
+        <div style="background-color: #5390d9"; font-size: 8em>L</div>
+        <div style="background-color: #6930c3"; height 100px>O</div>
+    </section>
+
+They are no longer aligned to the top of the container. The one with the bigger font-size is but all the others moved down to accomodate it so that they can align to its baseline. Think of the baseline like a line drawn at the bottom of each letter, that's what they are aligned to. So that can be useful if you have different heights for your elements. but they have text and you want it all to be aligned, you can use baseline.
+
+Okay so let's undo all of that: 
+
+    <section id="container">
+        <div style="background-color: #80ffdb"></div>
+        <div style="background-color: #64dfdf"></div>
+        <div style="background-color: #48bfe3"></div>
+        <div style="background-color: #5390d9"></div>
+        <div style="background-color: #6930c3"></div>
+    </section>
+
+Let's see how this works when we're not working in a row, because we're not always working in a row. So let's remove align-items from the container and font-sie from the container div:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+}
+
+Right now our content is not wrapping at all, we fit perfectly, confortably in here and the cross-axis by default goes top to bottom. So if we set now align-items: flex-end
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+Our end is down at the bottom, that's the default on the cross-axis. But as we just saw, if we set flex-wrap: wrap-reverse
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap-reverse;
+}
+
+This changes our cross-axis, this changes the direction. Even if we don't have content that's wrapping. Now our cross-axis goes from bottom to top. If the widths were a lot larger, say 800px:
+
+#container div {
+    width: 800px;
+    height: 200px;
+    text-align: center;
+}
+
+We go left to right - light green is the first one - moving upwards, bottom to top. So flex-wrap is how we change the direction of the cross axis. Let's remove the flex-wrap and dial the width back to 200px:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+}
+
+The last thing we'll do here is see what happens when we work with a column:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+So now our main axis is top to bottom, our cross axis is still left to right but they are aligned on the right side because we have align-items set to flex-end. Let's try something else and put align-tems: center.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+Now they are centered and not much is happening. Let's set flex-wrap to wrap:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+Now we have a lot of stuff going on: our main axis is top to bottom, our cross axis is left to right. We turned on wrap so now our elements wrapping and we set align items to center and that has to do with the cross axis which is now horizontal. If we switch align-items: flex-end they will align on the right side. If we switch align-items: flex-start they will go to the left, to the start of the cross-axis. So the main is top to bottom and cross is left to right. We can change that if we did flex-wrap: wrap-reverse. Now main is top to bottom and cross is right to left. It's a lot of terminology but with time and patience it will make more sense. So that's align-items, it's how we align our content along the cross-axis, justify-content is the main axis. It's not always horizontal and vertical, we can change that with a flip of a switch. At this point justify-content is set to center and that's how they are centered on the main axis which is vertical. But if we go to a row by setting flex-direction: row, all of the sudden justify-content is now horizontal, left to right, centering them.
+
+Now we have align-content which we use to distribute and control space along the cross-axis but only when we have multiple rows or columns depending on if we're in a row or column based layout. Basically if we are in columns, align-content controls the space between those columns. If we are in rows, the main axis is left to right, right to left the cross axis is vertical and we're controlling the space between the rows. So in first the example in the slides align-content: space between is used. We can also use space-around, flex-start, flex-end and the different values we've seen before. The next example in the slides is align-content:flex-start - we still have our rows, they are moved to the left at the beginning of the cross axis. We have align-content: flex-end where they are moved to the right handside. We've got align-content: center where they are centered. Let's conside the following example in our app.css file where align-items is set to flex-end.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+If we wanted them to be in the middle, we could do align-content: center
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+Now we are controlling the space between the columns. If we only have one column or one row and we don't have flex-wrap turned on, align-content does nothing for us at all:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    /* flex-wrap: wrap; */
+    align-content: center;
+}
+
+It does nothing for us at all. It's only when we have wrap or wrap-reverse for flex-wrap. So if we wanted to move everything to the left we could do align-content: flex-start with flex-wrap: wrap back on. If we wanted to spread them out and distribute the space between them we can use align-content: space-between and space-around. If we switch this entirely to a row-based layout with flex-direction: row: 
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+Our items are actually not big enough to go into multiple rows so let's make them wider too.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+#container div {
+    width: 600px;
+    height: 200px;
+    text-align:center;
+}
+
+Now we have two rows. So align-content will distribute the space between those rows. Let's set the align-content: space-between.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+
+Let's also try align-content: center. 
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+Now those two rows will now be centered vertically on the cross-axis. So that's align-content: space between rows or space between columns depending on the orientation of the cross-axis. It does nothing if you don't have flex-wrap, if you don't have content wrapping.
+
+The next property we'll look at is align-self. It is very similar to align items except it's a property we add to a single element or to individual items in the flex container. It's the first property from what we've seen so far that we don't actually apply to the flex container itself but to individual elements and we can change the alignment along the cross-axis for a single element using it. In the example in the slides align-items: flex-start is set so that everything is aligned to the top. But align-self: flex-end is set on the second item. Let's try this our ourselves. Let's undo some stuff we've done: remove align-content, set 200px on container div
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align:center;
+}
+
+Let's also set align-items: flex-start
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+Now let's pick one div with nth-of-type:
+
+div:nth-of-type(3) {
+    align-self: center;
+}
+
+And there we go, it's aligned to the center of the cross axis. We can also set it to align-self: flex-end. So this is how you can position one thing at a time inside a container. Let's do one more example  with flex-end and choose the second div:
+
+div:nth-of-type(3) {
+    align-self: flex-end;
+}
+
+If we were in a column layout it will work differently. Let's change the container flex-direction: column, align-items: flex-end and also remove the div nth's:
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+Let's do the fifth div and set align-self: flex-start to it:
+
+div:nth-of-type(5) {
+    align-self: flex-start;
+}
+
+It now moved to the left just next to the other two boxes. There you go! That's align-content and align-self, they both have to do with the cross-axis as does align-items. They just all have a slightly different role. 
+
+Now we're going to have a look at how we can make our elements flexible, making them grow or shrink, depending on the amount of available space. There are three related properties that have to do with individual items in a flex container. The first one is called flex-basis: it is going to determine the initial size of an element before it's placed in. Before it's added in our flex container. Let's see how that looks like but first let's remove the div nth of type stuff and on container, set the flex-direction to row and remove align-items. Lastly let's add flex-basis: 400px to container div.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    flex-basis: 400px;
+}
+
+Now they are set to 400px wide even though we've set the width to 200px. If we get rid of width, it will be completely ignored. flex-basis is going to be that measurement, the width that is used when we're in a row. But why bother with flex-basis when you can just set the width. Well flex-basis is along the main axis an that might be horizontal but if we changed to a column flex-direction: column without flex-basis on container div
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    /*  flex-basis: 400px; */
+}
+
+and we then set back the flex-basis to 400px: 
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    flex-basis: 400px;
+}
+
+now we get much taller elements. They are 400px tall. So flex-basis is just the initial size that an element should be added into our box as. It might be a width, it might be a height depending on the main axis` direction.
+
+Then we have two other properties: flex-grow and flex-shrink. We'll start with flex-grow. flex-grow controls the amount of space that an element takes up if there is available space. If we have available space. Let's go back to flex-direction: row on container and flex-basis: 200px on container div
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    flex-basis: 200px;
+}
+
+So now we have some extra space. Right now our elements are not growing to take any of that space up. But we have the extra space. We can assign the flex-grow property to any element. Let's take the first div and give it a flex-grow: 1.
+
+div:nth-of-type(1) {
+    flex-grow: 1;
+}
+
+flex-grow accepts a unit-less number. We'll learn more about that later. But for now the first div takes up all the available space. Let's also do it to the last one.
+
+div:nth-of-type(5) {
+    flex-grow: 1;
+}
+
+Now they are both equally eating up the available space. If we delete all the div nth of type and set the container div to flex-grow: 1
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    flex-basis: 200px;
+    flex-grow: 1
+}
+
+None of them are 200px anymore, they're all growing to take up that space evenly. When we shrink the page, they all take up that space, evenly as well. They do have flex-wrap turned on so when we get to a point when they should spill over we'll see that we have four in a row and one taking all the space on a new row at the bottom until the next one gets booted off and so on and so forth. We can change this behaviour. We can decide for example that this one should not go past a certain width or certain height. We can do things as setting a max-width of 300px on every div.
+
+#container div {
+    width: 200px;
+    height: 200px;
+    max-width: 300px;
+    text-align: center;
+    flex-basis: 200px;
+    flex-grow: 1
+}
+
+You can do the same with min-width. What's important about flex-grow though is that we can assign a different number to other elements. So give the first one a flex-grow: 1 and the last one a flex-grow: 2 and remove the flex-grow and max-width from the container div:
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align:center;
+    flex-basis: 200px;
+}
+
+div:nth-of-type(1) {
+    flex-grow: 1;
+}
+div:nth-of-type(5) {
+    flex-grow: 2;
+}
+
+This is all about proportions. So what this is saying is that for any available space: twice of it should be eaten up by the fifth div as the first div. They both grow but the last one takes twice as much space as the first one. So for example if the middle ones are 200px the left one will grow to 250px and the right one will become 300px. We can see such an example if we go with f12 dev tools and inspect the width of the boxes. That's how flex-grow works when there is additional space. If there is no additional space, they will not grow, for example if flex-wrap is off.
+
+This brings us to flex-shrink. It's kind of the same concept, this governs the rate at which elements shrink when there is not enough space in a container. Let's turn flex-wrap off in the container and make the flex-basis of 600px in the div container.
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+    text-align:center;
+    flex-basis: 600px;
+}
+
+Let's also give the first one a flex-shrink: 2
+
+div:nth-of-type(1) {
+    flex-grow: 1;
+    flex-shrink: 2;
+}
+
+It shrinks faster than the others. If we wanted to make it shrink faster, we could give it flex-shrink: 3. We are not telling it exactly by how many pixels it should shrink, instead we're telling it how much it should shrink relative to other elements. We can give the last one a flex-shrink of 0:
+
+div:nth-of-type(5) {
+    flex-grow: 2;
+    flex-shrink: 0;
+}
+
+It's not going to shrink at all and it will be exactly 600px. Everything else will shrink. The default value is 1 for the rest. And here we are. Those were flex-basis, flex-grow and flex-shrink!
+
+What I didn't show you is that there is shorthand property called flex. We use these properties so frequently that flex was created. It allows us to set flex-grow, flex-shrink and flex-basis in one go. https://developer.mozilla.org/en-US/docs/Web/CSS/flex the order for three values is: flex-grow flex-shrink  flex-basis. For two values: flex-grow flex-shrink. For two values where the second one is with a unit like px: flex-grow flex-basis. For one values it's going to be flex-grow by default. Let's add a new element to our index.html:
+
+    <h2>Another Example</h2>
+    <main>
+        <section class="sidebar"></section>
+        <section class="maincontent"></section>
+        <section class="sidebar"></section>
+    </main>
+
+It's a main element with three sections. One is our main content in the middle which is going to be a lot larger than the two sidebars that are less imporant. We're not going to use flex-basis, flex-grow and flex-shrink, well, we could start with them, but then we'll refactor them so that we can use flex. So let's begin by styling the main element and giving it a display: flex:
+
+main {
+    width: 80%;
+    margin: 0 auto;
+    border: 5px solid black;
+    height: 500px;
+    display: flex;
+}
+
+Let's also style the sidebars with a background-color: #6930c3:
+
+main .sidebar {
+    background-color: #6930c3;
+}
+
+And lastly our maincontent which will get a background-color: #80ffdb
+
+main .maincontent {
+    background-color: #80ffdb;
+}
+
+So we won't see anything at the moment as there is no content inside of either one an we haven't told them to grow and take up space. So we could start by giving all of them flex: 1. The 1 will be treated as flex-grow.
+
+main .sidebar {
+    background-color: #6930c3;
+    flex: 1;
+}
+
+The two sidebars are going to grow and they are purple so we cannot tell that there are two things there. If we give them a border: 2px solid white, we'll be able to tell that there are actually two elements: 
+
+main .sidebar {
+    background-color: #6930c3;
+    border: 2px solid white;
+    flex: 1;
+}
+
+Inbetween there is maincontent which has no width so let's give to maincontent flex: 1
+
+main .maincontent {
+    background-color: #80ffdb;
+    flex: 1;
+}
+
+Now they all take up the same size because we did not give them a flex-basis. Let's remove the border from main sidebar and our two menus should now look like this: 
+
+main .sidebar {
+    background-color: #6930c3;
+    flex: 1;
+}
+
+main .maincontent {
+    background-color: #80ffdb;
+    flex: 1;
+}
+
+Let's also give them a flex-basis, or better yet we can just add it to the flex shorthand. Let's go for 600px for maincontent and 300px for sidebar.
+
+main .sidebar {
+    background-color: #6930c3;
+    flex: 1 300px;
+}
+
+main .maincontent {
+    background-color: #80ffdb;
+    flex: 1 600px;
+}
+
+So this is a little too big for the sidebars. But the flex-basis is just the starting point from which the boxes will shrink or grow. So let's give maincontent a flex-grow of 2, so twice the amount of extra space as sidebar. And let's also increase the flex-basis to 800px.
+
+main .maincontent {
+    background-color: #80ffdb;
+    flex: 2 800px;
+}
+
+Now let's talk about flex-shrink. We can control the rate at which these shrink. Let's say we want the sidebars to shrink a lot faster so we give them a flex-shrink of 2. And let's also give the main content a shrink of 1.
+
+main .sidebar {
+    background-color: #6930c3;
+    flex: 1 2 300px;
+}
+
+main .maincontent {
+    background-color: #80ffdb;
+    flex: 2 1 800px;
+}
+
+So grow is first, then shrink and then basis for when we have three values. So we see that it works, our sidebars shrink a lot faster. It's a little odd but later we'll learn how at a certain screen size we can actually move them on a new line, hide them entirely or stack them on a column. But here you go, this is how we use the flex shorthand to control three properties: flex-basis, flex-grow and flex-shrink. This is pretty common to see, super useful, but if you forget how it works you need to remind yourself which one is which compared to seeing flex-shrink and flex-grow and flex-basis directly. So that's about it about the main flexbox properties. 
+
+We're going to learn now about media queries which will allow us to change properties as the screen size changes. This is responsive design. This term refers to making a website that is able to respond to the device that it's on: wheather that means it's screen size: mobile phone or large monitor. Or the orientation of the device. Originally there were not so many sizes for computer screens but over the years more sizes appeared: tablets, phones, watch websites and so on. I was common practice to also make a completely new website just for mobile use like m.reddit.com. Recently the term responsive design has become more popular and it refers to creating a single website or application that is able to respond to different screen sizes. We achieve this by using media queries. These are features or things that we can write in our CSS that allow us to change our styles or add new styles depending on some parameter, most commonly: screen width, device type or device orientation: landscape vs portrait. So we can hide some elements in portrait mode and show them in landscape mode. If we are on a super tiny screen we can collapse the navbar so that it doesn't take that much space. In the slides (at the end) there is a preview of what i looks like: we have @media and then some parameter or some parameters and then we write our styles inside. These styles will only apply at a certain screen size or below. Let me show you an example of a responsive site. https://stripe.com/ they have a lot of nice pages on this site. We can shrink the website page to see what changes are made to it when we do that. It's not just scaling everything down like zooming in or zooming out - which is what a lot of early mobile websites were, just a horrible experience. Another thing you can do to view websites as they would actually display on a mobile device is open up your dev tools and open up the Toggle Device Toolbar (shortcut for that is CTRL/CMD + SHIFT + M) or press f12 for dev tools and click the second button from the upper left corner. This is going to open our website in a different view and we can also select a mobile device that it cam mimick. We'll learn how we can make text shrink down on a smaller screen or how to make things stack on a mobile device and then make them go side by side on a larger device.
+
+So let's dive in into media queries. Just to recap: they are the main mechanism that we can use to make a responsive website, to restyle things, remove things, show and hide, change sizes, go from a row to column based upon an attribute of the browser: wheather it's the width of the viewport or the height or the orientation of the screen. They all begin with @media () and inside the paranthesis there are different media features we can look out for https://developer.mozilla.org/en-US/docs/Web/CSS/@media things like width and height, there are also some newer ones like inverted-colors - if the user inverts the display colors. The Level 5 Queries don't usually have good support from browsers but the most commonly used media features are width and height and also orientation. If we go here https://developer.mozilla.org/en-US/docs/Web/CSS/@media/width we can see that the easiest way to do it is write width: 360px So we have a starter file in media-queries_starter with an index.html and an app.css stylesheet. We've got a navbar that we are going to make responsive and an h1 with a google font that we are going to make responsive. So let's go into the app.css file and write something for @media width: 800px
+
+@media (width: 800px){
+    h1 {
+        color: purple;
+    }
+}
+
+So what this is saying is that when the width is EXACTLY 800px, make the h1 purple. We can also put more styles in there, not just for h1. But stating the exact width in there is not very common. What is definitely more common is to use min-width and max-width. Just to be clear this width is the width of your viewport. This represents the polygonal (normally rectangular) area in computer graphics that is currently being viewed. So it's not the size of the entire page, nor the width of the page, it's just what is currently visible. So let's use min-width now:
+
+@media (min-width: 800px){
+    h1 {
+        color: purple;
+    }
+}
+
+So if we shrink the page below 800px, we get a black h1 and as soon as we hit 800px and above we're going to have a purple h1. We can also reverse that and write max-width:
+
+@media (max-width: 800px){
+    h1 {
+        color: purple;
+    }
+}
+
+Now we'll have purple up to a maximum width of 800px. We can also do more complicated things where we can actually combine media queries using the keyword "and". Let's say we wanted to have things purple from 600px to 800px we could do: (we have to delete the previous versions first though here)
+
+@media (min-width: 600px) and (max-width: 800px){
+    h1 {
+        color: purple;
+    }
+} 
+
+What's more common is to do something like this, let's make a small rainbow: 
+
+@media (max-width: 1500px){
+    h1 {
+        color: yellow;
+    }
+}
+@media (max-width: 1000px){
+    h1 {
+        color: orange;
+    }
+}
+@media (max-width: 500px){
+    h1 {
+        color: red;
+    }
+}
+
+For this to work we need to put the larger screen sizes first. If we switch them around we'll see that it will not work with 500 1000 1500. We can also chain them together using "and" to make specific ranges in which case the order does not matter at all. Or we can do this the other direction and say that all h1's begin at red and then we can say that at min-width 500px it will change to orange and so on:
+
+h1 {
+    color: red;
+}
+@media (min-width: 500px){
+    h1 {
+        color: orange;
+    }
+}
+@media (min-width: 1000px){
+    h1 {
+        color: yellow;
+    }
+}
+@media (min-width: 1500px){
+    h1 {
+        color: green;
+    }
+}
+
+So there are different approaches of targeting these sizes but at the end of the day it's the same pattern. It's always @media and then some sort of media feature, commonly min-width. For example we can have orentation landscape and we will make the background-color magenta when we are in landscape: 
+
+@media (orientation: landscape) {
+ body {
+     background-color: magenta;
+ }
+}
+
+If we go into f12 and toggle a phone screen and put it in landscape mode we should see the website background color changing.
+
+Alright so what we'd like to do now is take some of what we've learned around media queries and apply it to our modest website to make the navbar responsive. We're going to use flex-box to make it look better layed out. We'll make it responsive by having it stack up in a column, better than it does right now once we get to a smaller mobile size. We'll also work on the text from the h1. We don't want it to cramp down like that but instead have it on the same line when we get to smaller devices. Why don't we start there? Let's see where it starts to get too cramped and take note of that size. Another option is to use standard brakepoints https://devfacts.com/media-queries-breakpoints-2021/ these are some common ones around which there is some consensus, popularized by tools like bootstrap but this is not at all set in stone. There is a lot of variation in sizes. Let's see then where our h1 gets cramped up... let's use 768px, one of the standard breakpoints. We're going to shrink that h1 down once we get to anything below that font-size. We currently have 6em for h1 and we'll make it 4em.
+
+@media (max-width: 768px){
+    h1 {
+        font-size: 4em;
+    }
+}
+
+So we start large and then the text gets smaller. We do need to shrink it once more so let's do max-width 576px and font-size of 3em:
+
+@media (max-width: 576px){
+    h1 {
+        font-size: 3em;
+    }
+}
+
+Now let's talk about the nav bar. What we want this navbar to do is actually three things: the home button should stay on the left, the sign up to go all the way to the right and the three middle links to be centered. Kind of like on stripe.com So we can use flexbox to help us with that. The code from the nav bar is broken up in the index html into one link and then a <ul></ul> that has the middle three link and then the last signup link at the end. So they are not all in the same <ul></ul> so we've got our link, a group and a single link again. So if we'd make this <nav></nav> a flexbox we can control the three elements inside and move them around nicely. So we'll select that <nav></nav> with font-size: 1.5em and give it a display: flex and justify-content: space-between. We could also do center for justify-content but that's not what we're after here.
+
+nav {
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-between;
+}
+
+This kind of gets too cramped, we'd like the <ul></ul> to take a tiny bit more space so we can give it a flex-grow and a border of 1px solid red so that we can see what it's doing:
+
+ul {
+    border: 1px solid red;
+    flex: 1;
+}
+
+but now it grows and takes up all of that space. So let's give it a max-width of 50% of the container.
+
+ul {
+    border: 1px solid red;
+    flex: 1;
+    max-width: 50%;
+}
+
+we can actually make that ul a flex container itself. This has nothing to do with breakpoints yet but what I am showing you is that we can have nested flexboxes, very common. So this whole <nav></nav> is a flexbox and it has justify-content of space-between and then the middle element is going to be a flex-box too. So let's give that a display: flex.
+
+ul {
+    border: 1px solid red;
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+}
+
+for the moment there is not change but now we can distribute the content inside the ul. Let's do justify-content: space-evenly
+
+ul {
+    border: 1px solid red;
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+Now it's working. It will grow to take up more space than it needs. It grows until it hits that maximum width and then it does not grow any further. So now let's address when it gets too crammed. That's pretty easy with flex-box, all we have to do is set the flex-direction to row but we just have to decide when. Let's do it at 768px. So let's select the nav in our media query and give it flex-direction: column.
+
+@media (max-width: 768px){
+    h1 {
+        font-size: 4em;
+    }
+    nav {
+        flex-direction: column;
+    }
+}
+
+When we hit that brakpoint we now go into a column. It's not that nice yet but there are a couple of things we could do. We don't want those middle ones to be on a row either so we're going to make that in a column. Let's select the ul inside the nav and add that to our media query
+
+@media (max-width: 768px){
+    h1 {
+        font-size: 4em;
+    }
+    nav {
+        flex-direction: column;
+    }
+    nav ul {
+        flex-direction: column;
+    }
+}
+
+Now, we could leave it left aligned as it is but we might just as well center everything. So how do we do that? It's not justify-content anymore, the main axis is up and down. We need the cross-axis left to right. So we need to use align-items: center for both the links and the ul.
+
+@media (max-width: 768px){
+    h1 {
+        font-size: 4em;
+    }
+    nav {
+        flex-direction: column;
+        align-items: center
+    }
+    nav ul {
+        flex-direction: column;
+        align-items: center
+    }
+}
+
+Actually we could also combine them and write this better: 
+
+@media (max-width: 768px){
+    h1 {
+        font-size: 4em;
+    }
+    nav, nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+  
+}
+
+And we get the same result. So we go from our row where we have the middle element growing a bit, the home and sign up are spaced left and right, we hit our breakpoint and then we go to a column layout and they stack on top of one another. We can also now remove the border from the ul:
+
+ul {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+So that's it, it's demonstrating the principle of using breakpoints alongside flex-box and this is also the first time we've seen nested flex containers being used: the main nav and then nested inside the child elements is a container to organize some links.
+

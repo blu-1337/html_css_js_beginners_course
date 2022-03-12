@@ -1,0 +1,433 @@
+____________________________________________________________________________
+08_css_box_model__________________________________________________________08
+____________________________________________________________________________
+
+We're now going to begin with a discussion aroun the CSS Box Model. This is basically the idea that everything in CSS is a box and those boxes have a couple of different properties. If we look at any webpage and we press F12, we see that everything, when we hover over the elements, they get highlighted with a box, they have a box around it and are treated as a box. In the diagram in the slides we can see the core pieces: we have an inner content box for the actual content like the text and paragraph, then we have the padding, the border and the margin. We are going to talk about all of these properties. We will begin with the two that control the inner content box: width and height. These two control the inner content area. We will open the starter_code/box-model/index.html and observe that we have some divs inside it. If he highlight the div with the f12 dev tools: we see that the div content box is something like 859x36 pixels (shown on the left side of the screen on the web page). It is actually taking up the available page width. We can change that in our app.css file that we will make in the same folder as index.html. If we write: 
+
+div {
+    width: 200px;
+    height: 200px;
+}
+
+And refresh the page, we'll see that the elements have now a blue square when we highlight them with F12. Don't worry about the orange box yet. We now see that the width and height are both set to 200x200 when we highlight them. 
+
+If we add a background color on there it will go only across the 200x200 width and height.
+
+div {
+    width: 200px;
+    height: 200px;
+    background-color: #e5989b;
+}
+
+If we remove the width and height the color will go all across the width, to take as much as space as it can.
+
+Next up we'll talk about border. There is a border property and there are also tons of border related properties like border thickness, rounded corners, color, for the left side, right, top, bottom and so on. The main properties we need to understand are border-width, border-color and border-style. The border-width controls the thickness, the border-color the.. color and the border-style the type of line: dotted, dashed line, solid and so on. All our divs in the index.html have id attributes so that they can be targeted easier. We will now add a border to the first one:
+
+#one {
+    background-color: #e5989b;
+    border-width: 5px;
+}
+
+After writing this we should not see any changes because we did not set any color and we have not set a style. If they are not declared, the border will not appear. So we need to add them too.
+
+#one {
+    background-color: #e5989b;
+    border-width: 5px;
+    border-color: black; 
+    border-style: solid;
+}
+
+Finally we have our border. We can see the border, it goes right up against the content and it's five pixels wide. This means that our div got shifted 10px to the right compared to the one below it. If we highlight the <div></div> with F12 it now has 210x210. We also have a property called box-sizing which makes the width of our element go from border to border, from the outside edge to the outside edge of the entire element. What that means is that when I refresh, if I say that this element is 200px wide it is going to be exactly 200px wide. So it basically substracts from the content box to fit the border within. We are going to leave it out for now.
+
+#one {
+    background-color: #e5989b;
+    border-width: 5px;
+    border-color: black; 
+    border-style: solid;
+    box-sizing: border-box;
+}
+
+And make it:
+
+#one {
+    background-color: #e5989b;
+    border-width: 5px;
+    border-color: black; 
+    border-style: solid;
+    /* box-sizing: border-box; */
+}
+
+Let's now style the second div. Let's do border-color, background-color, border-width and border-style. We can also set border-left-color so that is border-color with the right, left, top, bottom keywords. This also is for border-width: we can do here border-left-width.
+
+#two {
+    background-color: #b5838d;
+    border-color: #ffcdb2;
+    border-width: 3px;
+    border-style: dashed;
+    border-left-width: 8px;
+}
+
+There is also a method that is commonly encountered: the border shorthand. It is a single property that can be used to set the border-width, border-color and the border-style in one go. You can also provide one of those at a time. So: width | style | color. https://developer.mozilla.org/en-US/docs/Web/CSS/border Let's do this to the third div from our index.html.
+
+#three {
+    background-color: #6d6875;
+    border: 4px solid black;
+}
+
+Let's say we want the left border-style to be dotted. We can write that after our border property.
+
+#three {
+    background-color: #6d6875;
+    border: 4px solid black;
+    border-left-style: dotted;
+}
+
+One more topic related to the border topic is the border-radius. It allows us to set te radius of our corners to make more rounded corners. If we set the border-radius in percentage to 50%, it will make a circular border. There are also methods to make the text stay inside the circular box but we'll not cover that now.
+
+#three {
+    background-color: #6d6875;
+    border: 4px solid black;
+    border-left-style: dotted;
+    border-radius: 50%;
+}
+
+The next piece of the box-model we need to cover is padding. Padding is the space between the actual content box and the border of an element. Think of padding in the real world when you're shipping something that is fragile: you have the actual content then you have the actual box that you're fittin it in and inbetween the two there is somekind of padding wheather it's bubble wrap, paper and so on. Just as with border, we have multiple properties to set padding: we have padding-left, padding-bottom, padding-top, padding-right. Or we have the shorthand property which is paddin. That would do it all at once. If we look on https://developer.mozilla.org/en-US/docs/Web/CSS/padding and we analyse with F12 some elements we see that the content area is in blue and the padding is in green in the dev tools. Let's try adding padding to one of our elements. Let's start with our <h1></h1> up top. Let's give it some padding-left of 100px. Let's give it also padding-top: 50px. We don't really have a border, but it would be between the pink and the white on the page.
+
+h1 {
+    background-color: pink;
+    width: 200px;
+    padding-left: 100px;
+    padding-top: 50px;
+}
+
+Let's also update the second <div></div> with some padding-right: 50px. Padding is useful when you want to make things "breathe" a little bit more, to have some extra space to make it look nicer and not so cramped. You can make things look larger but without making the actual content larger.
+
+#two {
+    background-color: #b5838d;
+    border-color: #ffcdb2;
+    border-width: 3px;
+    border-style: dashed;
+    border-left-width: 8px;
+    padding-right: 50px;
+}
+
+The shorthand for padding which sets all four edges at once can be used in multiple ways. If we use it for our button in our index.html we can try the following examples:
+
+button {
+    padding: 20px;
+}
+
+This first one will add padding on all four sides of the button.
+
+button {
+    padding: 20px;
+}
+
+The second one uses two values separated by space. The first value will be used to set the top and bottom - the vertical padding - and the second value will be used for the left and right - the horizontal value. 
+
+button {
+    padding: 10px 20px;
+}
+
+If you want to remove padding you can set the value to 0 like this: 
+
+button {
+    padding: 0 20px;
+}
+
+Then we have the three values: top padding, left and right together (horizontal) and then the bottom. This is kind of confusing and pretty rarely used. The last shorthand syntax is the four value syntax: top, right, bottom and left. Sounds good but it is a little bit tricky to remember. Here's an example for it too:
+
+button {
+    padding: 10px 20px 30px 40px;
+}
+
+So that's padding, it's a space between the element's content area/box and it's own border. It's internal spacing, like the layer of fat between the muscles and the skin.
+
+The remaining piece of the box-model is the margin. Margin is the space outside an element's border, between that element and something else, other elements. Padding is the spacing on the inside of the border and margin is the spacing on the outside. Just like padding we have the four individual properties: margin-left, margin-right, margin-bottom, margin-top and we have the shorthand margin property which works exactly the same way as the shorthand padding in terms of syntax. We can provide one value to apply to all four sides. We can apply four separate ones, two and three as we also had for padding. It follows the same syntax. Here is the mdn page for margins https://developer.mozilla.org/en-US/docs/Web/CSS/margin if you analyze an element with the dev tools (f12) and click on the "Computed" tab you see the layout for content, padding, border and margin wherein you can directly change the values. Let's now have a look in our elements from index.html. The <h1> gets by default some margin. We can remove the margin by setting it to 0 on all four sides.
+
+h1 {
+    background-color: pink;
+    width: 200px;
+    padding-left: 100px;
+    padding-top: 50px;
+    margin: 0;
+}
+
+We notice that there is still some yellow space (seen with the dev tools - f12). This is because the <body></body> also has some spacing by default.
+
+body {
+    margin: 0;
+}
+
+You may not want that all the time but it usually useful to get rid of it first and then you can add it when you need it, otherwise you have that mystery space. So we got rid of all margins, let's add some margins to our first #one div. Let's add to the left 50px and to the bottom 100px.
+
+#one {
+    background-color: #e5989b;
+    border-width: 5px;
+    border-color: black; 
+    border-style: solid;
+    /* box-sizing: border-box; */
+    margin-left: 50px;
+    margin-bottom: 100px;
+}
+
+There is more to be discussed specifically around spacing. Let's have a look at that happy face from the Hello <h1></h1>. The happy face is put in a <span></span>. We can then style the <span></span> to make it move over to the right. So we can give it some margin-left 30px. We also want it to move a little bit down for example, so we'll set margin-top: 30px.
+
+span {
+    margin-left: 30px;
+    margin-top:30px;
+}
+
+It moved to the right but why is not moving down? This is something we'll cover it up next, when we talk about the display property. To wrap this up, margin is the space between the outside of the element and other elements. Padding is between the border - even if the border is invisible - and the content area of an element on the inside. Width and height control the content area, unless we use the box-sizing property with border-box where width and height will govern the entire width and height and border and padding will be substracted from that. By default width and height control just the content area.
+
+Next up, the display property. Previously we saw that there are two types of elements: inline elements and block elements. So an inline element fits alongside other elements on the same line and the block-level element pushes other elements on a separate line. This is not the sole difference between them and this is what are are going to explore now. There is a property called display. If we look on mdn https://developer.mozilla.org/en-US/docs/Web/CSS/display we can see that there are a lot of options that we can set display to. There is a lot of them although a lot of them currently are not fully implemented but a lot are green, too. So we're going to focus on three possible values to start with: inline, block and inline-block. Let's have a look into the display/starter/index.html file. We need to create an app.css file in the same folder to play around with this index.html file. If we give the <h1></h1> a background-color and a border:
+
+h1 {
+    background-color: paleturquoise;
+    border: 1px solid black;
+}
+
+We hit refresh and we can see that the element extends all the way across the available space. In this case that's the entire body. Let's have a look at the span that we have burried insite a lorem ipsum text. Let's give the <span></span> a background and a border of 1px solid black.
+
+span {
+    background-color: palevioletred;
+    border: 1px solid black;
+}
+
+No surprise here, the span by default are inline and do not take an entire line of space, do not push other elements or other content onto a separate line, there is no break versus the block-level elements like <h1></h1>'s. So the display property allows us to change that, so for example on our h1's we can change that and set display to inline:
+
+h1 {
+    background-color: paleturquoise;
+    border: 1px solid black;
+    display: inline;
+}
+
+So what happens now is that these previously block-level elements are behaving now as inline elements. We can also set this for the span and make it a block element.
+
+span {
+    background-color: palevioletred;
+    border: 1px solid black;
+    display: block;
+}
+
+And as we can see, the span takes the whole line. Let's see if we can edit the span a little bit more. Let's first remove the display: block and add some width 500px to the span.
+
+span {
+    background-color: palevioletred;
+    border: 1px solid black;
+    width: 500px;
+}
+
+What happened with width, what if we wanted the span to be wider? It should be wider than what we see right now. That's what happens when the element is of type span: the width and height are ignored. But what about paddin? Let's do padding of 50px.
+
+span {
+    background-color: palevioletred;
+    border: 1px solid black;
+    width: 500px;
+    padding: 50px;
+}
+
+Hmm, so that worked. But this padding is not pushing content away, it does now have its own space, it just sits or is under other content. If we were to remove the backround color we can clearly see that the text from our lorem ipsum just coveres the padding. But how about margin? Let's add margin of 50px.
+
+span {
+    background-color: palevioletred;
+    border: 1px solid black;
+    width: 500px;
+    padding: 50px;
+    margin: 50px;
+}
+
+Do we get space all around our span? No but that maring is respected horizontally, at least. But vertically it is completely ignored. If we do that to our <h1></h1> and we give them width 300px, padding 50px and margin 100px.
+
+h1 {
+    background-color: paleturquoise;
+    border: 1px solid black;
+    width: 300px;
+    padding: 50px;
+    margin: 100px;
+}
+
+These will take effect overall: the width is working vertically and horizontally and so do padding and margin. Now that brings us to the third value that we'll cover: inline-block. This is going to behave like an inline element except width, height, padding and margin will be respected. Let's have a look a the three <div></div>'s from the top of our index.html and let's style them: let's give height 200px, width 200px and background-color olivedrab.
+
+div {
+    height: 200px;
+    width: 200px;
+    background-color: olivedrab;
+}
+
+It now looks like a long rectangle. Even though the width is smaller than the page, they still have to take the whole line. It is not going to share space. Let's add the border too:
+
+div {
+    height: 200px;
+    width: 200px;
+    background-color: olivedrab;
+    border: 5px solid black;
+}
+
+If we want to display them inline:
+
+div {
+    height: 200px;
+    width: 200px;
+    background-color: olivedrab;
+    border: 5px solid black;
+    display: inline;
+}
+
+We run into some issue because width and height are not respected for an inline element. So we need to set it to display: inline-block.
+
+div {
+    height: 200px;
+    width: 200px;
+    background-color: olivedrab;
+    border: 5px solid black;
+    display: inline-block;
+}
+
+Now they are behaving like inline elements. They are sharing a space, they are sharing a row, they are not forcing eachother onto a separate line. All the other properties with respect to the box-model are going to work. If we set margin to 50px on all sides it will work:
+
+div {
+    height: 200px;
+    width: 200px;
+    background-color: olivedrab;
+    border: 5px solid black;
+    display: inline-block;
+    margin: 50px;
+}
+
+One last thing to mention here is that we can hide an element really quick by setting the display: none. The element will not be completely deleted, it will appear in the document but they will take no space. This can be useful when we use JavaScript if we want to have elements not showing at the beginning and then later you show them or vice-versa. So we've covered inline, block and inline block, three different options for display. It all has to do with how elements fit in with other elements and how they are affected by box-model properties. 
+
+Well, the time has come for us to cover more CSS units. We've covered some of them already: px and %. We will now focus on the relative units. Pixels are the most common absolute units. The relative units are commonly used. Firstly let's have a look at percentages: they are always relative to some other value. It depends on what that something is. If we set width to be 50%, we set it 50% of the parent's element. This can be really useful if you have some container that is the main content of your blog post and is 800px wide and you want something to go 40% or 80% of the way across, you can use percentages and you don't have to calculate the number of pixels. Then we have other properties where it actually works differently: instead of being a percentage based upon the parent element's value, it's the value of the element itself. We'll see a demonstration for them soon. Let's start with the first scenario where a percent is relative to the property of the parent. It is very common to use it with width. We have the file inside units/starter/ called index.html. Let's make an app.css file in the same folder. At the bottom of index.html there is a section with id="percentages". Let's style that with a background-color #6d6875 and width 800px and height 800px:
+
+#percentages {
+    background-color: #6d6875;
+    width: 800px;
+    height: 800px;
+}
+
+Inside the <section></section> there is a generic <div></div>. Let's put a background-color of #e5989b, a width of 70% and a height of 20%. What this says it that: we want this to be 70% as wide as whatever the parent element is. In this case, the parent is the section. The same goes for the 20% height.
+
+#percentages div {
+    background-color:#e5989b;
+    width: 70%;
+    height: 20%;
+}
+
+Also if we change the parent width or height, our div is still going to have 70% of its width and 20% of its height. Because it is a relative unit and that can be very useful. As I mentioned, for some properties, percentages work differently. They are not relative to the parent but to the font-size of the element itself or some other value from the element itself. It really is on a per property basis, but generally percentages are normally used with width and height anyway. With line-height for example, if our font-size on an element is set to 100px, line-height of 50% is not 50% of the parent's line-height, it is 50% of the element's own font-size. Let's make a quick demo for that. Let's give the <h1></h1> a font-size 40 and a border 1px solid black so that we can see the line-height:
+
+h1{
+    font-size: 40px;
+    border: 1px solid black;
+}
+
+If we select the h1 wit the mouse we can see the line-height under the highlighted blue cursor color. If we set the line-height to 200%:
+
+h1{
+    font-size: 40px;
+    border: 1px solid black;
+    line-height: 200%;
+}
+
+We see that the line height increases twice. Just to calculate that out to see that it is 200% of the font-size, let's double the font size to see if it looks different. So 200% out of 40px makes 80px.
+
+h1{
+    font-size: 40px;
+    border: 1px solid black;
+    line-height: 80px;
+}
+
+And as we can see, the line-height remained the same. So it's not common to use percentages in a situation like that I just wanted to prove that it does behave differently depending on the specific property. With width and height it references the parent's width and height.
+
+Let's now look at em's and rem's. These are relative units. What's mildly confusing about them is that the other value changes depending on the property. For font-size: if it is set to 1em - it will have the same font-size as the parent element, if set to 2em - it will have double the font-size of the parent element. Let's style the <h2></h2> inside the element of id="ems" from index.html. Let's give it in app.css a font-size of 2em.
+
+#ems h2 {
+    font-size: 2em;
+}
+
+We notice that nothing changes. The h2 was supposed to have twice the font-size of it's parent element. But what is it's parent element? <article></article> and it does not have an explicit font-size set to it. If we give it a font-size: 30px then our h2 should have now a font-size of 60px. 
+
+article {
+    font-size: 15px;
+}
+
+If we change the article font-size to, say, 30px our h2 will also change with it and get bigger. We did not change anything on the h2 itself, we just changed the parent. Let's make the paragraph <p></p> element's font-size smaller than what is being inherited:
+
+#ems p {
+    font-size: 0.8em;
+}
+
+Let's make the <h3></h3> inside the id="ems" 1.5em, too.
+
+#ems h3 {
+    font-size: 1.5em;
+}
+
+If we change the article font-size, this will influence all other elements that are related to it, its children elements. That's the basic concept of em's when working with font-size. Then we have other properties such as padding or margin which are actually commonly used. In those situations 1em is not equal to the font-size of the parent or the margin of the parent. Instead, 1em is equal to the font-size of the element itself. Let's see this in work with an example. If we set the margin-left property on our h2, what I'm actually doing is taking the current font-size, whatever that's computed to be, so that would be 30px - we take 15px from article and multiply with 2 from 2em.
+
+#ems h2 {
+    font-size: 2em;
+    margin-left: 1em;
+}
+
+We can see the margin now. If we were to increase the font-size on h2, we would see that the margin also gets bigger. The margin-left 1em refers to the font-size property and the font-size refers to the parent's font-size. This can be really useful useful. If we had a button with font-size 30px, padding 0 30px, border-radius: 15px, background-color: #2a9d8f and color white. Let's style that button that is already on our index.html page.
+
+button {
+    font-size: 30px;
+    padding: 0 30px;
+    border-radius: 15px;
+    background-color: #2a9d8f;
+    color: white;
+}
+
+If we were to try to make this button, say, three times larger, we would make the font-size 90px. 
+
+button {
+    font-size: 90px;
+    padding: 0 30px;
+    border-radius: 15px;
+    background-color: #2a9d8f;
+    color: white;
+}
+
+As we can see this does not scale all that well. It does not have the same shape anymore, the corners are still rounded but it is a very slight rounding compared with before at 30px. If we used em's we could keep things relative to the font-size of the element. We can make the font-size 1em, the padding 0 1em and the border-radius: 0.5em. 
+
+button {
+    font-size: 1em;
+    padding: 0 1em;
+    border-radius: 0.5em;
+    background-color: #2a9d8f;
+    color: white;
+}
+
+But now if my font-size in <article></article> increases, our button still maintains that general shape. We still have a good amount of padding that grows inline with the font-size. The border-radius grows inline with the font-size as well. We can take that button from index.html and put it anywhere else: like inside the <h1></h1>, or on its own outside the <article></article> We can see that it's font-size will change in each of those situations. There are multiple buttons in our index.html file that have been already placed in those locations. The buttons will grow and shrink depending on what its font-size is evaluated to. This is really nice because if we used pixels we would have to tweek those numbers every time. With em's things scale as that font-size changes.
+
+Up next we will cover rem's. Now we'll talk about rem's. Before we get into rem's let's see one of the shortcomings with em's. In the <article></article> in our index.html there is a bulleted list with pasta types. Let's say we want the font-size of the <ul></ul> to be bigger, let's set it to 1.5em.
+
+#ems ul {
+    font-size: 1.5em;
+}
+
+That should be 50% larger than the article font-size. Well, we see that some get bigger than the others and this happens because he have nested <ul></ul>'s. They can stack - they can grow or shrink very quickly. If we try font-size: 0.5em the same thing happens except that it now shrinks. em's are based upon the parent's font-size, for the font-size property. So if the first <ul></ul> is getting a 1.5em font-size from it's parent, the next nested <ul></ul> will get it 1.5em bigger from the previous parent <ul></ul> and so on and so forth. So to tackle this problem it we would need to use rem's. Rather than deriving the font-size from the parent element, they derive the font-size from the root HTML element's font-size. So it's relative to this one font-size for the entire document. If the root HTML element has a font-size of 20px, 1rem will always 20px no matter where you are in the document, no matter what you're nested inside of. We have in our index.html a copy of the first article but for rem's. Let's play around with the second article. Let's say we want to have some sort of ratio between h2, h3 and paragraph that we can maintain. And we don't want it to scale based upon parents. We want it to be constant. Let's give the h2 from rems a font-size of 3rem, h3 from rems a font-size of 2rem, ul from rems font-size 1.5rem and the rems button font-size 1.5rem.
+
+#rems h2{
+    font-size: 3rem;
+}
+#rems h3{
+    font-size: 2rem;
+}
+#rems ul{
+    font-size: 1.5rem;
+}
+
+#rems button{
+    font-size: 1.5rem;
+}
+
+As we can see, the problems we had previously do not seem to surface anymore in our unordered list so this looks like a good solution for that. Sometimes you'll see people mix em's and rem's together because there are times where you want them to be situationally dependant. For example the button: the font-size can be based on rem's but the padding, the border-radius should change depending on what the actual font-size is computed to be. If we set the border-radius to be based upon the root element, that does not account for the actual size of the element (if you remember the button example from em's). This is getting into the weeds a little bit but remember this concept of rem's: if you change the root element's font-size, everything that we use rem's for, srhinks down. If we alter the html font-size we will see that it affects our rem's.
+
+html {
+    font-size: 30px;
+}
+
+Em's change based upon the parent element's font-size as we clearly see in the nested <ul></ul> example in index.html. Whereas rem's thake the font-size from the root element. Rem's are often easier to work with, easier to predict but em's also have a place, like the button example that scales. Rem's are used to show how something should look with respect to the rest of the document.
+

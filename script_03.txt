@@ -1,0 +1,61 @@
+____________________________________________________________________________
+03_html_essentials________________________________________________________03
+____________________________________________________________________________
+
+HTML is all about marking up a document.
+It helps to describe the structure of a page
+
+Let's make our own first HTML file: https://en.wikipedia.org/wiki/Car
+New file in VS Code
+car.html
+
+copy paste some text from the wikipedia and try to replicate the wikipedia page
+use <b> to make bold text where needed
+This was just a small example.
+
+Let's now have a look at a very important resource for developers:
+https://developer.mozilla.org/en-US/
+Here look at: References & Guides > References
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element BOOKMARK THIS ONE!
+
+Use google search for html together with MDN, for example: html form mdn
+We will use mdn very often.
+
+Let's now have a look at the <p> tag. This can be seen on mozilla mdn. Let's now put some text in a file and try to display it as two paragraphs.
+We could take something from here: https://en.wikipedia.org/wiki/Car
+*inserts text in file*
+We notice that we should have a paragraph at some point. We don't have it like we want it in the .html file, so let's format it with <p> because normal return spaces do not work. We leave the heading alone for now, this will be covered in the next demo.
+
+Next up we have six very similar elements: heading elements - h1, h2 through to h6. h1 is a top level heading for the entire page, usually just one used. Do not use these just by the size they carry. There should be a certain structure to it: there should be at most one h1 on the page and it should be the top-level main heading.
+We can add some text from above wiki page car and try to mimick the website. We can do lorem ipsum as text for now.
+lorem*5+TAB
+
+
+Let's have a look at the chrome inspector tool. Right click on a webpage and select inpsect. We can look here at all the underlying HTML on the page. We can now click the arrow at the top left corner of the inspector window "select an element in the page to inspect it" and we can click and highlight the element we clicked on. What are those elments: head body etc. We'll talk about that next.
+
+HTML Boilerplate aka HTML Skeleton - we have to write our HTML in a standard skeleton
+the doctype: a flag to your browser that says that we want to use the latest version of html -> HTML 5 with its latest features.
+HTML element is the root element and represents the top level element of the page. The permitted elements of html are one head element followed by one body element. You can see the definition of HTML on mdn https://developer.mozilla.org/en-US/docs/Web/HTML/Element/html
+The <title> element is used in the <head> element and controls what will be displayed in the tab of our browser. This is also used by google when we search for items > it displays the title; the title from google is the same as the title of the page when you click on the page.
+The next element we add to the html element is the body. The body represents all the content of the document. There is where we put everything that we typed, our content. That's it!
+We have to do this for every page we want to make. It is so often used that we even have a special shortcut for it in VS Code: ! + TAB generates what we just went through.
+
+
+We can make our code look pretty, ident it. You can do it yourself or you can let vscode do it.
+CMD + SHIFT + P and we write format document. Here we can see the shortcut for the auto format which is SHIFT + OPT + F in my case on a macbook. You can also go to settings (CMD + , in my case) or click on the wheel at the bottom left side. You can write "format" and it will give you all the settings for formatting. You can click for example on "Format HTML on save" so it formats it and makes it look nice when you press CMD+S.
+
+Let's now go over lists. We have two kinds of lists: ordered and unordered, here we can have a look on wikipedia to see if we can find some examples. If we inspect the elements we can see the tag exactly. If we go to https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol we can see that the permitted elements for content are <li>'s <script> and <template> but we will only focus on <li>'s for now. Let's do an example in an .html file and see it in action
+*here you do an example in index.html to showcase an ul and ol - change inbetween them to show both of them in action*
+In VSCode you can use CMD+SHIFT+UP/DOWN and copy the current line to that place
+We can also nest our ul ol, let's make an example of that too. *makes example*
+
+Up next is one of the most used elements: the anchor tag. This is used to create hyperlinks: to another page, to an email address, another location to a page, a file etc. If we try writing something like <a>I AM A LINK</a> it does not seem to be working. This means that we need to add something more to our anchor tag. If we look here https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a we can see that the anchor tag needs an attribute which mentions the path that the link should redirect to. An attribute are like little pieces of information that you can pass in to a tag. So not in between but inside the tag. Our firs example of this is the href which is the hypertext reference. It looks like this <a href="google.com">click me</a> But this is wrong. Why? Because it is trying to find a file named google.com. We need to write instead <a href="www.google.com">Click me</a>. 
+We can now try to reference a page that is in the same folder as our first one. Let's quickly make an about.html page and reference it in our previous file. <a href="about.html">about me</a>. We can also add a link on the about page to go back "home" to the page we left off from.	
+
+Let's now have a look at the next element: the image element. This is the first element that we've seen so far that does not have an opening and closing tag https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img 
+Inside the image we have to add an attribute called source: src="". We can download an image and put it in the same folder and add it to the website. For example src="my_car.jpg". If the picture is too large you can also add the attribute width="200px" but this is generally bad practice as you want to add this through CSS - which we will see later - so let's remove it for now.
+Let's add another image, let's take it from an external website, an image that we don't have locally on our computer. If we put our files in a folder we can reference that folder something like: /pictures/pic.jpg in the src attribute. If for some reason the image cannot load: like the external url does not load anymore or the file moves from your designated path in your computer, we can use the attribute alt="image description" so that this can be displayed in case the image cannot load. Also if someone is using a screen reader, it will read this part aloud.
+
+Let's now have a look at how we can add comments to our HTML. This helps us identify parts of our code without having it displayed on the actual website. The syntax for it is <!-- your commment text here -->. A shortcut for this is CMD+/ on macos to comment out automatically in VS Code if you do not want to use the clunky syntax for it.
+

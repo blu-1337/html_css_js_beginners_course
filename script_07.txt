@@ -1,0 +1,199 @@
+____________________________________________________________________________
+07_css_selectors__________________________________________________________07
+____________________________________________________________________________
+
+Now we'll take a deep dive in CSS Selectors. This is a crucial part of writing CSS. Having a good grasp of different selectors available for us to use help with that. To do a recap the basic CSS pattern is:
+
+selector{
+    property: value;
+}
+
+We'll be focusing now on the selector. As we've seen until now, if we put there h1 and write in the curly brackets { color: purple } we change the color for all h1's. Of course we can write more complicated selectors and here we'll have a look into how we can do that. For this section we will have a starter.html file which we will use for CSS practice in order to learn the CSS selectors. The starter file is like a reddit page or forum page with some posts.
+
+The first selector we will learn about is the *: the universal selector. It selects everything in the document. If you want to make everything in the document pink, you can use this:
+
+* {
+    color: pink
+}
+
+The start/universal selector will select everything from the web page, including stuff that you cannot actually make pink, like an image, div's and containers. This selector is not commonly used.
+
+The next selector is the element selector. It selects all elements of that type from the page. We have been using this in some of our examples. The following examples selects all buttom elements
+
+button {
+    font-size: 30px;
+    background-color: #a8dadc;
+}
+
+We can also use a comma to combine multiple selectors in a list and they both will get affected.
+
+h1, h2 {
+    color: #1d3557;
+}
+
+The ID selector is up next. If you remember, we used labels for inputs tags and we would put an id="" attribute in the input so that we could link it to our label. The id="" attribute is not only useful when adding labels to some element but for CSS too. We can use the id="" attribute on any element. This can be used as a hook for our CSS so that we can style a single element specifically. Let's say we want the sign up button to look different. Speaking of which, here is a nice website to choose colors from https://coolors.co/palettes/trending The way we select the one button is that we need to first add a unique id="" to the sign up button in HTML and then we use the # and the name of the id we gave to that element that we want to style. So here we would have:
+
+#signup {
+    background-color: #1d3557;
+    color: #f1faee;
+}
+
+It is important for just one thing on the page to have a certain ID, do not put it in more than one element. You will be tempted to put id attributes everywhere and style them but there are other selectors we will look into which would probably make more sense. So don't spam them all over the place if there is another better strategy. This does not mean that the ID selector is bad, but it can very easily get overwhelming when it should not. Usually there are handful of IDs on a page. A more handful option is the next one we'll get into.
+
+The Class Selector. This is more commonly used. We haven't really seen classes yet. Basically,  a class is a similar idea to an ID where we add something to our markup so that we can hook into it in our CSS except that a class can be applied to multiple elements. We can have different groups and style them similarly, which is very common for a typical website, you're not going to have every single thing being completely different. You will have groups of things or classes that you style similarly. For example in our starter.html we've got a repeating pattern: the posted by <span>/u/username</span> and the Lol look at this hilarious meme <span class="tag">funny</span> elements. These both <span></span>'s can be styled. Let's make them a light blue color:
+
+span {
+    color: #457b9d;
+}
+
+So this made both of them blue but what I would like is to style the <span></span> that are at the end of the post name. So what we need to do now is go into our starter.html and give those span's a class="tag" attribute. This is the name of our class: "tag". Now each of them have the class called "tag" and for the moment that does nothing, they look the same. Now we can use the class selector syntax with dot and the name of the class. Now we go in the app.css file and give them a red background color, a white text color and a 16px font size.
+
+.tag {
+    background-color: #e63946;
+    color: #f1faee;
+    font-size: 16px;
+}
+
+Another thing you can do with the class element is section.post{}. This gets all section elements that have "post" class.
+
+It does not look fantastic at the moment but we will look into that later. We could also give this class to something else if we wanted to and it will get those styles too. This means that the class is not limited to just <spans></spans>'s. So the # is for ID's and . is for classes. 
+
+The next selector we'll have a look at is the descendant selector. We write it using a space between the parent and the descendant. This selects all descendants of the first element. For example .post a selects all <a></a> tags which are inside an element with class="post" and styles it.
+
+.post a {
+    color: #457b9d;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+In this next example we take all <a></a> anchor tags that are inside a footer. In this specific case in our starter.html, the <a></a> anchor tag is nested four levels below the footer, but it is still a descendant and thus still gets selected.
+
+footer a {
+    color: #e63946;
+}
+
+This descendant selector is commonly used alongside the class selector. So we can make a class called "post" and then style everything insite a class="post": all buttons inside the class="post" element and so on. This is better than making individual #id's or classes for each element. Sometimes it makes more sense to give the parenting element a class and use that as the reference.
+
+Nextly we'll look at the adjacent selector. These are called also combinators. We srite them as h2 + button for example: this selects all buttons's that are preceeded by h2's. This means buttons that comes right after the h2.
+
+h2 + button {
+    font-size: 20px;
+}
+
+Now we can have a look at the direct child selector. We use the greater than sign for this one. This selects the direct child element of one element. For example the first child <a></a> tag of the <footer></footer>. There are also other anchor tags inside this footer but they will not be affected because they are not direct descedants.
+
+footer > a {
+    color: #457b9d;
+}
+
+The next attribute we'll look at is the attribute selector. This allows us to select elements based upon some particular attribute. For example the input type="" attribute drastically varies the actual rendered input wheather it's a checkbox, a radio button, a text input or a password input. If we wanted to select only one type of those we use the attribute selectors. We use the square brackets [] and inside the attribute name equals "something". In the following example we select all inputs that have the type="password" attribute.
+
+input[type="password"] {
+    color: greenyellow;
+}
+
+One other usage here is to select for example all elements with an href containing "example".
+
+a[href*="google"]{
+    color: #1d3557;
+}
+
+You can alos use a[href$=".org"]{} to select <a></a> elements with the href attribute ending in ".org". See here for more: https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors Also note that these are case sensitive: google =/= Google
+
+Now we'll look at pseudo-classes. They are modifiers, they are keywords that we add on to the end of the selector that specify a particular state of the selected elements. We can target for example checkboxes that have been checked, elements that are being hovered over, or every other button or every fifth, tenth. These modifiers start with a column :. We need to add that column in order to signify that we are using a pseudoclass. The most commonly used modifier is :hover. https://developer.mozilla.org/en-US/docs/Web/CSS/:hover In the example on the mdn website we see that when the anchors are being hovered, the color of the <a></a> turns orange. It is useful to have a visual representation that shows that you can intereact with that element. Let's go on our starter.html and make a button iside a post change its background color when we hover over it.
+
+.post button:active {
+    background-color: #02c39a;
+}
+
+Also let's add a hover effect for the post anchor tags. Because the anchor tag text decoration has been previously set to none, we will not make it an underline inside for the post class.
+
+.post a:hover {
+    text-decoration: underline;
+}
+
+Another pseudo-class ist :active. It represents something that is being activated by the user: https://developer.mozilla.org/en-US/docs/Web/CSS/:active So for hover on the website example we get one state and when we click on the button we get another state.
+
+.post button:active {
+    background-color: #02c39a;
+}
+
+We also have the checked pseudo-class. But we are not going to cover that: here's an example on mdn though: https://developer.mozilla.org/en-US/docs/Web/CSS/:checked
+
+The next pseudo-selector is :nth-of-type. If we wanted to do somethin to every other section, we would use :nth-of-type. We need to specify the number we want to want to highlight. If we type 3, it will select the third. If we write 3n it will select every third. So we have to also pay attention to this syntax of :nth-of-type() pseudo-class. But for our example we will try to get every other element of class="post".
+
+.post:nth-of-type(2n){
+    background-color: #dfe8dc;
+}
+
+Now we'll look at something very similar sounding: pseudo-elements. They are also things we add on as modifiers to our selectors but they are going to select certain parts of our selected element: so we can style things like the first letter or first line of some elements. On the MDN website there are some with a flask symbol next to them: they should not be used for production websites because they are still experimental https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements. Let's have a look at ::first-letter https://developer.mozilla.org/en-US/docs/Web/CSS/::first-letter this is how we can select the first letter of a selection. Let's try an example: let's select the first-letter of each <h2></h2> title and make it bigger.
+
+h2::first-letter {
+    font-size: 50px;
+}
+
+If we leave off the second semicolon, it still works even though there should be two of them. This is just an observation, we should still put two. It is for the case we see them in code somewhere and we don't understand why they are written like that: some people mix them up. 
+
+We also have things such as ::first-line which does its name says. For example we need to have the first line of a paragraph in another color, say purple. We can do it like this:
+
+p::first-line {
+    color: purple;
+}
+
+The last pseudo-element we'll cover is ::selection. This will apply to any part of the document that he have highlighted, as can be seen in this https://developer.mozilla.org/en-US/docs/Web/CSS/::selection We can do the same for example for a paragraph in our starter.html and give it a different background color when we select it.
+
+p::selection {
+    background-color: #fcbf49;
+}
+
+So that is selection, first line, first letter. Those are examples of pseudo elements, we are selecting particular pieces, actual things on the page, rather than pseudo-classes which are states: if something is being hovered or checked. Pseudo-elements are things/parts of an elment we are selecting. There are also ::after and ::before which we will not cover but if you feel curious you can have a go at them yourself. But for now this is all about pseudo-elements we'll cover.
+
+Let's now look at the cascade. Remember that CSS stands for Cascading Style Sheets. All that it refers to is the fact that the order our styles are declared in, actually matters. Think of it as a cascade going down: starting from the top of our styles all the way to the bottom of our stylesheet or onto the next stylesheet. The order matters, and the order of the things are encountered in is going to be reflected in what you see in the browser. So if there are two conflicting styles: two h1's: one is red and the next one is purple. First it will be set to red and then thanks to the cascade it will be set to purple. If we have another file called more_styles.css and we add it after app.css and some styles are declared again, they will overwrite the original app.css styling because the order matters.
+
+Next step: what happens when we have conflicting styles that are targeting the same elements. Well, we talked about how order matters and in that case the selector is the same but what happens when we have different selectors. This is where specificity comes in. Specificity is how the browser decides which rules to apply when there is a conflict. Let's have a look at the following example:
+
+.post button:hover {
+    background-color: #e63946;
+    color: #f1faee;
+}
+
+button:hover {
+    background-color: olive;
+}
+
+We see here that the buttons from class="post" are made a reddish background color. When we afterwards make all buttons an olive background color, we see that the class="post" buttons are still having the red background color when hovered. This is because the .post button:hover selector is more specific than button:hover. If we delete the .post button:hover selector, it will turn olive in color. There is anctual calculation for this but you do not really need to know how to do it. But you can generally geta feeling for it. If we have an element selector (p {...}), it will lose in fron of an element selector + another element selector (section p {...}). This is the general formula you should remember: ID > CLASS > ELEMENT. An ID is extremely specific and it will beat any number of CLASS selectors and class selectors are pretty specific and will beat up any ELEMENT selectors. If you actually wanted to do the math or know the formula, it looks like this: _ _ _ imagine three digits arranged left to right: ID selectors go on the left, next the class, attribute and pseudo-class selectors go after and the element and pseudo-element selectors go on the right. So we total up the number of element and pseudo element selectors for say section p {...} which is _ _ 2. Our total specificity score which we read from left to right is: 2. If we have #submit {...} we put 1 _ _ and we read it from left to right as: 100 as a score. So we see that ID selectors counts as 10 times more than an element selector. So ID is far more specific. Let's take nav a.active{...} and we put _ 1 2 because we have two element selectors: nav and a, and one class="active" selector and we get 12. This is not something you should always do but you should be able to quickly recognize that an ID beats out a CLASS selector and a CLASS beats out an ELEMENT selector, and if you have a tie, more element selectors beat out a single element selector. Here's a website you can play around with specificity https://specificity.keegan.st/ scores. 
+
+One trick to use for specificity is the inspector tool (f12). There we can see in Elements the HTML and in the Styles the CSS for it. We can see for a certain element which styles are being applied to it and which are actually the winning styles. The ones that do not get applied are crossed out. We can also add styles in there directly. We can also search with filter, we can also see the options by forcing the element into :hov -> force element state. These dev tools are super useful.
+
+To wrap up our discussion around specificity, there are two other things that need to be mentioned: the first is inline styles - they are more specific than ID's and classes and elements, they are the most specific thing we have seen yet and that's one of the reasons why almost nobody recommends using them. The second topic is the !important. The !important rule is something that we can use on individual style declarations. It is generally something that is not recommended to be used, but you may come across it and it may sometime make sense to use it. When you assign a sign declaration as !important, that will signal to the browser that should be the most specific possible thing and it should overwrite any other declarations. 
+
+button {
+    background-color: magenta !important;
+}
+
+One pretty quick topic is inheritance. Some CSS properties will be inherited by child elements if they are not set on that element specifically. We have the folder inheritance_demo with an index.html file. If we create file called app.css for the style sheet and write:
+
+body {
+    color: purple;
+}
+
+We will notice that all elements get the color purple because they get it inherited from the body. If we no add something to section, everything in the sections inherits from the section. The <h1></h1> remains with the inheritance from the <body></body> element.
+
+section {
+    color: aqua;
+}
+
+We can do one more level and do the <form></form> element, too:
+
+form {
+    color: greenyellow;
+}
+
+Here in the form we see that the text input and button text did not inherit the green color. Just the label inherited it. This is so because some elements do not inherit by default the parent's styling. A work around for this that can be set for any property is setting the color: inherit.
+
+button, input {
+    color: inherit;
+}
+
+Now the button and input filed are now inheriting the <form></form> element's color. If we remove the form {...} styling we can also see that button and input inherit from the above section{...} styling. If you take a look at any property on mdn, if you scroll down to the blue box with additional information, in the "Inherited" line it will say if it gets inherited or not. For example border: https://developer.mozilla.org/en-US/docs/Web/CSS/border it has inherited no and color has https://developer.mozilla.org/en-US/docs/Web/CSS/color yes so thus it gets inherited. Don't worry to much about this as you will se over time which usually get inherited and which don't.
+

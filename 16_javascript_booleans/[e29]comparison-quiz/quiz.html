@@ -1,0 +1,130 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/image.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style type="text/css">
+    .panel-title>a:before {
+      content: "\f068";
+      float: right !important;
+      position: relative;
+      top: 1px;
+      display: inline-block;
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      line-height: 1
+    }
+
+    .panel-title>a.collapsed:before {
+      content: "\f067"
+    }
+
+    .panel-title>a {
+      text-decoration: none;
+      display: block
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 ui image">
+        <p class="lead">
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h4 class="panel-title"><a role="button" class="" data-toggle="collapse" href="#question1">Question 1</a>
+              </h4>
+            </div>
+            <div id="question1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <p>What does the following code evaluate to?</p>
+                      <pre class="prettyprint linenums">3 &lt;= 2</pre>
+                    </h4>
+                  </div>
+                  <div class="panel-body">
+                    <div class="radio" style="display: flex; align-items: start"><span class="badge"
+                        style="margin-right: 15px;">1</span> <label><input type="radio" name="answer1">
+                        <p>false</p>
+                      </label></div>
+                    <div class="radio" style="display: flex; align-items: start"><span class="badge"
+                        style="margin-right: 15px;">2</span> <label><input type="radio" name="answer1">
+                        <p>true</p>
+                      </label></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h4 class="panel-title"><a role="button" class="collapsed" data-toggle="collapse"
+                  href="#question2">Question 2</a></h4>
+            </div>
+            <div id="question2" class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <p>What does the following evaluate to?</p>
+                      <pre class="prettyprint linenums">9 == '9'</pre>
+                    </h4>
+                  </div>
+                  <div class="panel-body">
+                    <div class="radio" style="display: flex; align-items: start"><span class="badge"
+                        style="margin-right: 15px;">1</span> <label><input type="radio" name="answer2">
+                        <p>true</p>
+                      </label></div>
+                    <div class="radio" style="display: flex; align-items: start"><span class="badge"
+                        style="margin-right: 15px;">2</span> <label><input type="radio" name="answer2">
+                        <p>false</p>
+                      </label></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h4 class="panel-title"><a role="button" class="collapsed" data-toggle="collapse"
+                  href="#question3">Question 3</a></h4>
+            </div>
+            <div id="question3" class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <p>What does the following code evaluate to?</p>
+                      <pre class="prettyprint linenums">-5 &gt;= -6</pre>
+                    </h4>
+                  </div>
+                  <div class="panel-body">
+                    <div class="radio" style="display: flex; align-items: start"><span class="badge"
+                        style="margin-right: 15px;">1</span> <label><input type="radio" name="answer3">
+                        <p>true</p>
+                      </label></div>
+                    <div class="radio" style="display: flex; align-items: start"><span class="badge"
+                        style="margin-right: 15px;">2</span> <label><input type="radio" name="answer3">
+                        <p>false</p>
+                      </label></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

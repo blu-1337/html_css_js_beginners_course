@@ -1,4 +1,1376 @@
 ____________________________________________________________________________
 25_dom_events_____________________________________________________________25
 ____________________________________________________________________________
+(aici folosim slide-urile din cap. 24)
+
+Now it's time to talk about DOM events. Events are the key of creating any sort of interactive websites. Doing anything in response to what users are doing. This comes down to responding to a running code when a user does certain things like [s16] clicking, dragging, dropping, hovering, scrolling, submitting a form, pressing a key, moving the mouse wheel, double clicking, copying and pasting on their clipboard, resizing their screen. These are all different things that we can listen for and react to so we can run JavaScript code when somebody clicks, when you click this button, delete something or when you click this button, add something a new pokemon to the page. For example this website: https://play2048.co/ we can use arrow keys, which are listened for, when we click on new game and so on. Another example is https://unsplash.com/ on their website they implement infinite scroll, so as we scroll to the end of the page, new images are loaded. We don't end up with a massive page that loads all at once, instead it is loaded in chunks and new images are appendend as we scroll. So that's responding to our scrolling event and appending let's say 50 more image to the page. These events are all things we can listen for and react to with our code. And this is really the missing piece to combining everything. We've seen that we can create new elements with JavaScript or change elements or add styles, but it's kind of weird to do that when the page loads or do it from the console. A lot of the time we want to do that in response to something: when a user clicks, show something that wasn't there before or delete something, or when a user scrolls, add a bunch of new images to the bottom of the page. When a user hovers over the menu, create a new element and display it. When a user types the left, right, up or down arrow, figure out which one they hit and then move all our divs up or down. These are all things that we can do.
+
+There are three main ways that we can use to respond to user events. So let's run some simple code when an user clicks on something. We'll see three ways for this. First let's head over to events-basics_starter/index.html and make an h1 with text "Events" and a button:
+
+<body>
+    <h1>Events</h1>
+    <button>Click Me!</button>
+</body>
+
+What we'd like to happen is when we click on this button, let's do something like an alert. So the first option is, that we can add directly inline on the element an attribute called onclick:
+
+<body>
+    <h1>Events</h1>
+    <button onclick="alert('you clicked me!')">Click Me!</button>
+</body>
+
+inside the quotes we can put the JavaScript code that we want t orun when we click this button. We also have to pay attention to our quotes in there. There are also other downsides to this. First of all it's just bizarre to write our JavaScript in HTML. It makes our markup longer and just more annoying to write, plus having to work inside those quotation marks is kind of annoying too. We have to make sure we're using double quotes on the outside and then single quotes on the inside or vice versa. Also if we want to write multiple lines, it won't look that good. 
+
+<body>
+    <h1>Events</h1>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+</body>
+
+But a more legitimate complaint other than saying it's annoying, is that if we want to have a similar behaviour on a second button, we would have to copy the entire thing and move it over to the second button. If we had five buttons that did the same thing, that would be a lot of copying and pasting, duplicating a lot of code. And also if we would later want to change the message, it would be a mess.
+
+<body>
+    <h1>Events</h1>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+</body>
+
+So as we saw, this is not a great approach. The next option is done in our JavaScript. First of all let's include our app.js in our index.html:
+
+<body>
+    <h1>Events</h1>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+
+    <script src="app.js"></script>
+</body>
+
+We're going to then need to have some elements that we can select in our app using what we already know how to do: querySelector or document.getElementById. So let's add a new button with id "v2" and text "Click Me (2nd version):
+
+<body>
+    <h1>Events</h1>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+    <button id="v2">Click Me (2nd version)</button>
+
+    <script src="app.js"></script>
+</body>
+
+So we'll select that button over in our JavaScript app.js and then save it to a variable:
+
+const btn = document.querySelector('#v2');
+
+if we do in the f12 devconsole 
+
+console.dir(btn)
+
+we'll see that we have a whole bunch of properties that start with on like: onclick, ondrag, ondrop and so on, which are all set to null. We can actually change that property. So let's change the onclick one from null to a function. Let's make a simple function first and then set the onclick property.
+
+const btn = document.querySelector('#v2');
+
+btn.onclick = function () {
+    console.log("YOU CLICKED ME!")
+    console.log("I HOPE IT WORKED!!")
+}
+
+if we do in f12 devtools 
+
+btn.onclick //we whould see that it has been set to a function
+
+Now if we click, it does work. This is definitely better because we are writing our code in JavaScript, instead in HTML inside of quotes. Also this does make it easier to apply stuff to multiple buttons or to repeat this process. If we wanted every button to do that function, we could select them and then loop over them and give each one an onclick and that's a lot better than earlier where we have to copy and paste the code if we wanted to manually change it in many places. 
+
+Let's do another example for onmouseenter. This event is for when a pointing device, typically a mouse is initially moved so that it's hotspot is within the element at which the event was fired. An online example from mdn https://developer.mozilla.org/en-US/docs/Web/API/Element/mouseenter_event So let's try this our ourselves. Let's write this time a standalone function scream and give it onmouseenter.
+
+const btn = document.querySelector('#v2');
+
+btn.onclick = function () {
+    console.log("YOU CLICKED ME!")
+    console.log("I HOPE IT WORKED!!")
+}
+
+function scream() {
+    console.log("AAAAAHHHHH");
+    console.log("STOP TOUCHING ME!")
+}
+
+btn.onmouseenter = scream;
+
+A thing to note here is that we are not executing the function here. We are simply passing it to onmouseenter and onclick another function. We are setting them and when the user clicks or they go over with the mouse, then they will be executed.
+
+So we worked to far with buttons but we are not limited only to buttons, we can use them on any element, like h1 if we wanted to.
+
+const btn = document.querySelector('#v2');
+
+btn.onclick = function () {
+    console.log("YOU CLICKED ME!")
+    console.log("I HOPE IT WORKED!!")
+}
+
+function scream() {
+    console.log("AAAAAHHHHH");
+    console.log("STOP TOUCHING ME!")
+}
+
+btn.onmouseenter = scream;
+
+document.querySelector('h1').onclick = () => {
+    alert('you clicked the h1!')
+}
+
+Also, we always need to wrap it in a function be cause if we do:
+
+document.querySelector('h1').onclick = alert('you clicked the h1!')
+
+the code will execute straight away. So the value should reference a function and not execute right away.
+
+Now the third and best option for working with events is [s17] a special method called addEventListener. Let's first see how it works before we talk about how it's better than the others. This method addEventListener is like the swiss army of events. We pass in an event that we want to listen for and then the second argument is our callback function, the code that we want to run. So let's add a new button in our index.html
+
+<body>
+    <h1>Events</h1>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+    <button id="v2">Click Me (2nd version)</button>
+    <button id="v3">Click Me (3rd version)</button>
+
+    <script src="app.js"></script>
+</body>
+
+Now we need to select that button, save it to a variable and add the event listener for a click and run an alert on it.
+
+const btn = document.querySelector('#v2');
+
+btn.onclick = function () {
+    console.log("YOU CLICKED ME!")
+    console.log("I HOPE IT WORKED!!")
+}
+
+function scream() {
+    console.log("AAAAAHHHHH");
+    console.log("STOP TOUCHING ME!")
+}
+
+btn.onmouseenter = scream;
+
+
+document.querySelector('h1').onclick = () => {
+    alert('you clicked the h1!')
+}
+ 
+
+const btn3 = document.querySelector('#v3');
+btn3.addEventListener('click', function () {
+    alert("CLICKED!");
+})
+
+If we want to see the full list of events, we can go to: https://developer.mozilla.org/en-US/docs/Web/Events So the first argument is the event type and the second argument is the function that we want to run with addEventListener. Let's explore now why this is better that the other two options we had before: inline and .onclick. Let's add these two new functions to app.js:
+
+const btn = document.querySelector('#v2');
+
+btn.onclick = function () {
+    console.log("YOU CLICKED ME!")
+    console.log("I HOPE IT WORKED!!")
+}
+
+function scream() {
+    console.log("AAAAAHHHHH");
+    console.log("STOP TOUCHING ME!")
+}
+
+btn.onmouseenter = scream;
+
+
+document.querySelector('h1').onclick = () => {
+    alert('you clicked the h1!')
+}
+
+
+const btn3 = document.querySelector('#v3');
+btn3.addEventListener('click', function () {
+    alert("CLICKED!");
+})
+
+function twist() {
+    console.log("TWIST!")
+}
+function shout() {
+    console.log("SHOUT!")
+}
+
+Let's also create a new button with text "Twist & Shout" and id="tas" in index.html.
+
+<body>
+    <h1>Events</h1>
+    <button onclick="alert('you clicked me!'); alert('stop clicking')">Click Me!</button>
+
+    <button id="v2">Click Me (2nd version)</button>
+
+    <button id="v3">Click Me (3rd version)</button>
+
+    <button id="tas">Twist & Shout</button>
+
+    <script src="app.js"></script>
+</body>
+
+So we're going to select that button in our app.js, save it to a variable and then call shout on it with onclick:
+
+const btn = document.querySelector('#v2');
+
+btn.onclick = function () {
+    console.log("YOU CLICKED ME!")
+    console.log("I HOPE IT WORKED!!")
+}
+
+function scream() {
+    console.log("AAAAAHHHHH");
+    console.log("STOP TOUCHING ME!")
+}
+
+btn.onmouseenter = scream;
+
+
+document.querySelector('h1').onclick = () => {
+    alert('you clicked the h1!')
+}
+
+
+const btn3 = document.querySelector('#v3');
+btn3.addEventListener('click', function () {
+    alert("CLICKED!");
+})
+
+function twist() {
+    console.log("TWIST!")
+}
+function shout() {
+    console.log("SHOUT!")
+}
+
+const tasButton = document.querySelector('#tas');
+
+tasButton.onclick = shout;
+
+So that works, if we click on that button, we get shout. Now we also want to call twist which is a separate function. So we want twist and then shout for example:
+
+const btn = document.querySelector('#v2');
+
+btn.onclick = function () {
+    console.log("YOU CLICKED ME!")
+    console.log("I HOPE IT WORKED!!")
+}
+
+function scream() {
+    console.log("AAAAAHHHHH");
+    console.log("STOP TOUCHING ME!")
+}
+
+btn.onmouseenter = scream;
+
+
+document.querySelector('h1').onclick = () => {
+    alert('you clicked the h1!')
+}
+
+
+const btn3 = document.querySelector('#v3');
+btn3.addEventListener('click', function () {
+    alert("CLICKED!");
+})
+
+function twist() {
+    console.log("TWIST!")
+}
+function shout() {
+    console.log("SHOUT!")
+}
+
+const tasButton = document.querySelector('#tas');
+
+tasButton.onclick = twist;
+tasButton.onclick = shout;
+
+We're only getting shout. What's happening here is that we can't have more than one. It's just a property like any other property. If we have a color for example in CSS and it starts as purple and then we make it green, we've lost purple, it got overwritten. It's the same exact thing here. It's just an object which we give a property value of twist and the it gets overwritten with shout. So we cannot have two different callback functions for the same event, at least not using this property method or this property approach. If we instead use addEventListener and do the same thing:
+
+const btn = document.querySelector('#v2');
+
+btn.onclick = function () {
+    console.log("YOU CLICKED ME!")
+    console.log("I HOPE IT WORKED!!")
+}
+
+function scream() {
+    console.log("AAAAAHHHHH");
+    console.log("STOP TOUCHING ME!")
+}
+
+btn.onmouseenter = scream;
+
+
+document.querySelector('h1').onclick = () => {
+    alert('you clicked the h1!')
+}
+
+
+const btn3 = document.querySelector('#v3');
+btn3.addEventListener('click', function () {
+    alert("CLICKED!");
+})
+
+function twist() {
+    console.log("TWIST!")
+}
+function shout() {
+    console.log("SHOUT!")
+}
+
+const tasButton = document.querySelector('#tas');
+
+// tasButton.onclick = twist;
+// tasButton.onclick = shout;
+
+tasButton.addEventListener('click', twist)
+tasButton.addEventListener('click', shout)
+
+This allows us to have as many callbacks as we want. So when we now click on the button, we get both of them. That's one of the big advantages. Nevermind the fact that we could combine those two functions if we wanted them both to run at the same time, but there are situation where we may have more than one click event, more than one callback that we want t orun when something is dragged or dropped and it doesn't make sense to combine them into a single function. So that's one thing we needed to highligh here.
+
+Another reason is that with addEventListener, there are a lot of other arguments that we can pass in as different options. This options object can contain different options, including things like once:
+
+tasButton.addEventListener('click', twist, {once: true})
+tasButton.addEventListener('click', shout)
+
+now it will only run twist once and afterwards that addEventListener is gone. More on this can be found on mdn https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener This is not that common but that's proof of the fact that we can pass in these options. There are other options but they require a bit more explanation, things like capture for example. So with addEventListener we have more control over how the event listeners work and when our callbacks are triggered. Thhere is also a companion method called removeEventListener, which we can use to easily remove event listeners. This is useful for complex appgs where lots of stuff going on and lots of events, event listenenrs and it can become too crowded and we can have performance issues if we are not managing those events or those listeners, so we can remove them if we add them with addEventListener. So these are a couple of reasons to use addEventListener, also most people use it and what we'll see the most.
+
+Now it's time for a little bit of exercise. We'll start a pretty simple project called random-colors. So we have an h1 and then a button underneath. When we click the button, we get a random new background color and the h1 now displays that background color in rgb value. We're using RGB colors because they are the easies to randomly generate. It's just three numbers from zero to 255. And that's all there is to it. Every time we click, we get a new color and we're showing that new color up top. So we're updating the background color of the body and the text of the heading. So let's do it. Let's head over to our random-colors_starter/index.html and include our app.js, make an h1 with text Welcom and a button with text Click Me:
+
+<body>
+    <h1>Welcome!</h1>
+    <button>Click Me</button>
+
+    <script src="app.js"></script>
+</body>
+
+Now let's head over to random-colors_starter/app.js and select our button, save it to a variable and add an addEventListener to it with a console log first to see that it works:
+
+const button = document.querySelector('button');
+button.addEventListener('click', function () {
+  console.log('i work nicely')
+}
+
+now what we want to do is generate a random color. We can simplify that random color part and first just change the body's color once. So let's pick a color: olive and give the body that background color. Now we talked about the fact that generally is not a good idea to modify styles using the inline properties in the DOM. Usually, if we're doing a lot of styles at once, we create a class in a CSS stylesheet and we apply that class. But that doesn't work for randomly creating a color. It's just not easy to do it. We could predefine like ten different color classes, bu we cannot define random asset claseses. So instead what we're going to do is just set the background color property on the body. To access the body we can do document.querySelector('body') but there's a shortcut. We can just access the document.body directly.
+
+const button = document.querySelector('button');
+button.addEventListener('click', function () {
+    document.body.style.backgroundColor = 'olive';
+}
+
+Now we're seeing that change happen once. So that's working. Now that we simplified it, we can now generate the random color. So to generate the random color, we will need three numbers. The RGB follows this format: one number from 0 to 255 comma another number from 0 to 255 comma and a last number from 0 to 255:
+
+rgb(200,100,24)
+
+So we need to generate three numbers from 0 to 255. 
+
+const button = document.querySelector('button');
+button.addEventListener('click', function () {
+    document.body.style.backgroundColor = 'olive';
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+}
+
+now that we have generate the three random rgb numbers, we need to set the background to be that color. So we need to make a new variable and give it the rgb value via string template literal:
+
+const button = document.querySelector('button');
+button.addEventListener('click', function () {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    newColor = `rgb(${r}, ${g}, ${b})`
+    document.body.style.backgroundColor = newColor;
+}
+
+and it appears that it's working. Now we can update our h1 to have this new color as its actual text. So we need to select the h1:
+
+const button = document.querySelector('button');
+const h1 = document.querySelector('h1');
+button.addEventListener('click', function () {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    newColor = `rgb(${r}, ${g}, ${b})`
+    document.body.style.backgroundColor = newColor;
+}
+
+and then we need to overwrite the text inside of the h1. We can do that with innerText:
+
+const button = document.querySelector('button');
+const h1 = document.querySelector('h1');
+button.addEventListener('click', function () {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    newColor = `rgb(${r}, ${g}, ${b})`
+    document.body.style.backgroundColor = newColor;
+    h1.innerText = newColor;
+}
+
+And there we are. We can also now make this look nicer by moving the random number generating part to a new function called makeRandColor which will instead return our new string via string template literal:
+
+const button = document.querySelector('button');
+const h1 = document.querySelector('h1');
+
+button.addEventListener('click', function () {
+    const newColor = makeRandColor();
+    document.body.style.backgroundColor = newColor;
+    h1.innerText = newColor;
+})
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+so we saved it into a new function for the case we want to reuse it somewhere. For something simple like this it doesn't really matter but it's good practice to get in the habit of. Anytime we have some functionality that could stand alone, like make random color, we should move it to a separate function. We could also center the text or another cool thing that can be done is write some code to change the color of the text depending on the color itself, the color of the rgb. Basically a lower number, like three low numbers for example rgb(11,12,17) is very close to black. Black is 0,0,0. So we could figure out some thershold and if there are values less than 100 for example, we could give it a white color, otherwise keep it black.
+
+Now we'll talk about how the keyword this comes into play when we're working with events. For this we have in events-and-this_starter/index.html some larger buttons with the text of click. What we want to do is, when we click on each button, to give them a random background color. So we'll head over in events-and-this_starter/app.js and we'll start by making sure we can click on each button and something happens. We have our function that we wrote for our previous exercise. We're just going to leave it and ignore it for now. So let's select all buttons with querySelectorAll:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const buttons = document.querySelectorAll('button');
+
+now let's loop over all those buttons and do a very simple event handler first:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const buttons = document.querySelectorAll('button');
+
+for (let button of buttons) {
+    button.addEventListener('click', function() {
+      console.log('clicked')
+    })
+}
+
+now we have to make sure everything is connecter properly so we should be seeing clicked in f12 devtools. So every single button is going to console.log('clicked'). But now what we want to do is change the background color of each button. For that we have the makeRandColor, so we can use that. All that we need to do is figure out how to reference the particular button, the one button that was clicked. Well in the for loop we have access to a button so we can use:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const buttons = document.querySelectorAll('button');
+
+for (let button of buttons) {
+    button.addEventListener('click', function() {
+      button.style.backgroundColor = makeRandColor();
+    })
+}
+
+now we added an event listener to each button. Now it works for us. What we want to see now is what if we wanted to move this makeRandColor to another function in order to affect other elements as well, not just buttons. Let's first add a couple of h1's in index.html with the text of "Click Me!". Now to do the same for the h1's as we did for buttons, we would have some duplicated logic:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const buttons = document.querySelectorAll('button');
+
+for (let button of buttons) {
+    button.addEventListener('click', function() {
+      button.style.backgroundColor = makeRandColor();
+    })
+}
+
+const h1s = document.querySelectorAll('h1');
+
+for (let h1 of h1s) {
+    h1.addEventListener('click', function() {
+      h1.style.backgroundColor = makeRandColor();
+    })
+}
+
+and now our h1's get a random bg color as well. Let's say we also want a random text color for the buttons and the h1's
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const buttons = document.querySelectorAll('button');
+
+for (let button of buttons) {
+    button.addEventListener('click', function() {
+      button.style.backgroundColor = makeRandColor();
+      button.style.color = makeRandColor();
+    })
+}
+
+const h1s = document.querySelectorAll('h1');
+
+for (let h1 of h1s) {
+    h1.addEventListener('click', function() {
+      h1.style.backgroundColor = makeRandColor();
+      h1.style.color = makeRandColor();
+    })
+}
+
+now the text color changes too when we click on them. Let's say this is now too much to duplicate, the only difference is that we are doing it to a button and then to a h1. We would now like to make a generic function that will do that. If we write a function colorize(), how will it work if we don't have access to h1 or to button? This is a generic function. This is where the keyword "this" comes into play:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const buttons = document.querySelectorAll('button');
+
+for (let button of buttons) {
+    button.addEventListener('click', function() {
+      button.style.backgroundColor = makeRandColor();
+      button.style.color = makeRandColor();
+    })
+}
+
+const h1s = document.querySelectorAll('h1');
+
+for (let h1 of h1s) {
+    h1.addEventListener('click', function() {
+      h1.style.backgroundColor = makeRandColor();
+      h1.style.color = makeRandColor();
+    })
+}
+
+function colorize(){
+
+}
+
+so inside an event handler callback, the function that we pass into addEventListener, the keyword 'this' is going to refer to whatever was clicked on, that triggered this function being called. Whatever that event occured on the keyword 'this' will refer to that element. Now if you remember the keyword 'this' is dependent on the execution context or the invocation context. So that's not a hard rule that the keyword 'this' will always refer to the element. There are ways of changing the keyword 'this' inside our function. Let's see how it behaves in our code now:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const buttons = document.querySelectorAll('button');
+
+for (let button of buttons) {
+    button.addEventListener('click', function() {
+      console.log(this)
+      this.style.backgroundColor = makeRandColor();
+      this.style.color = makeRandColor();
+    })
+}
+
+const h1s = document.querySelectorAll('h1');
+
+for (let h1 of h1s) {
+    h1.addEventListener('click', function() {
+      h1.style.backgroundColor = makeRandColor();
+      h1.style.color = makeRandColor();
+    })
+}
+
+function colorize(){
+
+}
+
+now we log the keyword 'this' for the button. The value for the keyword 'this' is the value of the exact h1 we're clicking. So we could replace them with the keyword 'this' and everything would work perfectly like before. So let's finish our colorize function and rewrite the button and h1 for loops to use the colorize function:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const buttons = document.querySelectorAll('button');
+
+for (let button of buttons) {
+    button.addEventListener('click', colorize)
+}
+
+const h1s = document.querySelectorAll('h1');
+for (let h1 of h1s) {
+    h1.addEventListener('click', colorize)
+}
+
+function colorize() {
+    this.style.backgroundColor = makeRandColor();
+    this.style.color = makeRandColor();
+}
+
+now this function will work for both our buttons and h1s. This is a simple example to illustrate how the keyword 'this' works. When we use it inside of a callback function that is invoked by some event handler, the keyword 'this' will refer to that something that was acted upon or interacted with, whatever the even was triggered on.
+
+Next up we'll talk about two topics that are kind of related. The first one is called event object and the second is called keyboard events. So let's start with event object. Let's go to event-object_starter/index.html and add in a button with text "CLICK!" and also include our app.js to our body at the end:
+
+<body>
+    <button>CLICK</button>
+    <script src="app.js"></script>
+</body>
+
+Now let's got in app.js and select it with querySelector and add an event listener for click and with a function that makes an alert with text "click":
+
+document.querySelector('button').addEventListener('click', function () {
+  alert('click')
+})
+
+now there's this thing called the event object that is automatically passed in to our callback here, the function () { alert('click')}. We're not using it, we're not capturing it but it's being passed in every single time. so we can capture it, we can put a parameter in here. So let's name it evt and console.log it:
+
+document.querySelector('button').addEventListener('click', function (evt) {
+    console.log(evt)
+})
+
+It's an object constructed for us and it contains information about the object. In this case it's a MouseEvent object and it has things like clientX and clientY, which are relative to the window where we click, coordinates. We also have type, target and so on. So this is an object that contains information about the event. If we click on the far right side of the button, we'll get different clientX and clientY coordinates. If we ever needed that, let's say we wanted to do a nice animation or highlight, or to make something appear on the page, we could use this event object. The reason we're looking at this now is that we often need to rely on the event object when we're working with keyboard events. Frequently we want to know what key was pressed and that information is included in the keyboard event object. We can listen for keyboard events on the entire window. Like if we're making a game and we wanted to do something when we hit the arrow keys. So let's add a single input of type text in our index.html:
+
+<body>
+    <button>CLICK</button>
+    <input type="text">
+    <script src="app.js"></script>
+</body>
+
+Now let's select it in our app.js and save it to a variable:
+
+const input = document.querySelector('input');
+
+Let's add an event listener for keydown and execute some console logs for it:
+
+const input = document.querySelector('input');
+input.addEventListener('keydown', function () {
+  console.log("KEYDOWN")
+}
+
+so this is on the input when the keydown event occurs, it prints KEYDOWN. Now if we press something in the input field, we'll get the console logs. We can also add one for keyup:
+
+const input = document.querySelector('input');
+input.addEventListener('keydown', function () {
+  console.log("KEYDOWN")
+}
+input.addEventListener('keyup', function () {
+  console.log("KEYUP")
+}
+
+Now if we keep the key pressed, we'll get more console logs and then when we release it we get another last log from the keyup. Now a lot of the time we would like to know what key was pressed. So to do that we need to use the event object. So let's put an e inside of keydown for now and console.log it. Also let's comment out the keyup part too: 
+
+const input = document.querySelector('input');
+input.addEventListener('keydown', function (e) {
+  console.log(e)
+}
+// input.addEventListener('keyup', function () {
+//     console.log("KEYUP")
+// })
+
+Now on this keyboard event, what we care about are the properties called code and key. So let's print them out:
+
+document.querySelector('button').addEventListener('click', function (evt) {
+    console.log(evt)
+})
+
+const input = document.querySelector('input');
+input.addEventListener('keydown', function (e) {
+    console.log(e.key)
+    console.log(e.code)
+})
+// input.addEventListener('keyup', function () {
+//     console.log("KEYUP")
+// })
+
+As we can see, the key and code are different sometimes and sometimes not. For Shift we have Shift and ShiftLeft because we have two shifts on the keyboard. When we press backspace they are the same. We can use either, but it really depends on what our goal is. If we care about the character that was generated, then we can use key. If we care about the actual key that was pressed on the keyboard, the location of it, then we can use code. A user can change their language settings on their keyboard so the same exact letter q will have a different key, but it will always have the same code. So if we want the users for example to always use WASD in our game, we would use code because the position is always the same on their keyboard. And if we just want the letters WASD for something and we don't care what key was used to generate them, we can just use key.
+
+So let's do an example and image we are making a game. We want to listen for up, down, left and right arrows. So let's add another event listener for keydown and console log out first the keys that we are pressing to find our their code. We can alos use directly window.addEventListener.
+
+document.querySelector('button').addEventListener('click', function (evt) {
+    console.log(evt)
+})
+
+// const input = document.querySelector('input');
+// input.addEventListener('keydown', function (e) {
+//     console.log(e.key)
+//     console.log(e.code)
+// })
+// input.addEventListener('keyup', function () {
+//     console.log("KEYUP")
+// })
+
+window.addEventListener('keydown', function (e) {
+    console.log(e.code)
+})
+
+now we see that codes that we need are: ArrowUp, ArrowDown, ArrowLeft and ArrowRight. So we can use a switch statement for them and console log the key what was pressed. As a default we can console log "IGNORED!":
+
+document.querySelector('button').addEventListener('click', function (evt) {
+    console.log(evt)
+})
+
+// const input = document.querySelector('input');
+// input.addEventListener('keydown', function (e) {
+//     console.log(e.key)
+//     console.log(e.code)
+// })
+// input.addEventListener('keyup', function () {
+//     console.log("KEYUP")
+// })
+
+window.addEventListener('keydown', function (e) {
+    switch (e.code) {
+        case 'ArrowUp':
+            console.log("UP!");
+            break;
+        case 'ArrowDown':
+            console.log("DOWN!");
+            break;
+        case 'ArrowLeft':
+            console.log("LEFT!");
+            break;
+        case 'ArrowRight':
+            console.log("RIGHT!");
+            break
+        default:
+            console.log("IGNORED!")
+    }
+})
+
+now for arrow keys we get the direction and for other keys we get the console log "IGNORED!". Now we can use those to do something.
+
+So to recap, the event object is something we have access to in every event handler, it's passed in automatically. We're not calling the function, but when it's called for use, it's passed in. We can also add in a parameter to capture it with "e" or "evt" and it contains information about the event. The type of event determines what information is inside the object, what's included in it. So with keyboard events we have the key letter itself, the code for the actual location, the actual physical key. Also we saw that we can listen for those specific events, both on particular inputs as an example or on the window as a whole.
+
+Next up we're going to talk about working with forms. This is a very important part of creating web applications, we usually have some forms and we want to do something when the user submits those forms. Just to recap how those forms typically work without JavaScript. So let's head over to our form-events_starte/index.html and add in an h1 that says Form Events and a form with attribute action with value "/dogs":
+
+<body>
+    <h1>Form Events</h1>
+
+    <form action="/dogs">
+    </form>
+
+</body>
+
+now let's add an input to it of type text and name username, another input with type password and name password and finally a button with innerText Register
+
+<body>
+    <h1>Form Events</h1>
+
+    <form action="/dogs">
+        <input type="text" name="username">
+        <input type="text" name="tweet">
+        <button>Register</button>
+    </form>
+
+</body>
+
+now if we open index.html in our browser and enter in a user and a password an press Register, it will submit our data to /dogs?username=ourTypedInUser&password=ourTypedInPassword. Whatever our action attribute is in form, is where our data will be sent to. Now what we're going to do is use JavaScript to stop that and do something with the data on the same page. So the default behaviour is for that form to submit and to reload the page and take us somewhere else. We're going to say stop, that, don't do that and give me the username and password and let's do something here locally. Now let's do something like a comment: when we submit a comment, it shouldn't refresh the page or go somewhere else, instead it should just append the comment at the bottom of the page. So let's change our form a bit. Let's add to input username a placeholder of username and change the password type to text and name to tweet and add in a placeholder of "tweet". Then lastly let's change the button's innerText to Post Tweet.
+
+<body>
+    <h1>Form Events</h1>
+
+    <form action="/dogs" id="tweetForm">
+        <input type="text" name="username" placeholder="username">
+        <input type="text" name="tweet" placeholder="tweet">
+        <button>Post Tweet</button>
+    </form>
+
+</body>
+
+Now what we want to do here is when a user submits this form, we want to just run some basic code to start. So let's also add in our app.js script at the bottom of body in index.html. Also let's add in an id for our form with value tweetForm
+
+<body>
+    <h1>Form Events</h1>
+
+    <form action="/dogs" id="tweetForm">
+        <input type="text" name="username" placeholder="username">
+        <input type="text" name="tweet" placeholder="tweet">
+        <button>Post Tweet</button>
+    </form>
+
+    <script src="app.js"></script>
+</body>
+
+Now let's go in app.js. What we want to listen here for is the form submission. So let's select the tweetForm with querySelector and save it to a variable:
+
+const tweetForm = document.querySelector('#tweetForm');
+
+now the event we want to listen for is the submit:
+
+const tweetForm = document.querySelector('#tweetForm');
+tweetForm.addEventListener('submit', function (e) {
+  alert('SUBMIT!!!")
+})
+
+now let's verify that it works. It says submit but when we click ok it sends us to the dogs page. If we don't want to do anything after that, so basically stop it from going to the other page, we need to tell the browser that we do not want to have that default behaviour. So what we can do is on that tweetForm.addEventListener, inside the function, we can use a particular method called preventDefault(), which will stop any default behaviour as a result of that event:
+
+const tweetForm = document.querySelector('#tweetForm');
+tweetForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  console.log('SUBMIT!!!")
+})
+
+now we are still on the same page. Now if we want to use this information from the form we would first need some kind of section in which we could post our comments in. So let's go back to our index.html and add an h2 with innerText "Tweets:" after our form and after the h2 let's add an ul with id="tweets":
+
+<body>
+    <h1>Form Events</h1>
+
+    <form action="/dogs" id="tweetForm">
+        <input type="text" name="username" placeholder="username">
+        <input type="text" name="tweet" placeholder="tweet">
+        <button>Post Tweet</button>
+    </form>
+
+    <h2>Tweets:</h2>
+    <ul id="tweets">
+
+    </ul>
+
+    <script src="app.js"></script>
+</body>
+
+no we want to append the comments asa a new li's in our ul. So we need to figure out how we can extract that username and that tweet text here. To do that we can use the value attribute from the input. So for example if we enter some text in our input and then do f12 devtools:
+
+document.querySelectorAll('input')[1] //this selects the second input which is the comment.
+
+document.querySelectorAll('input')[1].value //on this input there is an attribute called value and it corresponds to whatever is in there.
+
+So if we were to change that to something else like
+
+document.querySelectorAll('input')[1].value = 'I like cars'
+
+we just updated what's in the input. So that attribute value can also be accessed through getAttribute or setAttribute. But this is the shorter way of accessing it. So what we want to do is, when we access it, take the value from the inputs and make a new li in our Tweets ul that has the username and the tween and we'll go from there. One option is to select those inputs ahead of time in our tweetForm function:
+
+const tweetForm = document.querySelector('#tweetForm');
+tweetForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  console.log('SUBMIT!!!")
+  const usernameInput = document.querySelectorAll('input')[0];
+  const tweetInput = document.querySelectorAll('input')[1];
+  console.log(usernameInput.value, tweetInput.value)
+})
+
+so we are console logging the first and then the second input fields when we click on the Post Tweet button. Now we are successfully printing out those values, so we can now do something with them. But before we do that, if we had a lot of pieces of inforamtion in our for, more input fields, it can get annoying, having to select every input individually. For this we have on every form element a property called elements, so let's have a look at that in f12 devconsole:
+
+console.dir(tweetForm)
+
+The elements is just a collection of the form elements inside it. What's also nice is that it's an ordered collection. So we can say give me elements of zero, of one and so on. This all depends of the order, if we swap the elements between them, the order here in the collection will also change. But if we give our elements a name, that name will be set up as a property name in elements. So we can ask for tweetForm.elements.tweet for example and we can quickly get to the input itself. So let's do that instead of our querySelectorAll in app.js:
+
+const tweetForm = document.querySelector('#tweetForm');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // const usernameInput = document.querySelectorAll('input')[0];
+    // const tweetInput = document.querySelectorAll('input')[1];
+    const username = tweetForm.elements.username,value;
+    const tweet = tweetForm.elements.tweet,value;
+
+    console.log(username.value, tweet.value)
+})
+
+So that is an easier way to go from a form to the elements and their values that are contained inside of that form, rather than having to select that form from scratch. We can also iterate over the elements if we have a lot of them.
+
+Alright, now let's make a new li with JavaScript:
+
+const tweetForm = document.querySelector('#tweetForm');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // const usernameInput = document.querySelectorAll('input')[0];
+    // const tweetInput = document.querySelectorAll('input')[1];
+    const username = tweetForm.elements.username,value;
+    const tweet = tweetForm.elements.tweet,value;
+
+    const newTweet = document.createElement('li');
+})
+
+Now we would like a bold tag with the username inside it.
+
+const tweetForm = document.querySelector('#tweetForm');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // const usernameInput = document.querySelectorAll('input')[0];
+    // const tweetInput = document.querySelectorAll('input')[1];
+    const username = tweetForm.elements.username,value;
+    const tweet = tweetForm.elements.tweet,value;
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    console.log(newTweet)
+})
+
+So we made a bold tag with the username inside it, we appended it to our newTweet and than we did a string template literal dash tweet to append the tweet text itself. So it would look something like this, step by step
+
+<b></b>
+<b>Cristian</b>
+<li><b>Cristian</b></li>
+<li><b>Cristian</b> - nice tweet text here</li>
+
+Now all we have to do is append that to our ul. So we need to make some kind of tweetsContainer which selects the id of "tweets" from our ul:
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // const usernameInput = document.querySelectorAll('input')[0];
+    // const tweetInput = document.querySelectorAll('input')[1];
+    const username = tweetForm.elements.username,value;
+    const tweet = tweetForm.elements.tweet,value;
+
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    console.log(newTweet)
+})
+
+and ad the end, instead of our console.log, we'll do tweets.tweetsContainer.appen(newTweet)
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // const usernameInput = document.querySelectorAll('input')[0];
+    // const tweetInput = document.querySelectorAll('input')[1];
+    const username = tweetForm.elements.username,value;
+    const tweet = tweetForm.elements.tweet,value;
+
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    tweetsContainer.append(newTweet);
+})
+
+and it works. Now we still have the usernameInput and tweetInput there. We can empty them by setting their .value to an empty string ''.
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // const usernameInput = document.querySelectorAll('input')[0];
+    // const tweetInput = document.querySelectorAll('input')[1];
+    const username = tweetForm.elements.username,value;
+    const tweet = tweetForm.elements.tweet,value;
+
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    tweetsContainer.append(newTweet);
+    usernameInput.value = '';
+    tweetInput.value = '';
+})
+
+What we can do now is move the actual creation of this newTweet to a separate function called addTweet:
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // const usernameInput = document.querySelectorAll('input')[0];
+    // const tweetInput = document.querySelectorAll('input')[1];
+    const username = tweetForm.elements.username,value;
+    const tweet = tweetForm.elements.tweet,value;
+    addTweet(usernameInput.value, tweetInput.value)
+    usernameInput.value = '';
+    tweetInput.value = '';
+});
+
+const addTweet = (username, tweet) => {
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    tweetsContainer.append(newTweet);
+}
+
+and it still works nicely. So what we've covered is the submit event, which is triggered when a user submits a form. It does not necessarily get triggered from a button, we can also trigger it with the enter key for example. By default, the behaviour of a form that is being submitted is to make a an HTTP request to the action attribute value and send the data there, but if we use preventDefault on the event object, it will prevent that default behaviour and it stops it from making that request and keeps us on the same page so that we can do our own stuff. We can extract data, append to the page and manipulate the contents of that form. Lastly, we saw that instead of having to select each input manually with regular DOM selectors like querySelector or something, we actually have access to all the inputs within a given form inside of that form.elements. So that elements is a collection and it's an ordered collection. But if we give our inputs a name, which is always a good idea, we can access individual inputs by name, username, tweet and that's generally a lot better or at least easier to access our data out than having to do something like querySelectorAll.
+
+Next up two other events that are form and more exactly input related that we may want to use or come across are change and input. There's an event called input. So let's go inside change-and-input-events_starter/index.html and add in an h1 with innerText Type Below:, an input of type text and our app.js script at the bottom before the body closing tag:
+
+<body>
+    <h1>Type Below: </h1>
+    <input type="text">
+
+    <script src="app.js"></script>
+</body>
+
+let's open index.html. Let's say we wanted to do something each time our input is updated. So we want something to happen live, rather than waiting for a submit. As an example, we could use something like a keypress, key down or something like that, but that does include things like arrow keys, or the shift key, they are all considered a keydown, also that excludes other ways of adding to this input or of typing. So yes, there is a physical keydown events, but some people may be copying and pasting, or using a voice over utility or something where they're not actually typing onto keys. So there different ways of updating an input and keydown or keyup does not include all of them or encompass them. There is although one event that we'll start with, which is the change event. So let's head over to change-and-input-events_starter/app.js and select the input and save it to a variable:
+
+const input = document.querySelector('input');
+
+now we can add the addEventListener to input and we'll set it to watch for change and print out a console log.
+
+const input = document.querySelector('input');
+
+input.addEventListener('change', function (e) {
+    console.log("I work :)")
+})
+
+If we go to index.html, open the console and we change something in it, but nothing happens. It only console logs when we click way. It only fires when we change the input and then we go outsite the input field. So instead of changes we can think of it like: whenever we leave that input and it is different than it was before we entered the input. This thing is also called blur, when we go outsite the focus, it remains blurred. So we focus and then blur, we leave. So if we want something to happen every time the value is different inside the input, we have a different event called input: this fires whenever the input changes:
+
+const input = document.querySelector('input');
+
+input.addEventListener('input', function (e) {
+    console.log("I work :)")
+})
+
+the clicking inside, the shift keys, arrow keys, do not trigger it, but the actual text changes do. So let's now do something were we update our h1 with whatever we're typing in our input field. So let's first select it and save it to a variable and let's console.log(e)
+
+const input = document.querySelector('input');
+const h1 = document.querySelector('h1');
+
+input.addEventListener('input', function (e) {
+    console.log("I work")
+    console.log(e)
+})
+
+this prints out an input event every time we change the input. Inside we have a property called data, it's not the current value of that input, it's just what we typed, the new part of that piece of text. That's not really what we want. What we want is just the value from the input. So we're just going to take whatever the input is with input.value and we're going to update h1.innerText to be whatever that value is:
+
+const input = document.querySelector('input');
+const h1 = document.querySelector('h1');
+
+// input.addEventListener('change', function (e) {
+//     console.log("I work")
+// })
+
+input.addEventListener('input', function (e) {
+    h1.innerText = input.value;
+})
+
+so we should get some sort of live, in-sync piece of text as we type or delete. So that was kind of simple. It is important here to understand the difference between the input event and the change event, which only fires when we blur out the input. Also keydown which seems similar, except it does not contain things like copying, pasting or using a menu with right click. Keyup will also trigger for keys that are nod modifying the text like left arrow, right arrow, shift and so on.
+
+Next up we're going to talk about something called event bubbling. Let's jump into an example first and head over to bubbling_starter/index.html and make a button in the body with the property onclick="alert('button clicked')" adn the text Click:
+
+<body>
+    <button onclick="alert('button clicked')">Click</button>
+
+    <script src="app.js"></script>
+</body>
+
+and it works. Next we're going to wrap that in a paragraph:
+
+<body>
+    <p>
+        <button onclick="alert('button clicked')">Click</button>
+    </p>
+    <script src="app.js"></script>
+</body>
+
+and now let's add an onclick property with alert to the paragraph too:
+
+<body>
+    <p onclick="alert('paragraph clicked')">
+        <button onclick="alert('button clicked')">Click</button>
+    </p>
+    <script src="app.js"></script>
+</body>
+
+now if we click the button we get button clicked and paragraph clicked. If we were to add a thirt level and wrap everything in a section which also has an onclick:
+
+<body>
+    <section onclick="alert('section clicked')">
+        <p onclick="alert('paragraph clicked')">
+            I am a paragraph:
+            <button onclick="alert('button clicked')">Click</button>
+        </p>
+    </section>
+    <script src="app.js"></script>
+</body>
+
+if we click on that button, we get three alerts. All of them are going to be triggered. What's going on? It's something called event bubbling. So an event is going to be triggered first on some element, that element is handled by the alert function. The event will bubble up from the button click event and will go from the bottom up to the highest level, to the surface. It then triggers the paragraph, and then it triggers the section. So we get all three alerts in that order. So the button is triggered, then the paragraph and then the section. Now maybe sometimes we want that behaviour, maybe not with alerts, but most of the time we don't. Let's see another simple example. Let's go in index.html and make a div with id of container and innerText "Click To Hide". Inside the div let's also make a button with id changeColor and innerText "Change Color":
+
+<body>
+    <section onclick="alert('section clicked')">
+        <p onclick="alert('paragraph clicked')">
+            I am a paragraph:
+            <button onclick="alert('button clicked')">Click</button>
+        </p>
+    </section>
+
+
+
+
+    <div id="container">
+        Click To Hide
+        <button id="changeColor">Change Color</button>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+
+currently it does nothing. When we click on it, we would like to change the div's color, the div in which the button is inside of. We have the makeRandColor already in our app.js, so we'll select the button by its id of changeColor and the container div as well in our app.js and save them to separate variables:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const button = document.querySelector('#changeColor');
+const container = document.querySelector('#container');
+
+
+
+So now let's make an addEventListener on that button so that the backgroundColor changes using makeRandColor.
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const button = document.querySelector('#changeColor');
+const container = document.querySelector('#container');
+
+button.addEventListener('click', function (e) {
+    container.style.backgroundColor = makeRandColor();
+})
+
+What we want to do now is make an event listener for the div itself so that, if we click on it, it will hide the button using a class called ".hide" that sets the display: none. The class is in our index.html, as a <style></style> element.
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const button = document.querySelector('#changeColor');
+const container = document.querySelector('#container');
+
+button.addEventListener('click', function (e) {
+    container.style.backgroundColor = makeRandColor();
+})
+
+container.addEventListener('click', function () {
+    container.classList.toggle('hide');
+})
+
+It works. Now the problem that we run into is that when we want to change the color and we click the button, everything hides. Now the button, if we inspect the div with f12, did give it a new backgroundColor. But how do we stop this behaviour? There's an easy way of doing this. On the event object there is a method like preventDefault that will stop propagation called stopPropagation. So we can add it to our button so that the bubbling will not propagate to the higher elements:
+
+const makeRandColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+const button = document.querySelector('#changeColor');
+const container = document.querySelector('#container');
+
+button.addEventListener('click', function (e) {
+    container.style.backgroundColor = makeRandColor();
+    e.stopPropagation();
+})
+container.addEventListener('click', function () {
+    container.classList.toggle('hide');
+})
+
+now it works how we want it to. So we can stop event propagation with the stopPropagation method.
+
+Alright, we now have one more important topic regarding events and that is event delegation. In this practice, when we want some code to run when the user interacts with any one of a large number of child elements, we set the event listener on their parent and have events that happen on them bubble up to their parent rather than having to set the event listener on every child individually. So an example where it would come in handy is in our previous tweet form that let us add in comments. So let's open up delegation_starter/app.js. Here is our old tweet form. Now we want to modify this so that we can delete tweets too by clicking on the li that we want to remove. To do that, we would add an event listener to the li. So for that we need to select all li's and loop through them and delete them with a click addEventListener:
+
+const lis = document.querySelectorAll('li');
+for(let li of lis){
+    li.addEventListener('click', function(){
+        li.remove()
+    })
+}
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // const usernameInput = document.querySelectorAll('input')[0];
+    // const tweetInput = document.querySelectorAll('input')[1];
+    const usernameInput = tweetForm.elements.username;
+    const tweetInput = tweetForm.elements.tweet;
+    addTweet(usernameInput.value, tweetInput.value)
+    usernameInput.value = '';
+    tweetInput.value = '';
+});
+
+const addTweet = (username, tweet) => {
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    tweetsContainer.append(newTweet);
+}
+
+We also need now to add some li's to start with in our index.html:
+
+<body>
+    <h1>Event Delegation</h1>
+
+    <form action="/dogs" id="tweetForm">
+        <input type="text" name="username" placeholder="username">
+        <input type="text" name="tweet" placeholder="tweet">
+        <button>Post Tweet</button>
+    </form>
+
+    <h2>Tweets:</h2>
+    <ul id="tweets">
+        <li>I AM LI!!!</li>
+        <li>I AM LI!!!</li>
+    </ul>
+
+    <script src="app.js"></script>
+</body>
+
+So let's see if it works if we click one li. It does. But now if we add a new tweet, it does not work to remove them.. So those li's that were on the page when our JavaScript code ran and we added those event listeners, but they cannot see into the future so they can't add event listeners for li's that will be added in the future. So these li's, the new ones, the new tweets don't have any sort of event listeners, because they were created after the fact. So the solution here is to use something called event delegation, which just means we're going to add our event listener to some element that's a parent, for example a parent of our li's. So we're probably going to attach it to our ul. The ul is always going to be there even if it's empty at the beginning and then we can listen for clicks on the ul, but specifically clicks that are actually on li's that just happen to be in that ul. So let's add the following to app.js at the end:
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const usernameInput = tweetForm.elements.username;
+    const tweetInput = tweetForm.elements.tweet;
+    addTweet(usernameInput.value, tweetInput.value)
+    usernameInput.value = '';
+    tweetInput.value = '';
+});
+
+const addTweet = (username, tweet) => {
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    tweetsContainer.append(newTweet);
+}
+
+tweetsContainer.addEventListener('click', function (e) {
+    console.log("click on UL");
+})
+
+so whatever we click now in the ul will be registered as a click on the ul, even the new li's that we insert afterwards. Let's now also print out e:
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const usernameInput = tweetForm.elements.username;
+    const tweetInput = tweetForm.elements.tweet;
+    addTweet(usernameInput.value, tweetInput.value)
+    usernameInput.value = '';
+    tweetInput.value = '';
+});
+
+const addTweet = (username, tweet) => {
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    tweetsContainer.append(newTweet);
+}
+
+tweetsContainer.addEventListener('click', function (e) {
+    console.log("click on UL");
+    console.log(e);
+})
+
+this is now the crux of making this work, being able to tell which li was clicked on inside of that ul. So inside our MouseEvent object there is a particular property that we care about and that is "target". target is set to the li we clicked on. Even though the element that we attached the event listener to is the ul, the target is the li. That's important because we want to write some code that is going to look at that target, check if it's an li just to be sure as there can also be other content and then we want to remove that li. So we want e.target.remove()
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const usernameInput = tweetForm.elements.username;
+    const tweetInput = tweetForm.elements.tweet;
+    addTweet(usernameInput.value, tweetInput.value)
+    usernameInput.value = '';
+    tweetInput.value = '';
+});
+
+const addTweet = (username, tweet) => {
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    tweetsContainer.append(newTweet);
+}
+
+tweetsContainer.addEventListener('click', function (e) {
+    e.target.remove();
+})
+
+Now it works to remove old and new li's. But let's add in something in the ul that is not an li, like a paragraph in our index.html:
+
+<body>
+    <h1>Event Delegation</h1>
+
+    <form action="/dogs" id="tweetForm">
+        <input type="text" name="username" placeholder="username">
+        <input type="text" name="tweet" placeholder="tweet">
+        <button>Post Tweet</button>
+    </form>
+
+    <h2>Tweets:</h2>
+    <ul id="tweets">
+        <li>I AM LI!!!</li>
+        <li>I AM LI!!!</li>
+        <p>I AM NOT REMOVEABLE!</p>
+    </ul>
+
+    <script src="app.js"></script>
+</body>
+
+now if we go on the page it will also remove the paragraph. So we would like to specifically remove only li's and not other elements. For that we need to do in our app.js the following:
+
+const tweetForm = document.querySelector('#tweetForm');
+const tweetsContainer = document.querySelector('#tweets');
+tweetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const usernameInput = tweetForm.elements.username;
+    const tweetInput = tweetForm.elements.tweet;
+    addTweet(usernameInput.value, tweetInput.value)
+    usernameInput.value = '';
+    tweetInput.value = '';
+});
+
+const addTweet = (username, tweet) => {
+    const newTweet = document.createElement('li');
+    const bTag = document.createElement('b');
+    bTag.append(username)
+    newTweet.append(bTag);
+    newTweet.append(`- ${tweet}`)
+    tweetsContainer.append(newTweet);
+}
+
+tweetsContainer.addEventListener('click', function (e) {
+    e.target.nodeName === 'LI' && e.target.remove();
+})
+
+so we are testing if the e.target.nodeName is actually an li element. If that is true, then it will get removed, if that is false, the e.target.remove() will not be executed. If the left side is false then the next one will not run. Now if we click on the paragraph, it will not get removed, but all other li's do get removed. 
+
+So that's event delegation. It's useful in situations like this where we have elements that may not be on the page at the time our event listeners are added, so we can add event listeners to some parent elements. Technically we could add one click event listener to our body element of the entire app, then we would have to check event.target for everything instead of individual listeners. That's not recommended, be we could. And that's it for event delegation.
 

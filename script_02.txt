@@ -1,0 +1,35 @@
+___________________________________________________________________________
+02_intro_to_web_dev _____________________________________________________02
+___________________________________________________________________________
+
+HHTP how we share the resources, a set of standardized rules
+
+the request response circle
+
+click on page > view source to see what the server sent the browser
+
+Browser sends http request for us to the server which responds with http request
+
+front end, back end - two separate locations but both very critical
+
+server sends back HTML CSS JS code back
+
+HTML CSS & JS are the only languages that your browser understands and utilizes for web pages
+
+codepen calculator: https://codepen.io/giana/pen/GJMBEv
+This uses all three technologies 
+here you can remove the CSS and JS parts to see what it looks like without
+add CSS back in, and comment that the JS functionality is not present
+
+
+HTML is the what of the page, CSS describes that structure and makes it look good, JS is the verb/action and functionality of the web page
+
+
+We now need to install our tools for development: https://www.google.com/chrome/
+We also need VS Code
+For macos it can be nice to have Spectacle (App) to rearrange your windows faster: https://www.spectacleapp.com/
+
+To setup theme for VS Code: Settings>Workbench>Appearance
+Extensions>install material theme
+
+

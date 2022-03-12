@@ -1,0 +1,39 @@
+@media (max-width: 10450px){
+  h1 {
+      background-color: violet;
+  }
+}
+@media (max-width: 950px){
+  h1 {
+      background-color: indigo;
+  }
+}
+@media (max-width: 850px){
+  h1 {
+      background-color: blue;
+  }
+}
+@media (max-width: 750px){
+  h1 {
+      background-color: green;
+  }
+}
+@media (max-width: 650px){
+  h1 {
+      background-color: yellow;
+  }
+}
+@media (max-width: 550px){
+  h1 {
+      background-color: orange;
+  }
+}
+@media (max-width: 500px){
+  h1 {
+      background-color: red;
+  }
+}
+
+
+/* HERE ARE THE RAINBOW COLORS */
+/* red, orange, yellow, green, blue, indigo, violet. */

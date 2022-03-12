@@ -2,3 +2,796 @@ ____________________________________________________________________________
 24_intro_dom______________________________________________________________24
 ____________________________________________________________________________
 
+This is one of the most interesting parts where we will understand how everything will fit together. Here we'll learn how to combine JavaScript with HTML and CSS. So instead of doing like until now JavaScript in isolation, now we're going to learn how to interact with HTML and CSS. The DOM [s3] stands for Document Object Model and that will make more sense in a bit. [s4] At it's core is a bunch of JavaScript objects that represent the webpage. If we have an H1 on our page, we would have a JavaScript model that is modelling and represents that H1 and we can change that JavaScript object and the page will update to show those changes. It is our window, our access portal into the contents of a webpage from JavaScript. This is how we do things like going on google and searching for cars. If we click on one of the dropdown expandable cards, to open then, we need to use some kind of JavaScript code: we have some aspect of interaction, the actual click, the toggling of that content. That's where we combine HTML, CSS and JavaScript. Another example on the same google search page is the cars slider that we get.
+
+So the DOM, as we previously said, it's our window into the webpage through JavaScript, it's JavaScript's window and it consists of a bunch of objects. The way it [s5] works is that when a browser loads the webpage, part of that loading process involves taking the incoming HTML and CSS and then creating a whole bunch of JavaScript objects based upon those elements and those styles. So if we have something like this very simple document [s6], where we have an H1, a UL and two LI's: each one of those, every single element, including the body, gets its own JavaScript object. And those objects have certain properties like the type of elements they represent: is it an LI, is it an image. But some of them have some more specialized things like an href attribute or a source for an image or inner text for a heading or LI. Some thing have text inside, some things don't, like images. So we get these JavaScript objects which we are representing on the right with circles. It's not just these objects that exist on their own, they are actually connected, there is a relationship. For example the h1 (on the left) lives inside the body, the LI's live inside the UL and the UL lives inside the body. That's also captured by these objects on the right and how they are structured, it's something called a tree structure. It's a datastructure that is diagrammed on the right side where the are connections: we have a parent then we have children and those children can be parents for other elements. Now imagine something more complicated for our typical webpage which has thousands of elements in there, all nested multiple levels deep. So at the top of this tree structure, at the very top is a very special element or a special object, called the document. It's called the document just as we have a special object in JavaScript called window that is always available in the browser. Well, so is document.
+
+document
+
+when we look at it, it doesn't look like a whole lot, it shows us html. But it's not HTML. This is what chrome devtools f12 does, it shows you the corresponding HTML. So there is a better way of seeing the actual document object and that is: 
+
+console.dir(document)
+
+dir stands for directory, the directory of this document object. Now we are seeing something different than before, now we're seeing a JavaScript object and there are lots of properties in here like URL - the webpage we are currently on. So this is JavaScript in this object telling us that it is aware of where we are. That is the URL we're on. We have thihngs like a reference to the body, and that body is the actual body of our page, when we highlight it, the body of the page gets highlighted as well. We have things like the domain we're on, if it's fullscreen or not, the images on the page and so on. But remember: this is a JavaScript object. This object has things like alt text for that image, the image source and loads of other stuff. There are many properties on here that we would very rarely need to touch.
+
+So let's recap: [s7] the document is an object, just like everything in the DOM, it's just a JavaScript object. It is created automatically for us by the browser whenever we load a new page. It is created based upon the contents on the page, using the contents of the page. So it's a bunch of objects that represent the content on the page and then a bunch of other useful methods and properties with which we can do things like listen for clicks or drags so that we can change CSS styles or show and hide elements. But it's all a bunch of objects and the document contains it all. It's like a top of a folder for everything. It's the root of a tree in computer science terms. 
+
+So let's start working with the DOM and open up the selecting_starter folder. Here we have an index.html which contains some simple markup from Wikipedia. Without doing anything to it, if we open up index.html and then go to devtools f12 and we write
+
+document
+
+we just end up with the representation, the HTML sort of inspector, but behind that is the actual object, we can go to it by writing:
+
+console.dir(document)
+
+now we can see the URL, in "all" every element on the page is contained: h1, p, a, b and so on. If we expand a bold tag, it is itself an object. If you remember the diagram from [s6] when we talked about how JavaScript takes in the markup, the HTML elements and their corresponding styles, it spits out these JavaScript objects and that's exactly what we're looking at here. Each one of these is an object for a single element. And there is a lot of stuff here. For example, the localName tells us it is indeed a bold tag: "b" and on the inside "innerText" has the text "Silkie" or whatever is showing there as the value. If we look at another bold tag. Let's see as a quick demo how we can change that. So we were in document, we went into all and then we need to go to the bold tag which is inside of that array so we need an index:
+
+document.all[10] 
+
+and this gives us <b>Silkie</b>. It looks like it's just text, looks like HTML, but remember, it is actually an object. So we can do something like
+
+document.all[10].innerText = "Slickie"
+
+and we can change the HTML that we see on the page without touching the index.html, we did it through the DOM. So this was to demonstrate that inside this document object everything is contained, where it all starts. Within it we have properties that we can change to manipulate the document, to manipulate everything we see and everything we don't see which are behind the scenes like the stylesheets that are connected or the specified fonts. These are all things that we can manipulate through the document object. This is just an intro to this concept of the document object, which, once again, just contains just a bunch of properties and different methods, it contains objects that represent the content of a web page and then it contains a bunch of other stuff that we will probably will never touch.
+
+Alright, we talked about how the document object ocntains a bunch of methods and different properties that actually correspond to other objects which contain a bunch of methods and a bunch of properties in a tree nested structure. So in that document object, there are a bunch of methods, some of which are really important to understand. We're going to learn some of those in this video. We're going to start by talking about methods that help us select elements [s8]. When we say selecting, we're talking about using JavaScript to single out one element, all elements of a certain class or all elements of a certain type, just like we do in CSS: we don't just apply every single style to every element, we do stuff like make all link blue or make the heading larger with a gray background, we don't make everything have a gray background. We selectively apply our CSS. We do the same thing with JavaScript: we selectively apply some changes targeting an element. So that is what selecting is. We have to select elements first [s9], what we are going to be working with. Then we can work with them and manipulate them. 
+
+So now we will introduce our first of these selecting methods called: getElementById [s10]. It is a method that exists on the document, when we call it, we pass in a string and this string needs to correspond to some ID on an element. So if there is an element found with that ID, it will be returned and if it cannot be found, then we get undefined. So let's take a look at our example in selecting_starter/index.html, we have some markup where we have some id's assigned to elements: the image has an id of "banner", the table of contents has an id of "toc". So if we wanted to select that image first, we'll open up devtools f12 and we write:
+
+document.getElementById('chicken')
+
+we get "null", because this id does not exist. If we give it an ID that exists:
+
+document.getElementById('banner')
+
+it gives us the image, now it looks like it gives us HTML, but that's not the case. So let's save that to a variable:
+
+const banner = document.getElementById('banner')
+
+if we now do: 
+
+console.dir(banner)
+
+we can now see that it is an object and it contains all those properties, a lot of which are blank but we can see that it has an id of "banner" it has currentSrc where the source of the image link is listed, width, tagName and so on. So we selected that using document.getElementById. When we are selecting basically we are telling JavaScript, please fetch me the object that represents some element on the page matching some id. So we are not saying give us the HTML, we are instead asking for the DOM object, the actual element object that JavaScript created. If you remember from slide [s5] with the factory: HTML and CSS go in and JavaScript objects are generated or constructed that represent those elements. That's what we're gettin here. So we're not actually selecting the text, the HTML or the CSS styles, we're selecting the DOM object. So in our previous example we got an object that represented that particular image with the id of banner. Let's do one more example:
+
+const toc = document.getElementById('toc')
+console.dir(toc)
+
+we save it to a variable and then we look at the content of the object to see its properties. This time we'll see that his object has the id of toc, it has a tagName of DIV, it has a width, height and a childElementCount: 3. This tells us how many children it has. We can verify this in the index.html. If we open up that property we can actually see which elements are his children. So that's all there is to selecting by id. This is only going to select by id, it's not going to work if there's a class name that we are trying to select by. But it just gives us the object representation of that element, which we can then manipulate. For now we were just selecting, from the two step process: selecting and manipulating.
+
+Alright so the next two methods are built into the document just like getElementById . These are two are grouped together [s10] because they have to do with elements, in plural. That's because they select more than one thing at a time like for example: give us all of the elements that have this class or give us all of the elements that are anchor tags or image tags. So let's start with TagName: getElementsByTagName. Here's the documentation on mdn https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName all we have to do is pass in getElementsByTagName and then pass in a tag name. So we don't pass in "paragraph", but "p", or we can pass in "img" for images. If everything goes well, this returns to us something called an HTML collection. We'll talk about what that is in just a moment. So let's go back to our selecting_starter/index.html and go to devconsole f12 and write
+
+document.getElementsByTagName('img')
+
+this returns something called an HTML collection. It look like an array, but it is not an array. So we can use array syntax like square brackets and indeces because every element has an index. So let's save that to a variable first:
+
+const allImages = document.getElementsByTagName('img')
+
+If we look at allImages, we can single out the first one for example:
+
+allImages[0]
+
+an this is the banner image. Remember: they're not actually strings of text, they are full on objects. So let's do a
+
+console.dir(allImages[1])
+
+now we can see that it indeed is an object and it has a source. 
+
+So this HTML collection is not an array. We do not have access to .map for example:
+
+allImages.map
+
+it does not exist, we get undefined. It's as if I was trying to access some other function that doesn't exist. We do have things like .length, indeces and we can actually use for...of on them.
+
+allImages.length
+
+So these are iterable collections but they are not arrays. So let's now head over to our selecting_starter/app.js and let's loop over all of our images. If we go back, we'll see that each image has a source (src) and we can console.log each image's source. 
+
+const allImages = document.getElementsByTagName('img')
+
+for (let img of allImages){
+    console.log(img.src)
+}
+
+and if we open index.html, this will print us the four image sources. So we can iterate over that collection. But keep in mind that it is not an array and we cannot use array methods like map on it. We can also, as a sneak preview, manipulate things. We can change all the image's source to be one single image:
+
+const allImages = document.getElementsByTagName('img');
+
+for (let img of allImages) {
+    img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Silky_bantam.jpg/440px-Silky_bantam.jpg'
+}
+
+this is our first example of really manipulating things. Now every image on the page looks the same. We just have four of them, so if we had one hundred or more, they would all be selected and changed to the same one. 
+
+We can also select other types of elements like 
+
+document.getElementsByTagName('p')
+document.getElementsByTagName('div')
+document.getElementsByTagName('b')
+document.getElementsByTagName('a') //we get 24 anchor tag elements
+
+Let's now talk about what this HTMLCollection returns. What is inside of it? Well it's a particular thing called element https://developer.mozilla.org/en-US/docs/Web/API/Element An element in JavaScript is that object we're getting back that has all these properties that represents a single HTML element. So the actual name in JavaScript of the type of those objects is Element with capital E. Just to recap, these are the 24 anchor tag elements for example we got before as a return.
+
+Now let's talk about this second method getElementsByClassName [s10]. It does exactly what it sounds like. Rather than selecting by id or by tagName, we're selecting by a class. So we have a class of "square" in our index.html for some images. So we can select those three like this:
+
+document.getElementsByClassName('square');
+
+and then we get those three image elements in this collection, an array like thingy that is not actually an array and we can access each one of them and do something like:
+
+// const allImages = document.getElementsByTagName('img');
+
+// for (let img of allImages) {
+//     img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Silky_bantam.jpg/440px-Silky_bantam.jpg'
+// }
+
+const squareImages = document.getElementsByClassName('square');
+
+for (let img of squareImages) {
+    img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Silky_bantam.jpg/440px-Silky_bantam.jpg';
+}
+
+notice we commented out the previous code. Now only those three images which have that have been updated and the top image does not have that class, so it did not get selected, it's completely unchanged. 
+
+Now for both of these methods getElementsByClassName and getElementsByTagName if we do
+
+document.getElementsByClassName('gsagdasdag')
+
+something that does not exist, we do not get null, we get an empty collection. It's like an empty array-like thingy. If we do this for getElementById:
+
+document.getElementById('fasdafsd')
+
+it just returns null, it gives us one thing because there is no collection of elements with an id, because an id is supposed to occur only once per page. We either get the element itself or null. Like if we looked for the banner image:
+
+document.getElementById('banner')
+
+we get the entire element, the object. So that's it for our two new methods getElementsByTagName and getElementsByClassName. They are similar and they both return to us an HTML collection, an array like object. It doesn't have array method but it does have indices and a length and we can iterate over it.
+
+Now we'll see a newer, better and fancier way of selecting elements called querySelector [s11]. This did not exist from the beginning, but now we have it and is like a swiss army knife. It's a combo, we can use one method to select by id, className, element type or attribute or really any CSS style selector that we want. This is how it works: document.querySelector() and then we pass in the same sort of selector we would use in CSS. If we wanted to select by element name we would do:
+
+document.querySelector('p')
+
+it only gives us one, the first matching one. If we do 
+
+document.getElementsByTagName('p')
+
+we will get two paragraphs. So querySelector just gives us the first match. So let's try it again and select an id now with querySelector. Let's select the banner id:
+
+document.querySelector('#banner')
+
+we now selected banner id with the #symbol, this tells querySelector that we want to select by id. Now how would we select by class? We would have to use the dot for that. So let's select the square class:
+
+document.querySelector('.square')
+
+we can also do more complicated things. For example if we select image, the first matching image is the top one. But we can chain on other CSS style selectors like nth of type and get the second one:
+
+document.querySelector('img:nth-of-type(2)')
+
+now we get the image with the class of sqaure. So we can add multiple selectors here, do more complicated things. So let's select an anchor tag that has the attribute title="Java":
+
+document.querySelector('a[title="Java"]')
+
+again, this is only the first match, even though it's only one on this page anyway. But we also have [s12] querySelectorAll: this is the exact same principle, but it returns a collection of matching elements instead of just the first match. So there two querySelector and querySelectorAll are actually what we would need to use all the time. It's pretty rare that we would need to use [s10] getElementById, getElementsByClassName and getElementsByTagName, but people still use them. Fortunately querySelector and querySelectorAll is supported across all modern browsers so we are in the clear there https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector (see compatibility table). So querySelectorAll is going to return a collection of all matching elements. So if we do:
+
+document.querySelectorAll('p')
+document.querySelector('p')
+
+now we get two of them. Compared to normal querySelector where we get just one, it's not in a collection and it's also not an array-like object. It's just the object element itself. Remember, it looks like it's actually contents or an HTML string, but it's not. It's a JavaScript object created about that or using that HTML string. So we can also do 
+
+document.querySelectorAll('img')
+
+and get all the images. Let's try doing something like selecting all anchor tags nested inside fo paragraphs:
+
+document.querySelectorAll('p a');
+
+this is similar to how we would do it in CSS. So we could select all of these and iterate over all of them for example in our app.js. We first have to save it to a variable:
+
+const links = document.querySelectorAll('p a');
+
+for (let link of links) {
+    console.log(link.href)
+}
+
+so we are printing out the href attribute, even though we haven't really seen this until now. Now we can print every anchor tag source and there we go. 
+
+That's about it for querySelector and querySelectorAll. They are very flexible and there is a lot we can do with them. We spent some time on CSS and selecting with CSS and now we can use those selectors here. As we saw, we used n-th of type, we can use descendant selectors, the adjacent selector (the plus sign), we can use elements (like we used in 'p a' above), class selectors with the dot, select by id with the #hash symbol. So basically we can replace the previous methods that we saw: getElementById, getElementsByClassName and getElementsByTagName by using querySelector or querySelectorAll, depending on wheather we want to select the first match or all matches. We will be using these quite a bit and this wraps it up about selectors.
+
+Now we move on to step two [s13, s14]: now that we learned about selecting, how we find elements, how we select them from the DOM, we get those objects. Now what do we do with them? This is where step two comes in: we manipulate them. It's not an official term, but we will often hear DOM manipulation or manipulating the DOM frequently used. It just refers to getting those JavaScript fingers in the middle of HTML and CSS and moving things around and renaming things, updating styles or showing and hiding things, basically using JavaScript to impact the HTML and CSS that the user sees and even stuff the the user does not see. There is a lot that we can get into [s15], but we will narrow it down to the most important properties that we can work with. Unlike the basics of JavaScript, where we've gotta know how to make a variable, write a conditional or a loop, this DOM stuff, things like removeChild or innerText vs text content, these are things that we don't need to care about too much. But we should know how to find them, how to google them, how to find the necessary information about them on mdn to that we can use them. So we need to focus now on the general concept and being able to access information when needed.
+
+So we're going to start with some related properties: innerText, textContent and innerHTML. So let's head over to manipulating_starter/index.html and open up f12 devconsole. When we select element for example h1 and we want the first one:
+
+document.querySelector('h1');
+
+that gives us an object. Let's have a look at its properties:
+
+const h1 = document.querySelector('h1');
+console.dir(h1)
+
+it has tons of them, but for now we'll have a look at innerText, inneHTML and textContent. As we can already tell, they all have to do with the stuff inside the element. So for our h1 case the content is what is between the opening and closing tags. Let's now select a paragraph and display its innerText:
+
+document.querySelector('p').innerText
+
+as we can see, we can access the innerText property directly by writing .innerText. So it's all the text we see as a user showing up between the opening an closing tags for the paragraph. We can both retrieve and set a value just like any property on an object. All that his paragraphs is, it's just a JavaScript object and we can change that innerText value. So we can do: 
+
+document.querySelector('p').innerText = 'that was some nice text there before'
+
+we took that paragraph and we removed evrything inside it and we set it to that string 'that was some nice text there before'. So we just uset JavaScript to update the innerText of that first paragraph. So let's refresh the page so we get back what we had before. We lost all that text before, but we also lost all those elements that were inside: bold tags, anchor tags and so on.
+
+Now there's another property similar to innerText which is called textContent. textContent seems like it does the same thing:
+
+document.querySelector('p').innerText
+document.querySelector('p').textContent
+
+So they have the exact same words, but what is different is that we have weird spaces in there. Where does this spacing come from? Well, it's not from the line brakes. It's coming from our markup in the index.html. But quoting from mdn https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent textContent is going to return every element in this element. innerText does not do that if, for example something is hidden with display set to none, it will not show. So if we set the first bold tag to display: none and then run 
+
+document.querySelector('p').innerText
+document.querySelector('p').textContent
+
+it will not be included in the first innerText, but it will show in the textContent. To innerText is sensitive to what is being shown at the moment and if things are showing up at all. Whereas textContent is going to give us everything. Bot of them can be used to change what we see. We can rename h1's, update links and so on. Let's head over to app.js and test this out:
+
+const allLinks = document.querySelectorAll('a');
+
+for (let link of allLinks) {
+    link.innerText = 'I AM A LINK!!!!'
+}
+
+now we changes every link on the page and it says "I AM A LINK!!!!". They still have their own hrefs, but the text between the tags changed. Now if they had stuff inside of them like bold tags or something else, they will be now completely overwritten. Let's say we want to take the h1 and add an italicized element inside:
+
+document.querySelector('h1').innerText = '<i>i am italian</i>'
+
+the same goes for textContent. They don't work. Even though we give the something that looks like HTML they are handled as if they are just text. So this is the place for the third property which is: innerHTML. This is going to give us the entirety of the markup contained within some element. Sometimes that might just be text if we look at h1.
+
+document.querySelector('h1').innerText
+document.querySelector('h1').innerHTML
+
+
+they look the same. But if we do it for a paragraph:
+
+document.querySelector('p').innerText
+document.querySelector('p').innerHTML
+
+We just get the text content with innerText, but with innerHTML we get all of the tags included as well. We do not retriebe this as much in our HTML, because we don't really want to see those elements that often. Generally, where this is more useful is when we're updating the content and we want to change the inner HTML. So let's get back to the previous example with the h1 when we tried to make it italicized:
+
+document.querySelector('h1').innerText = '<i>i am italian</i>'
+document.querySelector('h1').innerHTML = '<i>i am italian</i>'
+
+now it will work with innerHTML. Now the browser knows, the DOM is going to recognize that we're setting the innerHTML and it updates accordingly. So we now have an italics <i></i> element located inside of the h1. We can also do things like:
+
+document.querySelector('h1').innerHTML += '<sup>yeeeah</sup>'
+
+so instead of overwriting with the equals sign` the whole h1, we added a superscript.
+
+So innerHTML retrieves the full contents, including the tag names of basically eveything inside an element between the opening and closing tag. innerText ignores the tags and gives us the text inside and it is also sensitive to what is currently being displayed or stuff that is being hidden or ignored. The textContent is like innerText, but it does not care about what is being displayed or what is actually being shown to the user. So all three can be used to set or update the content. But innerHTML is really the one we can use to add elements inside of some other element.
+
+Next up we'll talk about working with attributes. Elements have a lot of different attributs involved, some more than others, things like href on anchor tag, href on an image but also things like id and class are considered attributes. Also the type on inputs is considered an attribute. Let's take a look at our first image with querySelector:
+
+document.querySelector('#banner')
+
+as we see, it has two attributes, id and src.
+
+document.querySelector('#banner').id
+
+and we can change that id
+
+document.querySelector('#banner').id = 'whoops'
+
+now our style that was applied to that id from app.css, the width of 100% is now gone. Now because the image is large, it's width is far more than 100 percend of the width of the parent, which was the body. By changing that id, we impacted that id attribute on the image itself. We changed it in JavaScript with just a property just like we can change anything on an object and then the browser updates and we see id as "whoops" and the styles that it had were removed because it no longer meets the id requirement for that selector. So we can set it back to banner:
+
+document.querySelector('#whoops').id = 'banner'
+
+That's just one example of attribute. If we do the same thing and we look at src:
+
+document.querySelector('#banner').src
+
+there is another attribute. We can change that src to some other image source. If we look at our links, at the href attribute:
+
+document.querySelector('a').href
+
+there is also a title attribute for anchor tags:
+
+document.querySelector('a').title
+
+this so happens to have one. There is a whole bunch of different attributes that we can access directly, but there's actually another way of accessing attributes, which is through a method called getAttribute(). There is also a setAttribute(). So we can use getAttribute(). Let's get the anchor tag and save it to a variable firstLink:
+
+const firstLink = document.querySelector('a')
+
+then we'll look at the href of firstLink as an example:
+
+firstLink.href
+
+then we can also do
+
+firstLink.getAttribute('hred')
+
+this is a method that seems to be doing the same thing but there is a difference. When we do getAttribute, what we are actually doing is getting directly from the HTML itself. It is going to the href attribute in the anchor tag and it's returning us exactly what is between those href attribute ="" quotes. Whereas when we access a property on an element with .href, that is going through JavaScript, the JavaScript object and we get a different value. For the .href we get that "file:///wiki". It comes prependend with file://. We can think of it like the computed value. Most of the time these won't be different but href is just one example where there is a difference, at leas with what we have here. So we can use getAttribute to get other attributes like id:
+
+firstLink.getAttribute('id')
+
+we get null because there is no id
+
+firstLink.getAttribute('class')
+
+the same goes here for class. As we mentioned there is also a setAttribute. We can use it like this:
+
+firstLink.setAttribute('href', 'http://google.com')
+
+now if we click on our first anchor tag link in our browser, it should take us to google.com. We also have an input at the end of the page which has type of text so let's select that specifically:
+
+document.querySelector('input[type="text"]')
+
+now let's save that to a variable:
+
+const input = document.querySelector('input[type="text"]')
+
+now we can access attributes and work with them, including type:
+
+input.type = 'password' 
+
+now we can enter in passwords, the characters appear differently now,
+
+input.type = 'color'
+
+and we can also set it back to text if we wanted to with setAttribute:
+
+input.setAttribute('type', 'text')
+
+Now we're back to a text input. So there are multiple ways of doing the same thing. Now for the most part they are the same, but there are some differences we may run into, but just for the sake of our sanity, we're not going to spend the time to go over them. For the most part we can get away with doing setAttribute or accessing things directly using the attribute .type or .id or .src properties on the JavaScript object, versus working with the attributes themselves in the markup.
+
+Now let's talk about how we can manipulate styles, how we can select something and then, make it purple or apply a new class. Let's go ahead in our manipulating_starter and open up index.html and select the h1 on that page in devtools f12 and save it to a const:
+
+const h1 = document.querySelector('h1')
+h1
+
+it has a bunch of properties. One of those properties is style. If we look at it with .style:
+
+h1.style
+
+it's also a massive object and it a contains a whole bunch of properties corresponding to all the individual CSS properties, thing like properties or font-size. The big difference is that they are all camelCased. So somethhing like font-size is font dash size in CSS, background dash color and so on. Whereas in JavaScript that dash is not valid in an identifier, instead everything is camelCased. So if we look for something like color, there won't be a difference. But if we look at font-size here it is "fontSize" camelCased. That's important to remember. 
+
+Even though all those properties are there, most of them are empty strings. But what's more interesting, this here does not contain the current styles, which we have defined in a separate stylesheet. So for exmple our h1 has the color of olive in the app.css and if we write
+
+h1.style.color
+
+we get an emtpy string. So it does not contain styles from our stylesheet. It will contain any inline styles that we have assigned, which is not a good idea. But if we give our h1 a color of magenta in index.html and we fetch the h1.style.color again, we'll get the "magenta" color text back.
+
+So all of these properties in the object list are going to be empty strings, unless we assign them inline, which we pretty much never do. But we can use this style object to actually change those values and it will work. So we can do:
+
+h1.style.color = 'green'
+h1.style.fontSize = '3em'
+
+Whatever we write in CSS has to be a string here. So instead of '3em' we cannot write 3em without quotes. Let's give it a border, too:
+
+h1.style.border = '2px solid pink'
+
+Let's do one more example but for this let's head over to manipulating_starter/app.js and give some styles to those links we had selected:
+
+const allLinks = document.querySelectorAll('a');
+
+// for (let link of allLinks) {
+//     link.innerText = 'I AM A LINK!!!!'
+// }
+
+for (let link of allLinks) {
+    link.style.color = 'rgb(0, 108, 134)';
+    link.style.textDecorationColor = 'magenta';
+    link.style.textDecorationStyle = 'wavy'
+}
+
+As we can see, we have to use camelCase for those properties. We also have to do them on a separate line, we cannot chain them.
+
+So that's something we can do. We can set all of these style properties through the DOM in the way we saw here. If we actually go and inspect one of these elements, we are actually writing some inline styles using JavaScript. So this is generally not preferred. If we're doing one thing like changing the color of somethin or we're doing some one off property, then it's fine. But if we have a lot of styles to apply through JavaScript, having to do that one at a time is really annoying, second of all making a bunch of inline style changes is just not ideal. If you remember, inline styles are very specific and we want to avoid writing styles inline. So there is a better way to make changes and apply new styles to elements, which is to use a class. We can define a CSS class and add that class or remove that class from elements.
+
+Now the question arises, how can we see some style that has been applied to an HTML element if the .style returns empty strings if it's not defined inline? Well, there is a way to get the actual computed style once everything has been applied. So it's not that simple as looking at the stylesheet and copying some styles, because we might have multiple stylesheets with conflicting styles and that means that what we select might very well be the wrong style that actually wins the cascade and specificity war and gets computed on the page. So at the end of the day, certain styles might be applied and then overwritten and then overwritten again. Really, we have to wait untin things are loaded and everything has been computed by the browser to figure out actual styles. We can do that using a special method on the window object.:
+
+const h1 = document.querySelector('h1')
+window.getComputedStyle(h1)
+
+Here our h1 was selected, saved to a variable and then passed into getComputedStyle. This gives us a massive object that has the computed styles for that one h1. It's an object called CSSStyleDeclaration and there is actually an order to it. So we can access the stuff with indeces too. But what we normally do is access with property name:
+
+window.getComputedStyle(h1).color
+window.getComputedStyle(h1).fontSize
+window.getComputedStyle(h1).fontFamily
+window.getComputedStyle(h1).margin
+
+And this returns us the computed style we see on the page.This is not something we'll have to do a lot, but we had a look at it now briefly. There might be times where we want to see the font-size of something and then maybe add 10px to it.
+
+Alright, so we saw how we can set the inline styles property, but it's not a good idea, especially if we have a lot of styles to set at once. The better option was to create a CSS class and then apply that class. So in manipulating_starter/app.js we have two different classes called purple and border. Thhey could represent anything really, this is just for demonstration. But in the real world, it's pretty common to need to apply a class via JavaScript, especially once we get to things like events, applying a class when we click on something, making it animate or fade or do something when we click on it, or if we're dragging the image around or click it, giving it a border and something to make it clear that it's selected and we're working with it. But for now we're going to have to do with our two modest classes purple and border. So to manipulate classes we first have to select something. Let's select the h2 and save it to a variable:
+
+const h2 = document.querySelector('h2')
+
+now we need to add a class. One option is to use the setAttribute():
+
+h2.getAttribute('class') //we see that it has no class
+h2.setAttribute('class', 'purple')
+
+now it has a class of purple and it has now changed. Now let's say we also want to apply the border class. If we do
+
+h2.setAttribute('class', 'border')
+
+It does work but we lost what we had before. So we can do something like
+
+let currentClasses = h2.getAttribute('class')
+h2.setAttribute('class', `${currentClasses} purple`)
+
+and this does it for us. We now have both classes. This is kind of annoying, for when we have for example ten classes. It seems like lot of work. And it is. There's actually a better way to work with classes which is something called class list. If we look at h2 or at any element we select, there's a particular property called classList. It's an object we can interact with to control the classes on the element and also to retrieve them and manipulate them. 
+
+const h2 = document.querySelector('h2') //we fetch it again to undo our previous changes
+h2.classList //this is currently empty
+
+If we write
+
+h2.classList.
+
+we see that we get some methods that are built into the classList, including things like add. So calling classList.add we can pass in something like purple.
+
+h2.classList.add('purple')
+
+this adds the class of purple to the class. Now we can do the same for class border and add it as a second class:
+
+h2.classList.add('border')
+
+we don't have to worry about what was there before. It's like pushing onto an array but it's not an array and we are not actually pushing, but we're calling add. This is very simple compared to what we saw before with setAttribute. We don't have to worry about what's already in there. We can simply just add a new class. We can also do the opposite, we can remove:
+
+h2.classList.remove('border')
+
+There we go. A lot of the time we might not know if a certain class is activated or not on an element. We can check, we can look it up using:
+
+h2.classList.contains('border')
+h2.classList.contains('purple')
+
+the first one returns false and the second one returns true. Another useful that we can do is toggle classes. What is really common, is wanting to toggle a class between being on or off, basically being present or not present. We can do that with:
+
+h2.classList.toggle('purple') //it returns false, so it has been removed, set to off
+h2.classList.toggle('purple') //if we call it again, it returns true so it has been set back to on
+
+This is really useful if we are making things that actually have interfaces where some style is toggled, wheather it's a button or a checkbox or a todo list where we click and an item is checked off or it's grayed out or it fades away. We click again and it comes back. For example the accordeon on google after we search for something (see on google) we click on it and it expands and if we click again it collapses. We are toggling here. One way of implementing this would be to write a class that we could apply and then remove. We can toggel it on or off to open or close this element. We can change the height or we could change the display if the content is shown or hidden and that sort of thing. So for that we can do classList.toggle. 
+
+To summarize, we saw this classList which is an easy way to get the current classes on an element, but also to manipulate them: to toggle classes, to remove classes to add classes. It's much easier than having to go through something like h2.getAttribute('class'). This doesn't have nice methods, it just tells us exactly what the class string currently looks like. We can do this too but it's just more work. But adding a class or removing it is more work using setAttribute than it is using classList. So I recommend classList, it's a nice feature to have and it is pretty common to manipulate classes with it. It might make more sense or it's easier to just change the color in the text-decoration or font-size directly, but if we're doing it all at once, it's easier just to make a class and then in that CSS class we can do all those things that we need and then apply or remove that class whenever it makes sense. So we'll see more examples of doing this. It's a really common pattern. 
+
+So next up we're talk about a group of properties that have to do with accessing related elements like children parents and so on from a given element [s15] on the righthand side at the bottom. They are relatively self explainatory, but we have to highlight a couple of things. All of these properties allow us to navigate, traverse or move from one element to some relative like it's parent or it's parent parent. As an example, let's select the first bold tag and save it to a variable firstBold:
+
+const firstBold = document.querySelector('b')
+
+If we wanted to access it's parent element, which we know from our index.html that it's a paragraph, we can do:
+
+firstBold.parentElement
+
+this helps us move up one level. That gives me the paragraph. From that paragraph we can do it again.
+
+firstBold.parentElement.parentElement
+
+and this give us the body. If we do it again
+
+firstBold.parentElement.parentElement.parentElement
+
+we get the root HTML element. So that's parent element, we can traverse upwards. Right now it might not seem useful but we can do things like remove an element or insert a new element. Often we'll have something like the user will click on something. They might click on a button and then when they click on that button, what we want to do is enact some change on the parent element or on a child element. So that's the next thing we'll see here. It's that we can also drill down instead of just moving up one level to look a parent element, we can look at children. Now every element has only one parent, right? It cannot have two direct parents. It can have a grandparent, a great grandparent and so on, but every element has one direct parent, one thing that contains it. But can have multiple children. So there's not just a single property that's child element. Instead there might be ten children if we take a look at something like the paragraph, which was the parent of firstBold:
+
+const paragraph = firstBold.parentElement
+paragraph.childElementCount //this tells us how many child elements it has
+paragraph.children //gives us something that looks like an array but it's not, it's an HTMLCollection, it doesn't have array methods, it has indeces, it's iterable and so on
+
+with .children we get all children of the element and they are in order that they are found in the DOM. We can look at the first one like this:
+
+paragraph.children[0]
+
+and this will give us in this case the bold tag element. It is here as an object. If we do:
+
+paragraph.children[0].parentElement
+
+we get back to the paragraph itself again , so that's redundant. So that's all there is to children, if we wanted to do something for each child of an element, we could iterate over the children list. There are also other properties that have to do with siblings. We have nextSibling and previousSiblig. These allow us to navigate from one element to an adjacent sibling. So for example let's select the second image, the first image that has the square class on it.
+
+const squareImg = document.querySelector('.square')
+squareImg.parentElement //here we have the parent element hte body itself because nothing is containing this image
+squareImg.children //this is an empty collection
+
+Now let's talk about those sibling properties:
+
+squareImg.nextSibling
+
+there is a previousSiblig and a previousElementSibling and the same thing for nextSibling and nextElementSibling. So what's the difference? Well, the methods nextSibling and previousSiblig are going to give us the corresponding node. A node is something we haven't really talked about, but a note is different than an element. Essentially what happens here, if we just look at next sibling, we'll see that it gives us some text. We'd think that the nextSibling is just the next image, but that's not the case. What happens is that nodes can actually represent text. For example in our h1 we have some text and there's a text node corresponding to that text. We should also know that some browsers automatically make white space, new lines into a text node. So that's exactly what happened here. If we open the #text we'll see that all that it has inside of it at the "data" property is a return character. There is no real value to it except for that return character. It is not an HTML element, it is a DOM node. So nextSibling and previousSiblig are going to give us text nodes because there happens to be some new lines inbetween them on either side. So that's kind of annyoing. Instead, we generally use nextElementSibling:
+
+squareImg.nextElementSibling
+
+and this gives us what we're probably expecting, the next actual element sibling, the next adjacent sibling. In our case, the next image. If we do
+
+squareImg.previousElementSibling
+
+this is going to give use the paragraph, the previous sibling. This allows us to navigate from one elment to its sibling or previous sibling, ignoring those weird space nodes and text nodes, which usually we don't care about. There are times you may want that, but most of the time, if we're just trying to navigate to the next element, we use previousElementSibling and nextElementSibling. 
+
+That wraps it up here. We've talked about children and parentElement, nextElementSibling and previousElementSibling and how we can navigate through the hierarchy, through the tree structure from a given starting point.
+
+So we've seen how we can change the text inner content of elements, we've seen how to work with attributes and change styles and work with classes and how to traverse from one element to its parent or to its children. The last thing we need to cover in this section is actually creating new elements from scratch, creating a new element and appending it to the page or prepending it, removing elements [s15]. Let's talk about how we make a new DOM element. There is a special method called createElement and we need to pass in the type of element we want to create. So if we wanted to make an image, it's as simple as:
+
+document.createElement('img')
+
+this makes us an empty image, we can first save it to a variable:
+
+const newImg = document.createElement('img')
+
+this is an object, we can confirm it with 
+
+console.log(dir)
+
+and it has a lot of stuff just like any other image object that we've selected, except it's missing things like src. So let's add an image source in. Let's copy an image from unsplash and paste that source in:
+
+newImg.src = 'https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'
+
+now we have an image with a source, but it's still not on the page. So we now need to append it to the page. There are two ways of doing this. The first one is called appendChild. So we need something that we're going to append our image to and we can just do body:
+
+document.body.appendChild(newImg)
+
+this is going to append it as the last child of the body. It's huge but it works. We could change the class or:
+
+newImg.classList.add('square')
+
+as we've learned and now it's smaller. And this was our first example of appending something. Let's now make an h3 and we'll append it to the very end:
+
+const newH3 = document.createElement('h3')
+newH3 //this is also an object.
+newH3.innerText = 'I am a new H3!'
+document.body.appendChild(newH3)
+
+and this gets added. If you remember, we are making our empty element first in the shell and then we have to fill it. Wheather we're chanign the image source or href on an anchor tag or setting the text on an h3, we just have to go in and modify that element and then append it. Usually we make our chhanges and then append just so that everything's done. So we create a new empty element, we udpate it, do whatever changes we need and then append it somewhere. Now another option for creating new elements and appending them is to use a method called append, not appendChild what we just used, but just append. This is newer, doesn't work in Internet Explorer and it is more flexible: it allows us to insert more than one thing at a time and we can pass in text to string. If we do:
+
+const p = document.querySelector('p')
+p.append('i am new text, heeey')
+
+it just appends that to the end of the paragraph (the first paragraph on the page). If we do the same with 
+
+p.appendChild('i am new text, heeey') //error
+
+is not going to work. If we pass in text, it tells us it's not a node and it does not know what that is. So that's one thing we can do with append. It's an easy way to add text into something. The other thing we can do is append more than one thing:
+
+p.append('so much newer', 'I am even newer than the newer one')
+
+So this adds two more pieces of text together and they will both be appended to that element, to the paragraph. When we append we are appending to the inside of the paragraph. Same thing is with appendChild where it's making something the last child of an element. We don't always have to append things, we can also prepend. This is also a newer method and it doesn't work in internet explorer, but it allows us to insert something as the first child of some element. So we can take the same paragraph and let's say we want to insert a bold tag at the beginning of that:
+
+const newB = document.createElement('b')
+newB.append('hello there') //this will append some text as inner text
+newB //this is how it looks
+
+now we need to append it at the beginning of the paragraph so we're going to do:
+
+p.prepend(newB)
+
+and there we go, it's added to the beginning. It's the first child now instead of the last, if we had used append. Now if we want to insert something not as a child but as a adjacent sibling to something. Let's say we want to insert something between the h1 and the image. So it's not going to get inserted as a child of this or as a descendent of an image which we can't even really do, we want it to be adjacent. So we could select the body and prepend, but that would put my new element at the beginning of the body, but we want it after the h1. This is where the insertAdjacentElement() comes in. We have to specify a position for it https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement  if we want the element to be inserted before some element or after some element, or inside some element before its first child or inside some element after its last child. So usually for doing adjacent stuff we'll do beforebegin or afterend and then we specify the element. So let's step through this. If we want to insert something between h1 and the image, we could either select the h1 and insert after it ends, or we could select the image and insert it before it begins. So we'll make our new h2
+
+const h2 = document.createElement('h2')
+h2.append("Are adorable chickens")
+h2 //here's our h2
+
+Now we want to append it, let's go with after our h1:
+
+const h1 = document.querySelector('h1')
+h1.insertAdjacentElement('afterend', h2)
+
+and there we go, it is not nested, it is actaully inserted as a sibling after our h1. So we won't go here through all scenarios, but we have thhese four differente values for where we insert something realtive to some target. So it's a little more complex, but we have a lot of flexibility compared to something like append or appendChild. That's pretty much it.
+
+There is also another method called after which does not have full browser support at this point, no internet explorer. What it does is it will insert an element after some other element. Kind of like what we just did. Let's see this in action:
+
+const h3 = document.createElement('h3')
+h3.innerText = 'I am h3'
+h1.after(h3)
+
+this inserts it after our h1. There is also a method before that we can use, but again they are not fully supported. Then we have our clunkier alternative insertAdjacentElement which has everything except it's annoying to remember these 'beforebegin', 'afterbegin', 'beforeend' and 'afterend' strings. Then we have append and prepend. It's pretty common to use those, but it just depends on the situation. So these are all available for us to use.
+
+Now let's talk about removing elements [s15]. There are just two methods that we are going to cover: remove and removeChild. The older, OG method that includes internet explorer was removeChild. It is a little annoying because the way that it works is that it doesn't actually remove the particular element we have selected, we remove a child from an element. So if we wanted to remove our image from the page, we cannot just select the image and say remove the image, instead we have to select the parent, which in our case is the body, and then call removeChild and the pass in the image. So it requires us to call the method on the parents of what we want to remove, since the name removeChild. Let's say we wanted to remove one of our links from contents. It's an LI inside a UL. So it's not enough to select the LI, instead we have something like:
+
+const firstLi = document.querySelector('li')
+firstLi //just to check that this is indeed our first li
+const ul = firstLi.parentElement
+ul.removeChild(firstLi)
+
+now it's gone. Some people do it in one go like, for example if we wanted to remove the first bold tag:
+
+const b = document.querySelector('b')
+b.parentElement.removeChild(b) //b here is the const b from above
+
+this also works. But recently now we also have another method called remove. This is something we can call on the actual thing we want to remove. We don't have to worry about the parent or the child. So let's try removing our image:
+
+const img = document.querySelector('img')
+img.remove()
+
+and now it's gone. It is better than writing 
+
+img.parentElement.removeChild(img) //even though this is the safer method of doing it for all browsers
+
+So we should know the difference between them, know that they both are there and that they both remove elements, but in a different way. One is removing based upon a parent and child relationship. The other is just going to remove an element you call remove on directly.
+
+Next up, we're going to do a quick demo to combine what we've seen so far about creating elements and appending them. What we're going to do is make pokemon catalog with pokemon sprites. We're going to use JavaScript to append them to the page. So what we'll need is the sprites from github which follow a specific format:
+
+https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png
+
+and at the end there is a number.png. If we do 3.png we get the third pokemon. We're going to take advantage of that and make a whole bunch of images and each image element will have different source with that number embedded. So it will 1.png, 2.png and so on and then we'll append them to our page and we'll go from there and style them a bit, add an number under them and so on. But really the whole point here is to create all these images dynamically using JavaScript. So let's head over to pokemon_starter/index.html and add in our app.js script in body:
+
+    <script src="app.js"></script>
+
+let's now put an h1 and after it let's add in a section with the id of container:
+
+<body>
+    <h1>Look at my pokemon!</h1>
+    <section id="container"></section>
+    <script src="app.js"></script>
+</body>
+
+we don't have to give it an id, but this way we can be more specific when we select it. Now let's head over to our app.js file. Here we have at the top commented out the link to the pokemon sprites. Let's select that container from our index.html and save it to a const:
+
+const container = document.querySelector('#container');
+
+now let's make a single new image so let's make a new element and save it to a const:
+
+const container = document.querySelector('#container');
+const newImg = document.createElement('img');
+
+now let's give that image the source of the first sprite and append it to our html container
+
+const container = document.querySelector('#container');
+const newImg = document.createElement('img');
+newImg.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'
+container.appendChild(newImg)
+
+alright, now we need to repeat this process a hundred times. The exact number of times is actually 151 because there are 151 sprites. So let's write a loop for that and do it fist for ten sprites in case it goes wrong.
+
+const container = document.querySelector('#container');
+const newImg = document.createElement('img');
+newImg.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'
+container.appendChild(newImg)
+
+for (let i = 1; i <= 10; i++) {
+
+}
+
+now let's move our code inside the loop, leaving the container out, be cause we don't want to re-declare 151 containers in the end.
+
+const container = document.querySelector('#container');
+
+for (let i = 1; i <= 10; i++) {
+  const newImg = document.createElement('img');
+  newImg.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'
+  container.appendChild(newImg)
+}
+
+So now we need to make the src to be dynamic. Let's first save it to a variable and take it outside the loop up until the final part .png:
+
+const container = document.querySelector('#container');
+const baseURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+for (let i = 1; i <= 10; i++) {
+  const newImg = document.createElement('img');
+  newImg.src = ''
+  container.appendChild(newImg)
+}
+
+Now everything will have that baseURL in common and we just need to add the rest of the link to it. So we need to set the image source to be the baseURL and then our i, the number and then .png. We'll need to use a string template literal for this:
+
+const container = document.querySelector('#container');
+const baseURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+for (let i = 1; i <= 10; i++) {
+  const newImg = document.createElement('img');
+  newImg.src = `${baseURL}${i}.png`
+  container.appendChild(newImg)
+}
+
+it worked, now we can increase this to 151 sprites:
+
+const container = document.querySelector('#container');
+const baseURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+for (let i = 1; i <= 151; i++) {
+  const newImg = document.createElement('img');
+  newImg.src = `${baseURL}${i}.png`
+  container.appendChild(newImg)
+}
+
+And that's it. Now we can add some numbers to them. Let's add some number below each image. For this we could have some markup like this:
+
+<div>
+  <img>
+  <span>2</span>
+</div>
+
+So we're going to have a div with an image and a span and  and the number will go inside the span. So in our loop, instead of creating an image first, we'll create a div and a span:
+
+const container = document.querySelector('#container');
+const baseURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+for (let i = 1; i <= 151; i++) {
+  const pokemon = document.createElement('div');
+  const label = document.createElement('span');
+  const newImg = document.createElement('img');
+  newImg.src = `${baseURL}${i}.png`
+  container.appendChild(newImg)
+}
+
+we added the div and the span, now we need to add some innerText to the span:
+
+const container = document.querySelector('#container');
+const baseURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+for (let i = 1; i <= 151; i++) {
+  const pokemon = document.createElement('div');
+  const label = document.createElement('span');
+  label.innerText = `#${i}`;
+  const newImg = document.createElement('img');
+  newImg.src = `${baseURL}${i}.png`
+  container.appendChild(newImg)
+}
+
+we used the string template literal to put the hash symbol in front of the number. Ok, so at this point, these are not connected in any way. We've made the image, then we're going to take our pokemon div and append the image to it and then the label. Now inside the container we'll want to append the entire pokemon div instead of the image:
+
+const container = document.querySelector('#container');
+const baseURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+const container = document.querySelector('#container');
+const baseURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+for (let i = 1; i <= 151; i++) {
+  const pokemon = document.createElement('div');
+  const label = document.createElement('span');
+  label.innerText = `#${i}`;
+  const newImg = document.createElement('img');
+  newImg.src = `${baseURL}${i}.png`
+
+  pokemon.appendChild(newImg);
+  pokemon.appendChild(label);
+  container.appendChild(pokemon)
+}
+
+Alright, so it's working. It doesn't look too great. So it's a lot longer now. We're making a div, we're making a span, we're adding text to that span. We're making an image and changing the source. Then we're taking our div and then we're appending the image, we're taking that same div and after appending our image, we're appending the label, which is a span. Then we take that div and append that to the container. So in order to make this look nicer we can come up with a class and change the display property. Let's open app.css and give to every div the display property of inline-block:
+
+div {
+    display: inline-block;
+}
+
+Now let's set the text to center for each sprite. Right now they are in a div and they're just one after the other. So we could just make the image have a display of block:
+
+div {
+    display: inline-block;
+}
+
+img {
+  display: block;
+}
+
+now we can set the text-align to center on our div:
+
+div {
+    display: inline-block;
+    text-align: center;
+}
+
+img {
+  display: block;
+}
+
+So that's better. But instead of doing this generic electing all images and divs from our page, we would rather make a class called pokemon and then style everything in that pokemon class that is an image, like so:
+
+.pokemon {
+    display: inline-block;
+    text-align: center;
+}
+.pokemon img {
+    display: block;
+}
+
+Now we need to go to our app.js and make sure we also give that class of pokemon to the pokemon div that we create:
+
+const container = document.querySelector('#container');
+const baseURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+
+for (let i = 1; i <= 151; i++) {
+    const pokemon = document.createElement('div');
+    pokemon.classList.add('pokemon');
+    const label = document.createElement('span');
+    label.innerText = `#${i}`;
+    const newImg = document.createElement('img');
+    newImg.src = `${baseURL}${i}.png`
+
+
+    pokemon.appendChild(newImg); 
+    pokemon.appendChild(label);
+    container.appendChild(pokemon)
+}
+
+Now we are creating a div and that div has a class of pokemon in our loop. So that's good enough for now. We saw how we can use our JavaScript in a loop to manipulate the DOM.

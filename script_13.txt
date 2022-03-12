@@ -1,0 +1,1514 @@
+____________________________________________________________________________
+13_museum_of_candy_project________________________________________________13
+____________________________________________________________________________
+
+Now we get to this code along section where we build this website called the Museum of Candy. It's responsive, it uses Bootstrap. We want to make something here that does not look very bootstrapy. This is for a fictional candy museum where we put on some gallery images of candy. It has a minimal design with light passed out colors, some nice free photos. The site does not really say much with the content which is lorem ipsum. The navbar is transparent but when we scroll down it fills in and is also fixed to the top. We also have the heading section with a photo on the right. The main layout of the page are some big square fotos that we force to be square and then on the other side some text, an icon and some more text, centered vertically. The website is responsive and scales relatively nicely. On small screen sizes the items stack and the text goes above the images. This requires a little bit of work because the image comes on the left and then the text and after that the image comes on the right and the text goes first and so on. They are alternating. When we collapse it, the text always goes on top of the corresponding image and the icon also dissappears. Boostrap makes it easy to do that but Bootstrap makes it easy to do that but we have to add some classes to help us change the order when things collapse. The navbar also shrinks down and collapses. It's not incredibly difficult but it's not that obvious that it was made with Bootstrap. There's none of the default components, none of the fonts, the colors, the buttons. Maybe the only thing is the toggle hamburger icon for the navbar. Otherwise everything is pretty customized. Even though it is simple, it kind of looks nice these days. So that's our goal here to create this layout. If we think about this grid involved here, it is not that challenging.
+
+So let's get started and have a look at our starter code inside museum_starter/. It contains index.html, app.css and an imgs folder. index.html has already boostrap included and also the used font which is called Nunito. The app.css is also added in the index.html but it's currently empty, but we'll work inside it. In the imgs folder are images which will be used on the website, including the icon.
+
+We will begin with the navbar, get it to become transparent, change the font so that it looks nice. So let's start with giving our body a background color of #f5d9d5. For that we'll open app.css and write
+
+body {
+    background: #f5d9d5;
+}
+
+Now we've got the pink background going so let's get to work on the navbar in index.html. Let's go inside body and make a nav of class="navbar navbar-dark bg-dark navbar-expand-md" and give it the id="mainNavbar" 
+
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark navbar-expand-md">
+
+    </nav>
+
+The first class is just a navbar and because the text is light on this navbar, we need to give it "navbar-dark" and we're also going to give it a "bg-dark" so that we can see what we're doing and we will remove it later on when we're finished. Lastly we have to decide where it should expand. In our finished example it shrinks on extra small and small and when we hit medium it expands. So that's "navbar-expand-md". We also gave it an id because sometimes we might have more than one navbar. This is not that often but it's good practice.
+
+Inside the navbar we have the navbar brand which says CANDY then we have our HOME ABOUT and TICKETS links. So let's start with the navbar brand by making an anchor tag with class="navbar-brand" that has the text "CANDY" inside it. 
+
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark navbar-expand-md">
+        <a href="#" class="navbar-brand">CANDY</a>
+
+    </nav>
+
+Let's now make a button from the docs that has the class "navbar-toggler" and attribute data-toggle="collapse" and a data-target="" which will stay empty because we don't have that set up yet:
+
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark navbar-expand-md">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="">
+
+        </button>
+
+    </nav> 
+
+The next thing we'll do is add a span inside the button which has class="navbar-toggler-icon".
+
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark navbar-expand-md">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+    </nav> 
+
+Now we should have abutton showing up at the right size. It's currenlty not working because it has nothing to collapse yet. So after that button we'll make a div with class="collapse navbar-collapse" and an id="navLinks" which we will reference as the data target in our button. We put navLinks because that's what it's collapsing. Let's also write "#navLinks" in our id from the button:
+
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark navbar-expand-md">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navLinks">
+        
+        </div>
+
+    </nav> 
+
+We write it with #navLinks in data-target because we have to specify that it is an id with the # symbol. Okay, then we'll going to add in our actual nav inside our navbar. So there are three links for this and the markup is up to us what we want to use. This time we'll use an ul but we could also use a nav. So let's make a ul with the class of "navbar-nav" and then inside of it we'll add an li with the class="nav-item" and inside of each of those we'll put an anchor tag with the class="nav-link" and inside each anchor we'll put the text HOME, ABOUT and TICKETS.
+
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark navbar-expand-md">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navLinks">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="" class="nav-link">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">TICKETS</a>
+                </li>
+            </ul>
+        </div>
+    </nav> 
+
+Now we should have some content collapsing. When the window expands, we should also get our content. We'll worry about the CSS as far as the font, color, size and hover color soon. What we need to do now is go to the button and make it more accessible. The navbar button does not actually have a label to explain what it is. It's three lines and to human eyes we understand what that means but when we are using a screen reader for example, this is not very meaningful at all, it will not know what clicking that button does. So what we can do is go into the button and add in an attribute aria-label="Toggle navigation" and we just say what it does inside there:
+
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark navbar-expand-md">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navLinks">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="" class="nav-link">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">TICKETS</a>
+                </li>
+            </ul>
+        </div>
+    </nav> 
+
+Now we could do is remove the bg-dark from the navbar with id "mainNavbar".
+
+    <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-md">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navLinks">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="" class="nav-link">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">TICKETS</a>
+                </li>
+            </ul>
+        </div>
+    </nav> 
+
+So that's it for the markup portion. We now have to go in and deal with all the CSS. The navbar text unfortunately is now a little hard to read but we'll deal with that as well. So in our app.css we already changed the background color. We now can declare the main font family for the body and set it to Nunito with a backup font of sans-serif:
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+Now we need to make the navbar brand larger and red. So instead of altering all navbar brands using that class, we can say inside the navbar #mainNavbar .navbar-brand {} and we'll set color to #ea1c2c. Let's also set the font-size: 1.5rem. The last change we need to make is to the font-weight, it is currently a heavier font-weight and we need to make it lighter and set it to 100.
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+   font-weight: 100;
+   font-size: 1.5rem;
+}
+
+Now we'd also like for the rest of the links to change font-weight and font-size. So instead of doing navbar-brand separately for the nav links to do the same thing, what we can do is say: everything in the main navbar should have font-size of 2.5rem and font-weight 100; and we can remove them from the mainNavbar .navbar-brand and just leave in the color:
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+Now it's looking a little better. We notice that the default color for navbar-dark is not white, it's like a transparent white over which we hover and it turns white. So to make them true white we need to manually select them. So we'll select #mainNavbar .nav-link and set the color to white. And while we're at it let's change the order of the styles a bit:
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+Now they are truly solid white, but we cannot tell when we're hovering. So we'll make them turn into that red color from the brand when we hover over them. So let's doplicate the nav-link selection and add in the pseudoselector :hover 
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+So this applies the style only when we hover over that element. One more thing to take care of is the padding. The finished project has less padding. This is a little hard to see but if we inspect the nav element with dev tools f12 we can see it has green sides top and bottom which is paddin. So we're going to remove that padding top and bottom so that we get a narrower navbar. That's easy because we now have that padding utility from Bootstrap. So we can go to our navbar and write in the extra class "py-0"
+
+    <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-md py-0">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navLinks">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="" class="nav-link">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">TICKETS</a>
+                </li>
+            </ul>
+        </div>
+    </nav> 
+
+this py-0 removes the padding from top and bottom completely. So it shrinks down a bit, it's closer to the top now. It is a very slight change. There is also something else that we cannot see right now,  this navbar is not fixed to the top. The finished one is, as we scroll, it stays up there. So we have right now no content to scroll through so it is going to stay there at the top no matter what. Let's add some content in just to show this: let's add a div class="container" and another div with class="row" and another div class="col-4" with lorem100 inside it.
+
+    <div class="container">
+        <div class="row">
+        <div class="col-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, enim necessitatibus unde maxime sit reprehenderit illo sequi asperiores aut expedita eius ex perspiciatis quaerat obcaecati sunt mollitia cumque, laborum debitis tempora tenetur et aperiam voluptatem? Expedita facere pariatur magni? Placeat suscipit itaque neque, omnis cum harum, sequi quibusdam tenetur, reprehenderit magni repellendus accusantium. Sapiente delectus dolores consectetur unde fugiat, vero explicabo atque incidunt beatae numquam omnis itaque sit quos facere rem vitae nemo nisi corrupti maiores? Repellendus, dignissimos cumque quas aperiam fugiat voluptates reprehenderit doloremque. Asperiores illo ex porro voluptatibus quaerat temporibus perspiciatis quis minima. Rerum beatae distinctio placeat quia!</div>
+        </div>
+    </div>
+
+  So as we scroll, the navbar is not fixed. So in Boostrap we know there is an easy way to make it stick to the top by adding to the class "fixed-top":
+
+      <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-md py-0 fixed-top">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navLinks">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="" class="nav-link">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">TICKETS</a>
+                </li>
+            </ul>
+        </div>
+    </nav> 
+    <div class="container">
+        <div class="row">
+        <div class="col-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, enim necessitatibus unde maxime sit reprehenderit illo sequi asperiores aut expedita eius ex perspiciatis quaerat obcaecati sunt mollitia cumque, laborum debitis tempora tenetur et aperiam voluptatem? Expedita facere pariatur magni? Placeat suscipit itaque neque, omnis cum harum, sequi quibusdam tenetur, reprehenderit magni repellendus accusantium. Sapiente delectus dolores consectetur unde fugiat, vero explicabo atque incidunt beatae numquam omnis itaque sit quos facere rem vitae nemo nisi corrupti maiores? Repellendus, dignissimos cumque quas aperiam fugiat voluptates reprehenderit doloremque. Asperiores illo ex porro voluptatibus quaerat temporibus perspiciatis quis minima. Rerum beatae distinctio placeat quia!</div>
+        </div>
+    </div>
+
+So if we refresh the page the navbar is fixed up there but we have another problem: the content goes on top. We'll deal with that later. Let's now delete the text we added in.
+
+    <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-md py-0 fixed-top">
+        <a href="#" class="navbar-brand">CANDY</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navLinks">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="" class="nav-link">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">TICKETS</a>
+                </li>
+            </ul>
+        </div>
+    </nav> 
+
+So that's in for the navbar so far. It collapses correctly, it has the icon, it has the hover effect, the font is light, the color is changed so it's good enough to start
+
+So now that the navbar is mostly done, let's tackle the next bit of content which is this top section where we have the image on the right holding a donut and on the left the series of headings which scale. The font-size changes, so that involves some non-bootstrap CSS to do that with media querries. The also the text just dissappears entirely and the image takes up the entire space at one point. The text is also centered vertically. So we'll start by adding a section under our <nav></nav> in index.html. If you remember, a regular container just goes just one part of the screen across and our content needs to go all the way across the screen.So we need to use a fluid container, it works the same way, we can use the grid system inside of it with rows and columns but it goes all the way across. Let's give it a class of "container-fluid":
+
+        </div>
+    </nav> 
+    <section class="container-fluid>
+    
+    </section>
+
+Inside of it let's make a div with class of "row" and inside of that let's make two divs with "col-6", one after the other:
+
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-6"></div>
+            <div class="col-6"></div>
+        </div>
+    </section>
+
+In the first one let's put some placeholder text like <h2></h2> that says "MUSEUM OF CANDY" to start with:
+
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <h2>MUSEUM OF CANDY</h2>
+            </div>
+            <div class="col-6"></div>
+        </div>
+    </section>
+
+We can see straight away we have a small issue. Let's get the image in first before we worry about it. So inside the second div with class="col-6" we're going to put an image and the image we want is included in the images folder. It's called hand2.png and is inside imgs so we'll add an <img src="imgs/hand2.png"> 
+
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <h2>MUSEUM OF CANDY</h2>
+            </div>
+            <div class="col-6">
+                <img src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+We have a small problem now, first of all the image is huge but it is 50% across the screen. We can give it a class="img-fluid". This is a Bootstrap class that makes images responsive.
+
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <h2>MUSEUM OF CANDY</h2>
+            </div>
+            <div class="col-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+It changes the height property to be auto and max-width to be 100%. It makes it easier to work with images in the grid system and make them scale so that it shrinks down at different sizes. We also have an issue on the side, which is hard to see: the container-fluid has paddin on the left and right. Just a small amount. So let's remove it on the container by adding to the class px-0 to remove it on left and right:
+
+    <section class="container-fluid px-0">
+        <div class="row">
+            <div class="col-6">
+                <h2>MUSEUM OF CANDY</h2>
+            </div>
+            <div class="col-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+Now let's see how we can align that text on the left side of the container vertically. So the property we want is align-items. So let's add "align-items-center" to the div class="row":
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <h2>MUSEUM OF CANDY</h2>
+            </div>
+            <div class="col-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+Now our content is centered. Next we want that our text is centered. This is easier and we can give it on the actual h2 class="text-center".  
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <h2 class="text-center">MUSEUM OF CANDY</h2>
+            </div>
+            <div class="col-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+We're going to rebuild this anyway but right now we're just approixmating how the content should look. We also need to add the rest of the text but in a while. Now we need get it to collapse, we want the MUSEUM OF CANDY text to go away and have the image take up all the space once we get to smaller than medium. There there is no header anymore. So we need to change our classes. We only want our two col-6 divs to be col-6 at size large so let's edit our two divs to col-lg-6.
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="text-center">MUSEUM OF CANDY</h2>
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+Alright now we also want to make the MUSEUM OF CANDY text to go away. We can do that by using the display utility. To make this easier we're gonna make three of them and wrap them all together into a separate div:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div>
+                    <h2 class="text-center">MUSEUM OF CANDY</h2>
+                    <h2 class="text-center">MUSEUM OF CANDY</h2>
+                    <h2 class="text-center">MUSEUM OF CANDY</h2>
+                </div> 
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+now let's add a class="text-white text-center" to the wrapper div to make the text white and remove "text-center" from the h2's class. This remove duplications.
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="text-white text-center">
+                    <h2>MUSEUM OF CANDY</h2>
+                    <h2>MUSEUM OF CANDY</h2>
+                    <h2>MUSEUM OF CANDY</h2>
+                </div> 
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+Now to make the text hide itself and show itself when we get to screen size large, so let's add "d-none" and "d-lg-block" classes to our wrapper div:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="text-white text-center d-none d-lg-block">
+                    <h2>MUSEUM OF CANDY</h2>
+                    <h2>MUSEUM OF CANDY</h2>
+                    <h2>MUSEUM OF CANDY</h2>
+                </div> 
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+Now we have most of this working. Now we have to make the text larger. We have seven museum of candy texts. We have a couple of things to tackle: font-size and font-weight. So let's make the slashes for now. Let's do some / inside spans:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="text-white text-center d-none d-lg-block">
+                    <h2>MUSEUM<span>/</span>OF<span>/</span>CANDY</h2>
+                    <h2>MUSEUM OF CANDY</h2>
+                    <h2>MUSEUM OF CANDY</h2>
+                </div> 
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+Now we could go in CSS and style them red after giving them a class. Or we can give the wrapper div an id="headingGroup" and then we can go in our app.css that we want every span in headingGroup color red, rather than making every span on the entire page because we might have more spans later on:
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+Now we're getting the red slashes. Now let's work on the font-weight. Let's make them h1's instead of h2's because they are actually the biggest text we have on our page and let's select all h1 inside id "headingGroup" and give them font-weight: 100 and font-size: 4rem in our app.css
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+#headingGroup h1 {
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+How did we get to 4rem? I tried with trial and error to see what looked nice. And now let's duplicate them and make seven of them
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="text-white text-center d-none d-lg-block">
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                </div> 
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+Now we see that it's a little cramped up top. So for that we need to add some margin top to the headingGroup div by adding "mt-5"
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="text-white text-center d-none d-lg-block mt-5">
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                </div> 
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+Now we have a little more breathing room up there. So this looks good except we run into a big problem. Our text is not scaling, so we need it to shrink down at smaller screen sizes. We now need to take advantage of a media query. Media queries allow us to slectively apply styles based off of different screen sizes and the screen size that we're going to use is right about where it starts to get ugly at about 1200px. So let's write in our app.css @media(max-width:1200px) and let's select the h1's in the headingGroup and change their font-size to be 3rem:
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+#headingGroup h1 {
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+@media(max-width:1200px) {
+    #headingGroup h1 {
+        font-weight: 100;
+        font-size: 3rem;
+    }
+}
+
+Here it looks pretty good on all sizes. Now our heading is complete. We have the image, it's responsive. Next we'll do the next sections at the bottom where we have some text, an icon and a large photo and then they alternate sides. This would be content that can vary depending on we're actually making. So let's open up our index.html and after our heading section we'll make a new section with a class of "container-fluid px-0":
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="text-white text-center d-none d-lg-block mt-5">
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                    <h1>MUSEUM<span>/</span>OF<span>/</span>CANDY</h1>
+                </div> 
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="imgs/hand2.png" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section class="container-fluid px-0">
+    
+    </section>
+
+So we want the content to go all the way across the screen and for it to have zero padding on the sides. Inside of it we'll make a div with class="row"
+
+    <section class="container-fluid px-0">
+        <div class="row">
+
+        </div>
+    </section>
+
+We'll worry about the extra margin later that comes after our header. For now we also want a 50/50 placement so we'll make inside of our row div two div with class="col-6":
+
+    <section class="container-fluid px-0">
+        <div class="row">
+            <div class="col-6">
+            
+            </div>
+            <div class="col-6">
+            
+            </div>
+        </div>
+    </section>
+
+Inside our first col-6 div we'll put an image called imgs/milk.png an we're going to give it the class="img-fluid":
+
+    <section class="container-fluid px-0">
+        <div class="row">
+            <div class="col-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-6">
+            
+            </div>
+        </div>
+    </section>
+
+Right now we have it to be 50/50 always and we're going to need to change that. They are stacking in our finished example up until medium after which they expand. So let's change both our col-6 divs to be col-md-6:
+
+    <section class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+            
+            </div>
+        </div>
+    </section>
+
+Now once we hit small, they stack. Now we need to add in some text on the right side. In the finished example we can see that the text does not go all the way across. If we inspect it, we'll see that it is contained inside a box inside of that col-md-6 div. Let's first add an h2 inside the col-md-6 div saying "MUSEUM OF CANDY":
+
+    <section class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h2>MUSEUM OF CANDY</h2>
+            </div>
+        </div>
+    </section>
+
+Underneath the text there should be an icon which is an image called imgs/lolli_icon.png so let's add that. Underneath we'll also add a paragraph of class="lead" which makes it stand out a little bit more with some lorem ipsum text inside it:
+
+    <section class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h2>MUSEUM OF CANDY</h2>
+                <img src="imgs/lolli_icon.png" alt="">
+                <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+            </div>
+        </div>
+    </section>
+
+At the moment nothing is centered neither horizontally nor vertically. So the text-center part is easy, we can just go to our col-md-6 div and add in "text-center":
+
+    <section class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center">
+                <h2>MUSEUM OF CANDY</h2>
+                <img src="imgs/lolli_icon.png" alt="">
+                <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+            </div>
+        </div>
+    </section>
+
+Now the text is centered. Now to make it centered vertically, the property for that is called align-items in flexbox utilities. If we had excess horizontal space, that would be justify-content. So we'll set our div class="row" to be also "align-items-center":
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center">
+                <h2>MUSEUM OF CANDY</h2>
+                <img src="imgs/lolli_icon.png" alt="">
+                <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+            </div>
+        </div>
+    </section>
+
+Now it is centered but it doesn't look that good. So we need now to nest in another row. So we'll cur everything we have in our col-md-6 text-center div and add in another div with class="row". Inside the newly created row div we'll put another div with class="col-10" inside which we'll paste our content:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="row">
+                    <div class="col-10">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+When we make a "row" div we get 12 units of space to work in again and we'll use 10 of them with the new "col-10" div to start. Now we can see that it is basically using 10 out of 12 but it's not centered where we want it to be. It should be those 10 in the middle. One way of doing this would be to add an empty col-1 div before and after our col-10 to get it centered. But a better way is to just use the flex utilities to center it horizontally. For this is the class called "justify-content-center" which we will add to the row div above the col-10 div:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="row justify-content-center">
+                    <div class="col-10">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+So this spacing kind of looks fine but we'll make the text take up 8 units for screen size lg and greater. So let's add in col-lg-8 to our col-10 div:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+Let's now make the candy icon dissappear and give it the class d-none which hides it always and d-lg-inline to make it reappear when we get to large and greater sreen sizes.
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+The next thing we need to do now is tackle the ordering of everything so that when it shrinks down, the text comes before our image. This is currently with what we have not the case, the image goes first and we don't want that. We didn't talk about this but there are classes in Bootstrap that have to do with order. So we can actually assign order to our pieces. So what we do is use the classes "order-2" for the first item's div and "order-1" for the second
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-md-6 order-2">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+What we see now that they are swapped, but they are always swapped. That's not exactly what we want, we only want them swapped when the page is shrunk. We can fix that by adding order-md-1 to the first div and order-md-2 to the second div:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+So what this does is says that it gives them normal order from sizes equal to or larger than medium, but until then they get switched. 
+
+Now let's go ahead and style our text in app.css. We only use h2's for the "MUSEUM OF CANDY" text so we can start by selecting all h2's and giving them color #EA1C2C, font-weight: 100 and font-size: 2.5rem:
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+h2 {
+   color: #EA1C2C;
+   font-weight: 100;
+   font-size: 2.5rem;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+#headingGroup h1 {
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+@media(max-width:1200px) {
+    #headingGroup h1 {
+        font-weight: 100;
+        font-size: 3rem;
+    }
+}
+
+Let's give all of the div's that contain the text an extra class called "blurb" so that we can access them better.
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+So we can now chnage the h2 to .blurb h2 so that we can get all h2's from inside the element of class blurb:
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+.blurb h2 {
+   color: #EA1C2C;
+   font-weight: 100;
+   font-size: 2.5rem;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+#headingGroup h1 {
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+@media(max-width:1200px) {
+    #headingGroup h1 {
+        font-weight: 100;
+        font-size: 3rem;
+    }
+}
+
+Now we can also access all paragraphs inside a blurb and give them color #f498b8, font-weight: 100, font-size: 1.125rem, line-height: 2 to space out the lines a little bit more
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+.blurb h2 {
+   color: #EA1C2C;
+   font-weight: 100;
+   font-size: 2.5rem;
+}
+
+.blurb p {
+    color: #f498b8;
+    font-weight: 100;
+    font-size: 1.125rem;
+    line-height: 2;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+#headingGroup h1 {
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+@media(max-width:1200px) {
+    #headingGroup h1 {
+        font-weight: 100;
+        font-size: 3rem;
+    }
+}
+
+Now we have to worry about the margin between our sections. There are various ways of doing this but we'll copy the div of class row align-items-center and paste it after itself again and give it an extra class of "content":
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center content">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center content">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+Now we can go inside app.css and write give the class .content margin-top 100px and margin-bottom 100px
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+.blurb h2 {
+   color: #EA1C2C;
+   font-weight: 100;
+   font-size: 2.5rem;
+}
+
+.blurb p {
+    color: #f498b8;
+    font-weight: 100;
+    font-size: 1.125rem;
+    line-height: 2;
+}
+
+.content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+#headingGroup h1 {
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+@media(max-width:1200px) {
+    #headingGroup h1 {
+        font-weight: 100;
+        font-size: 3rem;
+    }
+}
+
+So now we have the second section that we duplicated. But we need to change the image and swap the order. This should be nice and easy because we don't have to worry about the order classes anymore because the text is already first so we don't have to do any rearranging of it. Now what we can do is take the image from our last section and move it after the text and remove the order class from its div, we also need to replace the image source with imgs/gumball.png:
+
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center content">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center content">
+            <div class="col-md-6 text-center">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+        </div>
+    </section>
+
+Now what we can do now is take the first div row and copy it to insert a new section with a new image called imgs/sprinkles.png:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center content">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center content">
+            <div class="col-md-6 text-center">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+        </div>
+        <div class="row align-items-center content">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/sprinkles.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+Awesome, other than that, one thing that is different from the finished version is the spacing at the bottom of the sections. Compared to our version the finished version has more margin at the bottom. We should have done this before we duplicated everything but we can go find the divs that have the text inside of them and give the div with col-10 col-8 blurb two extra classes of mb-5 and mb-md-0:
+
+    <section class="container-fluid px-0">
+        <div class="row align-items-center content">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb mb-5 mb-md-0 mb-5 mb-md-0">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center content">
+            <div class="col-md-6 text-center">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb mb-5 mb-md-0">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="imgs/milk.png" alt="" class="img-fluid">
+            </div>
+        </div>
+        <div class="row align-items-center content">
+            <div class="col-md-6 order-2 order-md-1">
+                <img src="imgs/sprinkles.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 text-center order-1 order-md-2">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 blurb mb-5 mb-md-0">
+                        <h2>MUSEUM OF CANDY</h2>
+                        <img src="imgs/lolli_icon.png" alt="" class="d-none d-lg-inline">
+                        <p class="lead" alt="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iste molestiae
+                            beatae, maiores deserunt
+                            in voluptatibus
+                            aspernatur architecto excepturi delectus soluta? Ipsa, deleniti dolorem hic consequatur
+                            repellat eveniet quidem
+                            voluptate necessitatibus dolorum delectus minus vitae, ut, veritatis sint ipsum magnam
+                            autem nam ex deserunt debitis
+                            eaque ratione! Nobis, quidem assumenda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+So we pasted it in three times. Now when they stack on small and extra small we get that margin, extra space and it looks better. Once we expand it goes away. Next, let's get to work on the navbar scrolling effect. This part deosn't really take advantage of anything we've learned so far. It's just to make it look a little cooler. What we're going to do, in our CSS we're going to define a class that is going to be applied when we scroll. So really all that we're doing is giving it a purple background color. So we're gonna make a class that says tha the background color is that purple shape, then through JavaScript we're going to detect when the user has scrolled and we're going to apply that class to the navbar. So let's define the class first in our CSS, we'll call it scrolled and select .navbar.scrolled so when it has the scrolled class on it and we'll set the background to rgb(222,192,222);
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+.blurb h2 {
+   color: #EA1C2C;
+   font-weight: 100;
+   font-size: 2.5rem;
+}
+
+.blurb p {
+    color: #f498b8;
+    font-weight: 100;
+    font-size: 1.125rem;
+    line-height: 2;
+}
+
+.content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+#headingGroup h1 {
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+.navbar.scrolled {
+    background: rgb(222,192,222);
+}
+
+@media(max-width:1200px) {
+    #headingGroup h1 {
+        font-weight: 100;
+        font-size: 3rem;
+    }
+}
+
+Then we're going to go to our index.html and add our JavaScript file at the bottom of index.html. Because it's not that much and we haven't covered JavaScript yet. So this is the script, but don't worry, we'll cover this stuff too:
+
+    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $("#mainNavbar");
+                $nav.toggleClass("scrolled", $(this).scrollTop() > $nav.height());
+            });
+        });
+    </script>
+
+So when there is a scroll event, we're going to check the nav that has the id #mainNavbar. Then we give the nav element a "scrolled" class when the scrollTop is greater than the nav height. This means that when we scroll past our height of the nav, let's say 50px, then we're going to toggle the class scrolled. When we have scrolled back and we are less than the height, we're going to remove that class. We can also add in an extra transition on the background of 500ms. to .navbar.scrolled
+
+body {
+    background: #f5d9d5;
+    font-family: "Nunito", sans-serif;
+}
+
+.blurb h2 {
+   color: #EA1C2C;
+   font-weight: 100;
+   font-size: 2.5rem;
+}
+
+.blurb p {
+    color: #f498b8;
+    font-weight: 100;
+    font-size: 1.125rem;
+    line-height: 2;
+}
+
+.content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#mainNavbar{
+    font-weight: 100;
+    font-size: 1.5rem;
+}
+
+#mainNavbar .nav-link {
+    color: white;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #EA1C2C;
+}
+
+#mainNavbar .navbar-brand{
+   color: #EA1C2C;
+}
+
+#headingGroup span {
+    color: #EA1C2C;
+}
+
+#headingGroup h1 { 
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+.navbar.scrolled {
+    background: rgb(222,192,222);
+    transition: background 500ms;
+}
+
+@media(max-width:1200px) {
+    #headingGroup h1 {
+        font-weight: 100;
+        font-size: 3rem;
+    }
+}
+
+Alright that is the musem of candy website. It took a while to make. We could probably do it a lot faster if we didn't explain it. It does not look too Bootstrapped, but it takes advantage of things like flex-box, utilities, the grid system with nesting. 
+
+

@@ -1,0 +1,682 @@
+____________________________________________________________________________
+09_other_assorted_useful_css_properties___________________________________09
+____________________________________________________________________________
+
+We're going to talk now about the opacity property and also the alpha channel that we can use with colors. Basically both of these have to do with transparency but they are different. Let's first look at the alpha channel. If you recall the rgb colors red, green and blue we now have rgba, where there is now a fourth channel called the alpha channel. This governs the transparency of the color, how see-thru the color is. It's a value from zero to one. Not 0 to 255. Zero is not at all transparent and one is completely transparent. Let's open the opacity_rgba_starter folder and write an app.css file to the index.html. Let's style the <section> element from index.html. Let's give it a width of 500px, height 500px and background color of magenta.
+
+section {
+    width: 500px;
+    height: 500px;
+    background-color: magenta;
+}
+
+Let's now select the <div></div> with the id="rgba" contained by the section. Let's give it a 50% width, 50% height and a white background color.
+
+#rgba {
+    width: 50%;
+    height: 50%;
+    background-color: white;
+}
+
+OK so it worked, we now see a cut off white part in the magenta-colored section. If I wanted to give it a white rgba color we would write rgba(255,255,255,1): 
+
+#rgba {
+    width: 50%;
+    height: 50%;
+    background-color: rgba(255,255,255,1);
+}
+
+The one at the end means not transparent at all, the color is a full volume, so to say. If we put 0 instead of one we get a completely see-thru <div></div>. Let's put something that lets the colod bleed through a little bit. Let's say 0.7.
+
+#rgba {
+    width: 50%;
+    height: 50%;
+    background-color: rgba(255,255,255,0.7)
+}
+
+One more important thing to note here is that the alpha channel is only going to affect the background color of the element, or wherever we are using this. We can use rgba for text colors too, but as we can see, the text inside the <div></div> does not get affected by the background color alpha channel. So the background color is transparent-ish but the everything else is not. If we compare that to the next property: opacity, it is different. It is not a piece of a color or a channel like rgba, instead opacity is a property we set on an element that governs the entire element's transparency including it's contents and any descendants. The next <section> element in the index.html file is a duplicate of the one we just played with. It's <div> has an id of "opacity". Let's style it with the same width and height and a yellow background-color.
+
+#opacity {
+    width: 50%;
+    height: 50%;
+    background-color: yellow;
+}
+
+If we give it an opacity of 0.3, that will apply to the entire element. 
+
+#opacity {
+    width: 50%;
+    height: 50%;
+    background-color: yellow;
+    opacity: 0.3;
+}
+
+So this includes the text inside the <div> as well. Also inside the second div there is a button as well. This button will get affected as well, together with the text inside the button. Whereas with rgba, we are only doing it on one property only: the background-color of that element. So if I have other elements in there, they are not impacted unless I give them a transparent background-color as well. 
+
+There are alpha channels for different color values as well. So for example if you use a hexadecimal color you would have to pick a color first, let's say this turquoise looking color #00cca0. To add the alpha channel to it we would give it a transparency value from 00 to FF. 00 is no transparency and FF is full transparency. So on our example it would be for example #00cca0dd where dd is our transparency value. This can be adjusted with the color picker in VS Code. Sometimes it is better to use rgba because you can see and change the alpha value quicker than with the hexadecimal where it might not be that apparent. 
+
+Next we'll have a look at the position property. It's like a generic sounding property that does not tell you a lot about it and it has a lot of property values that we can use with it. There are: static, relative, absolute, sticky etc. https://developer.mozilla.org/en-US/docs/Web/CSS/position They are easy to confuse and do not refrain from using the docs. The position sets how an element is positioned in a document. It determines how other four properties, that we have not yet covered, work, depending on how position is set. Let's now go in the position_starter folder and edit the app.css file. To start with we have three divs, set up into different sections. All divs are 100x100px, have a certain background-color and the middle one has a different background color. We will play around with these. We will try to modify firs the section which has the id="static" and set the middle <div></div>'s position to static.
+
+#static #middle {
+    position: static;
+}
+
+We see that nothing changes. It stays as it already was. The other mentionex properties like: top, bottom, left and right also have no effect. We can try this. Let's also give it another color to be sure it actually affects what we want it to affect.
+
+#static #middle {
+    position: static;
+    top: 100px;
+    background-color: red;
+}
+
+The next position property value we'll cover is the relative "relative" value. "relative" is going to keep the element in the normal flow of the document but we can offset it relative to itself using top, left, right and bottom. Let's select the id="relative" section's middle <div></div> from the index.html document and set the position to relative.
+
+#relative #middle {
+    position: relative;
+}
+
+After a refresh, nothing changes. But now we can use top, left, right and bottom. Let's set top to 50px and left to 50px. 
+
+#relative #middle {
+    position: relative;
+    top: 50px;
+    left: 50px;
+}
+
+Because we put an offset at the top of 50px, we actually moved it downwards. The same can be said about the left offset: we set it to 50px on the left side so the box got shifted right. We can also use negative values if we wanted to. This would make it more intuitive maybe to read. So this allows us to position the element relative to where it normally would be in the document. Its place in the document is still there.
+
+The next option is the "absolute" value. If we place an element absolutely, the element is removed from the document flow and no space is created for the element in the page layout. Let's select the id="absolute" section's middle <div></div> and set its position to "absolute".
+
+#absolute #middle {
+    position: absolute;
+}
+
+It now looks like we have just two divs there. But that's not what happened. There is a div behind it. The dark blue div is behind it and this element, the green div in the middle does not take any space in the document and it's removed from the flow. So it's like the space just collapsed and they both are stacked on top of eachother. If we use top and set it to 50px and left to 50px:
+
+#absolute #middle {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
+It went up top. Why is it behaving so oddly? If we read in the documentation, we see that the way that absolute works is that yes, the element is removed from the document flow, but it gets positioned relative to its closed positioned ancestor, if any. Otherwise it will be positioned relative to the initial containing block - which we can think of being basically the <body></body>. It is positioned relative to the top of our screen in our example if it is not nested inside in a positioned element. What it means for something to be positioned? It means basically that it has to have the position property set to anything else other than "static". So we can position it's section the property value of absolute. Let's do that now and give it a position of relative.
+
+#absolute {
+    position: relative;
+}
+
+#absolute #middle {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
+Now all of the sudden, the other div that we have positioned with the absolute value, now has an ancestor that is also positioned. So it will no longer be positioned up top but it is relative to its ancestor. It is a little unaligned with the other squares but what is throwing us off is the fact that it is taking the upper left corner of the section#absolute's margin - this can be seen if we select the section#absolute element with f12 dev tools. The middle div square is now positioned relative to its parent. If we set the top and left to 1px we can get a better idea where the offset is starting from. Let's change the top and left here:
+
+#absolute {
+    position: relative;
+}
+
+#absolute #middle {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
+So this property can be tricky to understand because it depends on the parent's or some parent's position property. The last property we will look into is position: fixed. Let's see an example for it first. Let's select the middle div in the section that has id="fixed":
+
+#fixed #middle {
+    position: fixed;
+}
+
+It looks kind of the same thing as we had when we started with absolute. Let's set the top and left to 0.
+
+#fixed #middle {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+What this does is it puts it in the upper left corner of the page. It goes all the way up to the containing block. What's really important ist that when something is positioned fixed is going to stay there. Its position is relative to that containing block, always. It's kind of like absolute except it has nothing to do with parent elements or anything like that. If we scroll down the page we see that it kind of remains at the top. It stays at the top of the page at that specific offset from our containing block, in our case by nothing. Of course, we can give it a left offset of 400px.
+
+#fixed #middle {
+    position: fixed;
+    top: 0;
+    left: 400px;
+}
+
+This is how you make certain things like a navbar that stays on your screen as you scroll for example. There is another property which is similar to this one which we will not cover which is called sticky. Sticky looks something like this on mdn docs: https://developer.mozilla.org/en-US/docs/Web/CSS/position Where something begins not fixed at the top, it will scroll along with the content until it hits the top and then it stays there, it sticks. This would be nice too, if you have an usecase for something like this. So that's position. It can get tricky, but they are super useful. Just keep getting back to the docs if you are unsure about something.
+
+Now we'are going to talk about one of the more entertaining properties of CSS and that is transitions. Really, it's more than one property but in the same way that border is more than one property, even though there is a single border property that you can use as shorthand. Transitions allow us to animate the transition of one property value to another property value. Let's go in the transition starter folder and make a new app.css file and start styling the index.html. Inside the index.html there are some divs we would like to manipulate a little bit. There is also a div with class="circle". Let's give that a width of 300px, height of 300px and a magenta background-color. 
+
+.circle {
+    width: 300px;
+    height: 300px;
+    background-color: magenta;
+}
+
+Also when we hover over the div, we would like the div to change color to cyan so let's add that too. Let's set it's border-radius to 50% while we're at it. The 50% border-radius made it a cricle. 
+
+.circle {
+    width: 300px;
+    height: 300px;
+    background-color: magenta;
+    transition: background-color 1s ease-in, border-radius 2s;
+}
+
+.circle:hover {
+    background-color: cyan;
+    border-radius: 50%;
+}
+
+So if we hover over it, it will immediately switch from magenta square to cyan circle. It's not very graceful but we can transition them. Let's say we want the color and border-radius to take one full second to change. So don't just flip immediately but take a full second to fade between them. To do that we can set transition to 1s.
+
+.circle {
+    width: 300px;
+    height: 300px;
+    background-color: magenta;
+    transition: 1s;
+}
+
+.circle:hover {
+    background-color: cyan;
+    border-radius: 50%;
+}
+
+This is a very common example but it's not always just hovering. In JavaScript you will often apply classes or remove classes and change styles on the fly and you can still apply transitions to that. So it's not only for when you hover over an element and switch over from one property to another property, there are other situations, but this is the best way to demonstrate transitions. The syntax of transition goes a lot further than that. We can specify the specific property name, how long that property to take to transition, a timing function and a delay. Let's start out by singling out the property name. When we write
+
+transition: 3s;
+
+it means everything. It covers all properties that are changing, they will all be animated for three seconds in that transition. If we were to write 
+
+transition: background-color 3s;
+
+only the background color would take three seconds and the border-radius would change immediately. You probably would not want that but we can single them out. We can also specify a delay like 
+
+transition: background-color 1s 1s;
+
+it is going to take one second before that transition even begins. We also made the transition faster this time. So we wait one second and then we transition for one second. We can also specify the word all to cover all properties.
+
+transition: background-color all 1s 1s;
+
+We can also specify different transitions for each one. So background-color can take one second and border-radius 2s for example:
+
+.circle {
+    width: 300px;
+    height: 300px;
+    background-color: magenta;
+    transition: background-color 1s ease-in, border-radius 2s;
+}
+
+.circle:hover {
+    background-color: cyan;
+    border-radius: 50%;
+}
+
+Here the one second of color finishes first and after that the borde-radius transition comes after. Okay, now there is the third thing that we can specify which is the timing function. To illustrate this we need to make use of the four divs within a section in our index.html. Let's give the section div a height of 100px, width of 100px, background-color turquoise, margin 20px 0 and transition margin-left 3s. We want now to give the section:hover div a margin-left of 500px.
+
+section div {
+    height: 100px;
+    width: 100px;
+    background-color: turquoise;
+    margin: 20px 0;
+    transition: margin-left 3s;
+} 
+
+section:hover div {
+    margin-left:500px;
+}
+
+There is a better method to move items around but for now we will use this. When we hover over the section, every div is going to have a new margin left of 500px, so they end up moving 500px to the right. We also give them a transition on that margin-left: three full seconds. Right now is nothing different from what we've talked about: it's a single property and a duration. But I mentioned we would cover this timing function. So when we specify a transition, there are many ways to go from red to blue in three seconds. Do we just go evenly, in a line, as smooth as possible, or do we start really quickly and then slow down at the end. There is a whole set of these transition timing functions that are built in. They have name like: ease, ease-in, ease-out, linear etc. https://developer.mozilla.org/en-US/docs/Web/CSS/transition-timing-function We can see the examples on mozilla mdn. The ease in starts up slow and then speeds up, the steps uses a certain amount of steps. The cubic bezier curve goes forward and backwards and then forwards. All of these examples from mdn take the same amount of time to go from the beginning to the end but they do it in a very different way. Let's illustrate that on our four divs that look exactly the same. Let's give them a different transition-timing function. So we could specify all the same
+
+transition: margin-left 3s ease-in; 
+
+but that defeats the purpose because we want them to have a separate timing function. We are then used the named property "transition-timing-function" just as we can set border like:
+
+border: 2px solid red;
+
+but we also have
+
+border-color
+border-style
+
+that we can set separately. We are doing the same thing for transition and transition-timing-function. We are giving them all a transition: margin-left 3s and then individually assigning them a timing function. So let's put this in our app.css:
+
+
+section div {
+    height: 100px;
+    width: 100px;
+    background-color: turquoise;
+    margin: 20px 0;
+    transition: margin-left 3s;
+} 
+
+section:hover div {
+    margin-left:500px;
+}
+
+div:nth-of-type(1){
+    transition-timing-function: ease-in;
+}
+div:nth-of-type(2){
+    transition-timing-function: ease-out;
+}
+div:nth-of-type(3){
+    transition-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+}
+div:nth-of-type(4){
+    transition-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
+} 
+
+As we can see they start off very differently but get to the exact same spot at the end, at the same time. A very different journey, one takes forever to get started and then speeds up. The bottom two are some cubic bezier curves found online at https://easings.net/ The website shows an animated graph of the timing function that allows you to see how it behaves when you hover over it. You can click on it and copy the curve. Just to summarize how it works, there are four things that we can specify: a property that we can specify, a duration - in seconds also in milliseconds but usually something like 0.5s or instead 500ms, a timing function and a delay. The default is no delay. And that's it for transitions. They are very useful and especially commonly used with hover effects to make nice little transitions like from one state button not being hovered to second state where the button is being hovered. Often we call attention to the buttons that are being hovered or selected. They will come up here and again. One more last tip there is to single out the properties you would like to transition. Don't just do transition all becuase eventually you'll make some changes in your code and you'll update something in your hover css and you'll end up with transition that you are not expecting. So even if we covered just two transitions in the circle class example: border-radius and background-color, something else can be added to the .circle:hover{} CSS and we don't want it to transition to, it will still transition. So it's better to single out the transitions rather than being lazy and saying transition all.
+
+We're now going to cover another exciting property called transform. We can do a lot with this, we can rotate things, warp their perspective, scale them, stretch them, skew them, translate or move them across the page, up and down. And do these multiple things all at once. To start working on this we have the transform_starter folder where we have two files: index.html and app.css. Inside the index.html we have a bunch of h1's. I have used an option for a property that we have not yet seen. That is margin auto. So with a block level element like an h1, if we set the left and right margin to be auto, that element is going to be centered in its container. So whatever space there is in this container, it will automatically be distributed to the left and the right. Let's actually take a look now at transform. https://developer.mozilla.org/en-US/docs/Web/CSS/transform The one we'll begin with is rotate. Rotate takes a couple of different units: angles as deg, gradieands as grad, radians as rad and also turns as turn. The degrees are mostly used and sometimes the radians. So let's take the section first of type and h1 the nth of type (1) which is the first one as well and rotate it 45 degrees in our app.css file:
+
+section:first-of-type h1:nth-of-type(1){
+    transform: rotate(45deg);
+}
+
+We can also change the transform origin, currently it happens in the middle of the element. Think of it as putting a pin in the middle and then rotating around that. We can also change that origin with transform-origin: top right; but you also can use pixels.
+
+section:first-of-type h1:nth-of-type(1){
+    transform-origin: top right;
+    transform: rotate(45deg);
+}
+
+We also have things like rotateX and rotateY where we can rotate around the vertical or horizontal axis. https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function here are some examples - see rotateX for example. 
+
+Scale is also another transform function that we can use. It will change the size of an element. We can grow it or shrink it. Let's take the second h1 and scale it to (0.6)
+
+section:first-of-type h1:nth-of-type(2){
+    transform: scale(0.6);
+}
+
+As we can see it, shrank on the x and y axis to 0.6. We can also scale it up. We can also give it two values like (2, 1) which means the width will be scaled by two but the height remains 1, the same. This is also the same as writing transform: scaleY(2).
+
+Next up we have translate. https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function This allows us to take one element and move it around. So we can move it to the right, to the left, up, down or do both at the same time with translateX(). If we wanted to move something horizontally we would use translateX(). We need to pass in a couple of different values. It's either a length - in pixels, centimeters - or a percentage. Let's try it and do a translateX() of the third h1.
+
+section:first-of-type h1:nth-of-type(3){
+    transform: translateX(200px);
+}
+
+This moved our h1 200px to the right. Let's do the fourth h1 and use normal translate with negative pixels. 
+
+section:first-of-type h1:nth-of-type(4){
+    transform: translate(-100px, 50px);
+}
+
+-100px means it goes 100px to the left and the second number moves it 50px downwards. So that's translate. It moves things across the page.
+
+The last one we'll look at here is skew. This is going to skew an elemen on a 2d plane. https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/skew() We also have skewX and skewY. It accepts angles like degrees, radians, and turns. Let's play around with that and do the second section's first h1. Let's give it a skew of 30 degrees.
+
+section:nth-of-type(2) h1:nth-of-type(1){
+    transform: skew(30deg);
+}
+
+This transforms it with skew on both x and y-axes. Let's do one more where we pass in two values: 10 degrees for our x skew and then 5 degrees for our y skew.
+
+section:nth-of-type(2) h1:nth-of-type(2){
+    transform: skew(10deg, 5deg);
+}
+
+Those were all examples of individual transform functions that we can apply. We can also apply more than one. We can combine them if we just separate them with spaces. So for example let's rotate the third h1 and scale it at the same time. Let's give it -20 rotation and 1.3 scaling:
+
+section:nth-of-type(2) h1:nth-of-type(3){
+    transform: rotate(-20deg) scale(1.3);
+}
+
+Let's also move something around. Let's translate the fourth h1 to the left by 500px, rotate it half a turn and scale upwards it by 1.5:
+
+section:nth-of-type(2) h1:nth-of-type(4){
+    transform: translateX(-500px) rotate(0.5turn) scaleY(1.5);
+}
+
+Another important thing about transform is that it applies to all contents of that element. So for example if we take the second section and we transform it: let's shrink it with scale 0.7 and translate it vertically downwards by 500px
+
+section:nth-of-type(2) {
+    transform: scale(0.7) translateX(500px);
+}
+
+So this transformation applies to all included h1's. It not only applies to the parent element but also to it's contents. This makes is super powerful. 
+
+Alright, so now we're gonna take some of what we've learned around CSS Transforms and Transitions plus a couple of other properties we've seen along the way to build a very simple and somewhat effective CSS hover Button. It's just a button but when you hover over it, it rises off the page a tiny bit. These kind of effects are protty common on websites when the users interacts with the elements on there. Maybe not exactly this one but similar ones when you hover over a button. Providing feedback to the user when hovering over a button or element that can be interacted with makes for a better experience. So there is some starter code for this video in hover-button_starter. There is an index.html with just a button in the body. There is also a font called "Roboto" present in the app.css. We haven't talked yet about google fonts yet but we're going to try to make this a good looking as possible. We'll cover fonts soon. So the font is being used in the css file applies it to the body. We're going to start with some advanced cheating stuff just to get our button in the middle of the page, vertically and horizontally. We're going to cheat and use flex-box, which is something we have not yet covered. That's coming up soon. For now let's just add to body diplay: flex, align-items: center and justify-content: center. We already know display but we have not covered yet the flex option. Let's also set the height to 100vh - view height units. Let's also add a background-color of #151b29.
+
+body {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #151b29;
+}
+
+Now let's add some basic styles to our button, pre-hover. Just make it look like the finished button, before we hover over it. So let's set the background to none. Let's set the color at #ffa260, the border to 2px solid, the padding for spacing between the content and the border to 1em for top and botton 2em for left and right, font-size to 1em - scales with it's parent, in this case the body size.
+
+button {
+  background: none;
+  color:#ffa260;
+  border: 2px solid;
+  padding: 1em 2em;
+  font-size: 1em;
+  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s,transform 0.25s;
+}
+
+Now let's change what happens when we hover over the button. The first thing we'll do is change the border-color to #f1ff5c. After that let's make the color: white. Up next we need to add box-shadow down below with the following options: 0 0.5em 0.5em -0.4em #f1ff5c. box-shadow allows us to add a shadow to our box. The first number is the x-offset, the second one is the y-offset, the third one is the blur and the fourth one is the spread radius and at the end is the color. For more info you can have a look at https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow 
+
+button:hover {
+  border-color: #f1ff5c;
+  color: white;
+  box-shadow: 0 0.5em 0.5em -0.4em #f1ff5c;
+}
+
+We're almost there, now let's make it move up a little bit. The best way to achieve that in terms of performance is not to use margin but instead use transform. The transform option that we want is translate. Not rotating, scaling, skewing or anything like that. We're just moving it. Let's do translateY(-0.25em). A positive number would move it downwards and that's not what we want.
+
+button:hover {
+  border-color: #f1ff5c;
+  color: white;
+  box-shadow: 0 0.5em 0.5em -0.4em #f1ff5c;
+  transform: translateY(-0.25em);
+}
+
+Now let's add a nice transition to it in our button. The duration should be on the edge of noticeable and not noticeable, otherwise it will be too fast or look sluggish. We could do transition:all 0.25s although that is not advisable. But let's say along the line we add more properties that we don't want to transition so let's just list all those out which should be transitioned: transition: color 0.25s, border-color 0.25s, box-shadow 0.25s,transform 0.25s;
+
+button {
+  background: none;
+  color:#ffa260;
+  border: 2px solid;
+  padding: 1em 2em;
+  font-size: 1em;
+  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s,transform 0.25s;
+}
+
+Lastly let's add in a change to the cursor when you hover over it to make it clear that you can interact with this button because it won't look like the default button. If we change it to be a pointer when hovering, it will make it clear to the user that the button can be interacted with.
+
+button:hover {
+  border-color: #f1ff5c;
+  color: white;
+  box-shadow: 0 0.5em 0.5em -0.4em #f1ff5c;
+  transform: translateY(-0.25em);
+  cursor: pointer;
+}
+
+So that's it for our button. It's somewhat effective, simple. It is not a full blown application but it is something you can take and integrate in other apps. So that was a quick demonstration of some of the aspects we've covered recently.
+
+Up next we'll talk about the background property. We've worked to far with background-color but that is just one of the options we can use with background. https://developer.mozilla.org/en-US/docs/Web/CSS/background we can do things like background-image, position that image, scale it and so on. One of the most common things is adding a background-image. So we've got a new folder background_starter where we have a section with and h1 in our index.html. Let's make and app.css file and make the section larger. Let's give it width: 80%, height: 800px and a background-color: purple. 
+
+section {
+    width: 80%;
+    height: 800px;
+    background-color: purple;
+}
+
+Let's center it with margin: 0 auto. 
+
+section {
+    width: 80%;
+    height: 800px;
+    background-color: purple;
+    margin: 0 auto;
+}
+
+Let's make the h1 larger and give it a color of white.
+
+h1 {
+    font-size: 150px;
+    color:white;
+}
+
+So what we would like to do now is to add a background-image instead of background-color. background-image also allows us to set a gradient as the background image as well, but we're not going to cover that at the moment. But generally what you'll want is an URL where you have to specify a path to your image. That can be in a folder or hosted online. So let's use an image from unsplash.com because they are licensed as free to use. So let's head over to our document and replace background-color with the background-image and set it to the url that we got from unsplash.
+
+section {
+    width: 80%;
+    height: 800px;
+    background-image: url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80");
+    margin: 0 auto;
+}
+
+The image we added is far larger than what we are displaying in our section. That brings us to some of the other properties of background. For example background-size which will decide how the image will be sized. We have different values like cover, contain, auto. Let's use one of them to see how they behave. Let's try with cover:
+
+section {
+    width: 80%;
+    height: 800px;
+    background-image: url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80");
+    background-size: cover;
+    margin: 0 auto;
+}
+
+We can see that it grows the image as large as possible or rather shrinks it down as much as possible to fit the box and then it crops stuff off if needed. Let's see background-size: contain
+
+section {
+    width: 80%;
+    height: 800px;
+    background-image: url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80");
+    background-size: contain;
+    margin: 0 auto;
+}
+
+It keeps the image as large as possible in the box without stretching or cropping it and instead we get a repeat. Generally we should opt for cover not contain. We do have the option to play around with background-repeat to decide how it repeats, if we want to create patterns but normally we do not want the background to repeat. 
+
+Something else we can play with is background-position. This lets us decide where that background starts, if it is aligned to top, left, center and so on. Let's give it background-position: bottom.
+
+section {
+    width: 80%;
+    height: 800px;
+    background-image: url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80");
+    background-size: cover;
+    background-position: bottom;
+    margin: 0 auto;
+}
+
+The bottom of the image is going to come up. So that's what's being used, or where the image starts. If we change it to top, it will start with the top. 
+
+We now come finally to the background property. This is the shorthand for all of the properties we've seen and others. We can set all of them at once or even just set a color as background. The order does not matter. Let's set the background to an image, no-repeat. 
+
+section {
+    width: 80%;
+    height: 800px;
+    background: url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80") no-repeat;
+    margin: 0 auto;
+}
+
+The only thing that does matter is the bg-size value which may only be included immediately after positon, separated with the "/" character like this for example "center/80%". Let's set it in our example to center/cover:
+
+section {
+    width: 80%;
+    height: 800px;
+    background: center/cover url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80");
+    margin: 0 auto;
+}
+
+One last thing to mention is that we can have multiple backgrounds. So let's set our image to center/40% no-repeat. 
+
+section {
+    width: 80%;
+    height: 800px;
+    background: center/40% url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80") no-repeat;
+    margin: 0 auto;
+}
+
+We now have a bunch of empty space behind our image, let's now set a different background-color to make this obvious. What we could do now is set a different background if we wanted to. Let's add a purple coloured background by adding a comma and our background color name.
+
+section {
+    width: 80%;
+    height: 800px;
+    background: center/40% url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80") no-repeat, blueviolet;
+    margin: 0 auto;
+}
+
+So this could of been a different image. The point is that we are not limited to a single background image, we can have more but that is not very common. Let's put it back to center/cover
+
+section {
+    width: 80%;
+    height: 800px;
+    background: center/cover url("https://images.unsplash.com/photo-1564442038901-4f9a19d3d456?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1227&q=80");
+    margin: 0 auto;
+}
+
+So we covered a lot of background properties: size, position, repeat and the shorthand which does it all. You can use the shorthand to set the color but it's more useful to use background-color just to be more specific, to make it easier to see.
+
+So moving on to cover one of the most useful free resources online which is called google fonts. It allows us to use all sorts of interesting, crazy but also just nice looking fonts. If you recall back when we first covered the font-family property, if we wanted to set a font or change something's font we would use font-family and then we would have to pay attention to which fonts we used. We could put whatever font we wanted, it would work on our machine but we wouldn't have any guarantee that that same font exists or is installed on the average person's machine. So there are the web-safe fonts, that we can assume most people will have, but it is a pretty short list of them. Although there are websites which use a lot of different fonts. One option that we have is actually to include a font as part of our document. We can include a font file. You can buy a font, you can download them and they can get pretty expensive. Google Fonts is free and gives us 1357 families we can choose from: https://fonts.google.com/ We can sort the fonts on the page, we can filter by categories, languages we can view them at different font sizes. Let's go to a very popular font on fonts.google.com - for example roboto. There are a lot of font weights and we have to decide which one we want. Each one increases the size of the download, you don't want to include every single font weight if you're not going to use it. After we decide upon the weight we get a shopping kind of menu on the right side and we click on embed and copy the <link> tag and paste it in our starter file index.html in the google-fonts_starter folder. Let's now make an app.css file and give the font Roboto to our body and then sans-serif as our backup.
+
+body {
+    font-family: Montserrat, sans-serif;
+}
+
+So now it's changed, everything uses now Roboto. Let's center things a bit in the main tag. Let's give it a width of 60% and a margin 0 auto:
+
+main {
+    width: 60%;
+    margin: 0 auto;
+}
+
+Let's include another font. Google Fonts has a pairing section that shows popular pairings of that font you're currently looking at. Let's try Montserrat. If we now look at the embed link, it now has Roboto and Monserrat. Let's add that to our index.html file. Let's give the body the font-family Montserrat as backup.
+
+body {
+    font-family: Montserrat, sans-serif;
+}
+
+And now make all the headings use Roboto with sans serif as backup and also give them a font-weight of 100.
+
+h1,h2,h3 {
+    font-family: Roboto, sans-serif;
+    font-weight: 100;
+}
+
+Let's now make the h1 font-size bigger, to 3rem and remove the margin-bottom on it - setting it to zero - because we want these to be spaced closer together: 
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 0;
+}
+
+Let's now add some margin inbetween h1 and h2 to 10px. So we'll use the adjacent selector h1 + h2. Let's put margin-top: 10px:
+
+h1 + h2 {
+    margin-top: 10px;
+}
+
+So we have two different fonts we've included: Montserrat on everything that is not a heading and Roboto for headings h1, h2 and h3. We don't have to pay for any of this, it's free and it's super useful. These are used all over the place. There are loads of fonts to be discovered on google fonts and they are all free and you don't have to worry about the user not having the font if you include the link to it in index.html. Everyone gets the font for free.
+
+Now we're going to take some of what we learned in CSS to build a very simple photographer's homepage/portfolio/site. It's very simple and it looks half-decent. In the real world each of the pictures would be some sort of gallery that you can click on to expand. This would be only the home page. There is a starter code in photo-site_starter which is just an index.html. Feel free so put instead of my name, your name. It comes with all the images added in. These are some free black and white images from various photographers. If we open the index.html now, there are just a bunch of images. So we've got two things to tackle: first of all the images - putting them in a grid, and secondly the header needs to be made to look nice. 
+
+So let's start with the images. Let's make a new stylesheet called photos.css as this is already added in the index.html file. Inside photos.css we'll select all images and give them a width of 100px.
+
+img {
+    width: 100px;
+}
+
+Next, we're going to talk about how we are going to achieve three evenly or equally sized images going across and then space divided between them as well. They are not a hardcoded width. We are going to use another unit for this, we are going to use percentages and set width to 30%.
+
+img {
+    width: 30%;
+}
+
+This 30% means 30% of the body. We get three images per row and they are 30% of the widht of the body and we have 10% remaining to use for spacing. Now we want to distribute the space between the images. If we resize the page, they will just shrink which is easy. The hard part is now adding the space between them. Later we'll talk about flex-box and we'll see a much easier and simple way without mathematical calculation to add space between elements. The task in front of us right now is: take whatever space this is and evenly distribute it across my elements. This is exactly what flex-box helps us do. But we're not there yet. There is a way to accomplish what we want to do now: if we take that each one of these elements is 30% of that parent's width that means that we have 30 + 30 + 30 that means 90% taken up and 10% left. So if we wanted to distribute that 10% around the images we could use margin. But if we hardcode margin and set it to 20px:
+
+img {
+    width: 30%;
+    margin: 20px
+}
+
+It will not respond that good to resizing, the images will still have a big space between then when we make the page smaller. So this is where we have to use math: if we have 10% left, we have to divide that into a smaller number. How many place do we have to distribute it to? So we need the left side and the right side of the first image, the left side and right side of the second image and the left and righ sides of the third image. So that's six total spots for margin. Theoretically we could just do it on the left on the first image and nothing on the right and so on, but we're just gonna add it to both sides: left and right and also top and bottom. So we need to take that 10% and divide it by six. That gives us 1.66666666666. Let's set the martin to that number in percent:
+
+img {
+    width: 30%;
+    margin: 1.66666666666%;
+}
+
+So this responds to our resizing and works. Sometimes we will see some mathy numbers in CSS that are the result of some calculation. This is kind of hard to write that out. Also if we wanted to resize the width, we would have to recalculate. There is an easier option to write that out, it's something we haven't seen yet and that is calc(). And we can pass in some mathematical thing for CSS to calculate like 10%/6. Let's put that in our margin:
+
+img {
+    width: 30%;
+    margin: calc(10%/6);
+}
+
+Why this is kind of better is because we can see the logic behind it: we have 10% that we want to split six ways, instead of 1.66666666 which leaves a lot of guess work to figure where that number came from. As we can see the result is the same. So that was our basic grid of images setup, it's not ideal or an amazing solution but it is simple, it uses margin, width, percentages and the fancy new calc() thing that we haven't seen. 
+
+Now we'll move on to create the header up top which will use some google fonts, margin, paddings and some other things we've seen so far. So in our end result we have a nicer font, everything is upper cased, there is some spacing and a long grey extended line that goes across which is a bottom border. If we inspect the element in the end result with f12 dev tools: it goes all the way across as long as one of the images. So let's first change the name if with yours if you want. Let's work first on the width and border bottom. Let's select the nav and give it text-transform: uppercase:
+
+nav {
+    text-transform: uppercase;
+}
+
+This converts it to uppercase. Next, let's add a border-bottom of 2px solid #f1f1f1.
+
+nav {
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f1f1;
+}
+
+Now let's replicate what we did for our images namely, don't go all the way across, just go 30% of the way. They are in the same parent container, the <body></body> so 30% is the same.
+
+nav {
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f1f1;
+    width: 30%;
+}
+
+This isn't quite matching up because there is margin on this image and there is no margin on this nav. Let's add the same margin as we had in img:
+
+nav {
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f1f1;
+    width: 30%;
+    margin: calc(10%/6);
+}
+
+Ops, we have some extra space now at the top, let's revise that and make it just for the left side with margin-left:
+
+nav {
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f1f1;
+    width: 30%;
+    margin-left: calc(10%/6);
+}
+
+In the final result there is a lot more space between the text and its border. Currently there is no space, so how can we increase that space? With padding. We're going to add padding to top and bottom and none on the sides. Let's do 1.2em 0. The zero is no padding on the side:
+
+nav {
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f1f1;
+    width: 30%;
+    margin-left: calc(10%/6);
+    padding: 1.2em 0;
+}
+
+That's kind of it, otherwise we're in good shape. We still need to change the font and the font weight. The font used in the finished website was Raleway. Let's go on fonts.google.com  and get the 800 font-weight Raleway font and include it in our index.html. So let's add it now to our nav with font-family with sans-serif as backup:
+
+nav {
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f1f1;
+    width: 30%;
+    margin-left: calc(10%/6);
+    padding: 1.2em 0;
+}
+
+Now what's left is the actual font-size. We can play around with that directly in dev tools f12 and try to put something directly in there with font-size to see how it looks. Let's set it to 1.5em so that it scales.
+
+nav {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f1f1;
+    width: 30%;
+    margin-left: calc(10%/6);
+    padding: 1.2em 0;
+}
+
+If we now increase the font-size, the padding will also increase as well. And that's it. Our web page is done!
+
+One more important note here and is beyond the scope we covered so far is if you play around with the website index.html is that if you put the images not in the way they are put in there at the beginning: <img><img> and you write them
+
+<img>
+<img>
+
+on separate lines, it breaks. The images won't go across the page in groups of three. This is annoying and has to do with whitespace: if you write
+
+<span>Hello</span>
+<span>World</span>
+
+you will get "Hello World" with a space inbetween. <img> tag is an inline element too so they will also get that whitespace. This a known obnoxious part of HTML. So basically our calculations get thrown off because we are calculating everything assuming that the only elements we need to account for are those three images on each row. But in reality there's actually a space inbetween and that has a width and throws everything off. That's why the odd <img> insertions, one after the other in index.html. It's weird but there's a reason for that. It's kind of annoying but with flex-box we won't have to worry about that anymore.
+

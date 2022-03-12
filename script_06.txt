@@ -1,0 +1,395 @@
+____________________________________________________________________________
+06_css_basics_____________________________________________________________06
+____________________________________________________________________________
+
+We are now entering the world of CSS. We use it to style HTML Elements. We compared HTML, CSS and JavaScript with different part of a sentance. We learned so far the HTML, the what, the noun. We are moving on to adjectives, to CSS, which describes those nouns. The purple, large, round button. With CSS we can style and manipulate the visual representation of the HTML on the page. But we still have to have the HTML on the page first. This is why we began with HTML. CSS means Cascading Style Sheets and we will get back to this later on. It is not a programming language, it's a language that we can use to just describe the appearance or the visual representation of our documents. There is a lot to CSS and it might seem intimidating but actually it is pretty easy to get started with. And as long as you don't have the wrong mindset going into it, it should be a relatively painless process. Whenever we write CSS, we write CSS rules. The CSS rules for the pattern are in the slides. We can also have more properties. We'll get into properties very soon. We also have a fancier declaration depicted in the slides but it still follows the same pattern as before. Let's take this HTML+CSS example: https://codepen.io/TurkAysenur/pen/JjGKKrP if we remove the CSS here we see that the page still has all the content we need but it is no longer layered and positioned in an attractive and easy to read manner.
+
+CSS is huge, but don't panic. There are a lot of properties that you can use at any point. This does not mean that you have to know them all by heart. This can get intimidating. None of it is extremely complicated but it's just a lot. MDN has also a list of CSS references: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference here is a list of all CSS-Properties. You can also use google for finding out more. I would recommend to stay away from w3schools links as they have lack of in depth explanations, outdated methodologies and old content, so keep an eye out for that. There is a subset of things that you will get to know while you are using it but the rest, you can just search for it when you need it.
+
+Let's see how we can include CSS in our documents. The first option is to write it directly in the .html file. These are called inline styles and look like this:
+
+<h1 style="color: purple">Hello World</h1>
+<button style="background-color: palegreen">I AM BUTTON</button>
+
+This is not a great idea mainly because it is very difficult to share these styles without duplicating them. So for example if we have another button and we want to style it the same as the previous one we would have to write the style="" attribute all over again for it too.
+
+<h1 style="color: purple">Hello World</h1>
+<button style="background-color: palegreen">I AM BUTTON</button>
+<button style="background-color: palegreen">Another button!</button>
+
+The next option is to declare a <style></style> element in the <head></head> of the page. We will style the an <h2></h2> elment from the <body></body> and give it another color. If we have multiple h2's they will all share the same color.
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Intro</title>
+    <style>
+        h2 {
+            color: palevioletred;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>I am an h2</h2>
+    <h2>I am an h2</h2>
+    <h2>I am an h2</h2>
+</body>
+
+Even though this styles each h2 we still have the problem when we have multiple documents, multiple pages on my website that we want to use similar styles, we would have to copy the <style></style> element to each one. So the BEST approach and the one you will see the most is to write the styles in an external stylesheet. So we'll make a new, completely separate file where we write our CSS and this file needs to end in .css. We can include that file in our own document and other documents we make. So for example we'll make app.css and write some stylings:
+
+app.css
+h2 {
+    color: #5FCFFC;
+    background-color: rgb(89, 151, 0);
+}
+
+Afterwards we'll have to include the app.css in the html file. The HTML file does not know anything about the app.css file. We have to include our stylesheet in the <head></head> element of the .html file. If it is in the same folder as the .html file we will just write "app.css", otherwise we would have to write the complete path to it.
+
+<head>
+    <title>CSS Intro</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+
+Anytime you make a stylesheet, use the .css extension and include it using the <link> element and specify the href="" attribute. From now on we will stick with this method of adding CSS to web pages.
+
+Let's now begin with some of the basics, commonly used CSS properties. Things like color, bg-color, changing font size and so on. Afterwards we'll have a look into selectors. We'll now concentrate on what goes inbetween the curly braces. There are different properties that we can set for an element. We are going to start with the color property. We can select all h1's and change their color. If we look on mdn https://developer.mozilla.org/en-US/docs/Web/CSS/color we see that color accepts multiple types of values. There are multiple color systems: rgb, hsl, hsla and so on. We'll look into those later.
+
+Let's make our index.html look like this:
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Intro</title>
+
+    <!-- Using a Style Element - Not Ideal -->
+    <!-- <style>
+        h2 {
+            color: palevioletred;
+        }
+    </style> -->
+
+    <!-- Linking to an External Stylesheet! The best option! -->
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <!-- INLINE STYLES - BAD! -->
+    <!-- <h1 style="color: purple">Hello World</h1>
+    <button style="background-color: palegreen">I AM BUTTON</button>
+    <button style="background-color: palegreen">Another button!</button> -->
+
+    <h2>I am an h2</h2>
+    <h2>I am an h2</h2>
+    <h2>I am an h2</h2>
+    <button>Button 1</button>
+    <button>Button 2</button>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto, fuga. Aperiam ipsa expedita illum illo aliquam
+        debitis accusamus consequuntur repellat incidunt quaerat nesciunt minus, iure laboriosam deleniti cum corrupti
+        officia.
+        Aspernatur reiciendis error quibusdam! Voluptatum atque sapiente ab et id voluptates. Commodi sapiente
+        praesentium, possimus iusto quam perspiciatis, omnis vero fugit aperiam alias assumenda harum asperiores vel
+        architecto expedita accusantium!
+        Rerum, accusamus veritatis magnam labore autem odio porro reprehenderit repellat eveniet, praesentium beatae
+        nostrum reiciendis doloremque quaerat quis laudantium minus eius excepturi velit temporibus. Quasi doloribus
+        magni autem consequatur expedita?</p>
+</body>
+
+</html>
+
+We can now add our CSS in app.css:
+
+h2 {
+    color: #5FCFFC;
+}
+
+button {
+    color: magenta;
+}
+
+p {
+    color: olive;
+}
+
+We also have background color. We can add this in our app.css file:
+
+h2 {
+    color: #5FCFFC;
+    background-color: plum;
+}
+
+button {
+    color: magenta;
+    background-color: cyan;
+}
+
+p {
+    color: olive;
+    background: yellow;
+}
+
+If you noticed on h2 that the background color goes all the way across the screen. This is because the <h2></h2> element take up a whole horizontal line on the page when it is added. h2 is a block level element, if you remember. One quick note: you may see background without the -color added to it. It does work but technically background is a different property than background-color because it does much more than changing the background color. So it would be better to use the background-color because it is more specific, background without -color has more functionalities.
+
+I would also like to address something that I did not make a big deal out of yed and that is the semicolon; at the end of every property declaration. You definitely need that. If you leave it off you won't get an error but it is necessary because it can lead to unexpected behaviour, to something not working and you will not know where it is coming from as your project gets lareger.
+
+We'll have a look now into colors, specifically into the different systems that we can use to reference colors. This is something that will come up a lot, not just with the background-color property but also with things like border and shadows. We saw until now some examples of named colors, these are the easiest colors to get started with, but also the most limited set of colors. All browsers these days recognize 140 named colors. Here is a reference for that https://htmlcolorcodes.com/color-names/ These colors have a specific name in english that we can reference and every browser should know that "mediumvioletred" is that exact shade of red depicted on the website. A typical computer can display 16 million colors and the problem with named colors we would have to come up with a lot of names for those colors. The solution for this is the RGB system: red, green, blue. Behind the screen, on a computer display pixel there are three colors: reg, green and blue and when they get added together they display a color. This is an additive color system so this means if we add 100% red, 100% green and 100% blue we get the color white. For RGB we have three color channels that have values from 0 to 255. 0 red would be 0 red color or completely off and 255 would mean that the red color is maxed out. Here are some examples:
+
+Red	    #FF0000	(255,0,0) - here red is maxed out
+Lime	#00FF00	(0,255,0)
+Blue	#0000FF	(0,0,255)
+Yellow	#FFFF00	(255,255,0)
+
+We also are not supposed to know these numbers by heart. We can just google color picker and select a color that we like and take the rgb code for it and use it. https://htmlcolorcodes.com/color-picker/ We can now change our app.css file and use some rgb values for the colors:
+
+
+h2 {
+    color: blue;
+    background-color: rgb(89, 151, 0);
+}
+
+button {
+    color: magenta;
+    background-color: cyan;
+}
+
+p {
+    color: olive;
+    background: rgb(228, 161, 37);
+}
+
+body {
+    background-color: #c5e;
+}
+
+You don't need to be an expert at remembering colors but you should be an expert on knowing the syntax rgb(255,255,255) where the first number means the amount of red, the second the amount of green and the third the amount of blue. 
+
+Our next system that we will be covering is hex colors. Hex is short for hexadecimal. It is based off the exact same color model, the same system of having a red, green and blue channel and each one ranges from 0 to 255 but the big difference is that hex colors are written using hexadecimal notation. Let's see what this means. In the normal world we use the decimal system which has numbers from 0 to 9. The largest single digit number we have is 9 and the next one is a two digit number: 10. These numbers are base 10. There are other number systems such as binary where we only have numbers 0 to 1, just two. So the smallest one digit number is 0 and the biggest is 1. The binary numbers are base two. The smallest two digit number is 10 and the biggest is 11. What we are talking here is hexadecimal, this is base 16. The numbers are from 0 to F where F is equal to 15 in the decimal system. The biggest one digit number we can write with decimal number is F which gives us 15 in decimal system. The reason this system is used is that we can get more compact numbers with it for our color references. For example:
+
+Red	    #FF0000	(255,0,0) - here red is maxed out
+Lime	#00FF00	(0,255,0)
+Blue	#0000FF	(0,0,255)
+Yellow	#FFFF00	(255,255,0)
+
+The first two numbers/letters represent the red channel, the next two the green channel and the last two represent the blue channel. The hash symbol tells the browser that this is a hexadecimal color code. They are usually used more often than rgb because the syntax is a little bit shorter for writing them. Let's put one color in our app.css:
+
+h2 {
+    color: #5FCFFC;
+    background-color: rgb(89, 151, 0);
+}
+
+button {
+    color: magenta;
+    background-color: cyan;
+}
+
+p {
+    color: olive;
+    background: rgb(228, 161, 37);
+}
+
+body {
+    background-color: #c5e;
+}
+
+One of the nicer features of VS Code for CSS is that that little color preview to show you what color you're working with. Otherwise we'd only see the code and not directly the color. These were to different ways to reference colors: rgb and hexadecimal. Use whichever you prefer. Generally I use the hexadecimal colors. They both are equally good and both better than using the named colors. 
+
+There is also shorthand for the hexadecimal colors. We can have a three-digit hex color number. If each triplet is the exact same digit, we can write them as a three digit. Let's see an example for that:
+
+#000000 would become #000
+#cc55ee would become #c5e
+
+Also if you hover over the color in VS Code you can change it's color. If you click on the upper tab where the color number is showing to switch between the systems. 
+
+We're leaving color behind for a bit and we are going to talk about Text and different properties used to manipulate text such as text-alignment, font-weight, italics, bold, line-height, letter-spacing and so on. Let's start with text-align. Let's first make an index.html page with some h1's and <a></a>'s and <p></p>'s.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Text Properties</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <h1>Cuttlefish</h1>
+    <hr>
+    <p>
+        Cuttlefish or cuttles[3] are marine <a href="#nowhere">molluscs</a> of the order Sepiida. They belong to the
+        class Cephalopoda, which
+        also includes squid, octopuses, and nautiluses. Cuttlefish have a unique internal shell, the
+        cuttlebone.Cuttlefish have large, W-shaped pupils, eight arms, and two tentacles furnished with denticulated
+        suckers, with which they secure their prey. They generally range in size from 15 to 25 cm (6 to 10 in), with the
+        largest species, Sepia apama, reaching 50 cm (20 in) in mantle length and over 10.5 kg (23 lb) in mass.[4]
+    </p>
+    <p>
+        Cuttlefish eat small molluscs, crabs, shrimp, fish, octopus, worms, and other cuttlefish. Their predators
+        include
+        dolphins, sharks, fish, seals, seabirds, and other cuttlefish. The average life expectancy of a cuttlefish is
+        about
+        1–2 years. Studies are said to indicate cuttlefish to be among the most intelligent invertebrates.[5] Cuttlefish
+        also have one of the largest brain-to-body size ratios of all invertebrates.[5]
+    </p>
+    <p>
+        The "cuttle" in cuttlefish comes from the Old English name for the species, cudele, which may be cognate with
+        the
+        Old Norse koddi (cushion) and the Middle Low German Kudel (rag).[6] The Greco-Roman world valued the cuttlefish
+        as a
+        source of the unique brown pigment the creature releases from its siphon when it is alarmed. The word for it in
+        both
+        Greek and Latin, sepia, now refers to the reddish-brown color sepia in English.
+    </p>
+    <h2>Range and Habitat</h2>
+    <hr>
+    <p>The family Sepiidae, which contains all cuttlefish, inhabits tropical and temperate ocean waters. They are mostly
+        shallow-water animals, although they are known to go to depths of about 600 m (2,000 ft).[10] They have an
+        unusual biogeographic pattern: they are present along the coasts of East and South Asia, Western Europe, and the
+        Mediterranean, as well as all coasts of Africa and Australia, but are totally absent from the Americas. By the
+        time the family evolved, ostensibly in the Old World, the North Atlantic possibly had become too cold and deep
+        for these warm-water species to cross.[11] The common cuttlefish (Sepia officinalis), is found in the
+        Mediterranean, North and Baltic seas, although populations may occur as far south as South Africa. They are
+        found in sublittoral depths, between the low tide line and the edge of the continental shelf, to about 180 m
+        (600 ft).[12] The cuttlefish is listed under the Red List category of "least concern" by the IUCN Red List of
+        Threatened Species. This means that while some over-exploitation of the marine animal has occurred in some
+        regions due to large-scale commercial fishing, their wide geographic range prevents them from being too
+        threatened. Ocean acidification, however, caused largely by higher levels of carbon dioxide emitted into the
+        atmosphere, is cited as a potential threat.[13]</p>
+    <h2>Anatomy and physiology</h2>
+    <hr>
+    <h3>Visual System</h3>
+    <p>Cuttlefish, like other cephalopods, have sophisticated eyes. The organogenesis and the final structure of the
+        cephalopod eye fundamentally differ from those of vertebrates such as humans.[14] Superficial similarities
+        between cephalopod and vertebrate eyes are thought to be examples of convergent evolution. The cuttlefish pupil
+        is a smoothly curving W-shape.[15][16] Although cuttlefish cannot see color,[17] they can perceive the
+        polarization of light, which enhances their perception of contrast. They have two spots of concentrated sensor
+        cells on their retinas (known as foveae), one to look more forward, and one to look more backward. The eye
+        changes focus by shifting the position of the entire lens with respect to the retina, instead of reshaping the
+        lens as in mammals. Unlike the vertebrate eye, no blind spot exists, because the optic nerve is positioned
+        behind the retina. They are capable of using stereopsis, enabling them to discern depth/distance because their
+        brain calculates the input from both eyes</p>
+    <h3>Cuttlebone</h3>
+    <p>Cuttlefish possess an internal structure called the cuttlebone, which is porous and is made of aragonite. The
+        pores provide it with buoyancy, which the cuttlefish regulates by changing the gas-to-liquid ratio in the
+        chambered cuttlebone via the ventral siphuncle.[21] Each species' cuttlebone has a distinct shape, size, and
+        pattern of ridges or texture. The cuttlebone is unique to cuttlefish, and is one of the features that
+        distinguish them from their squid relatives.[22]</p>
+</body>
+</html>
+
+This is some copy pasted document from wikipedia. Now let's make an app.css file and start styling our page. Of course we need to first include the app.css stylesheet in our index.html file.
+
+h1 {
+    text-align: center;
+}
+
+This aligns the h1 to center.
+
+h1 {
+    text-align: right;
+}
+
+This aligns it to the right. Let's say I gave this h1 a width of 50%:
+
+h1 {
+    text-align: right;
+    width: 50%;
+}
+
+Now this is still aligned to the right, the blue box - when we select with f12 and inspect the h1 - only goes halfway across the screen. To text-align is not going to move the h1 around. It only operates within the confined content for that h1. Let's go back to text-align: center. We can do the same for pragraphs too and so on.
+
+The next property we will look at is font-weight. This controls the boldness or lightness of a given piece of text. https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight for it we have keywords like normal, bold, lighter, bolder and we also have numbers. 400 is normal and 700 is considered bold. If we put font-weight: 400 on our h1 it makes it back to normal, not bolded.
+
+h1 {
+    text-align: center;
+    font-weight: 400;
+}
+
+If you try and use number that does not come with the font, for example in this case 100, the browser will pick the next closest number to that and use it. If you use 100 it will pick 400. This differs from font to font if they have more font weights availible or not. We'll talk about adding fonts a little bit later on. 
+
+The next property we'll look at is text-decoration. https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration It's a little bit complex but we'll have a look at some basic functions. This property controls the appearance of decorative lines on a text. We can on it on our h1 like
+
+
+text-decoration: underline;
+text-decoration: overline;
+text-decoration: line-through;
+
+But it gets more complex, you can also add color:
+
+text-decoration: blue underline;
+text-decoration: #f78120 underline;
+
+You can also control the style of the line itself. You could have dotted, wavy, solid, dashed and so on.
+
+text-decoration: #f78120 underline wavy;
+
+And added to our h1 would look like this:
+
+h1 {
+    text-align: center;
+    font-weight: 400;
+    text-decoration: #f78120 underline wavy;
+}
+
+Another common situation for text-decoration usage is to remove a default underline. If I had an anchor tag <a></a> in my paragraph text, I get an underline by default in our browser. If I don't want that (like on Wikipedia, no underline until I hover over itm at least) I can use text-decoration and set it to none.
+
+text-decoration: none;
+
+You can also change the line thickness of the text-decoration but we'll leave at that.
+
+The next property we'll quickly cover is line-height. This controls the height of a line of text. If we select a line of text with the mouse we can see that the blue highlight extends more over the text and under it. We can see a demo for this at https://developer.mozilla.org/en-US/docs/Web/CSS/line-height We have not talked yet about units but for now if you just put in a number like 2.5, this will take the font size of the element and multiply it by that number, 2.5. So for our example we can give the paragraphs a double space line-height. We can also shrink it if we want to, for example line-height: 0.5.
+
+h1 {
+    text-align: center;
+    font-weight: 400;
+    text-decoration: #f78120 underline wavy;
+}
+p {
+    line-height: 2;
+}
+
+Up next we have letter-spacing which controls the spacing between letters in our text. https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing Let's do a trendy h1 for our example and give it a 15px letter-spacing. We haven't covered pixels yet but we'll get to it soon.
+
+h1 {
+    text-align: center;
+    font-weight: 400;
+    text-decoration: #f78120 underline wavy;
+    letter-spacing: 15px;
+}
+p {
+    line-height: 2;
+}
+
+Now we'll look at other text properties like changing the font and font size. We also need to talk about units.
+
+So previously we talked about a few various text related properties but we have not talked about how to change size of a text. The property we use to do it is called font-size and then we specify the size. What makes it a bit more tricky although is that the options for these values range a lot. We have all sorts of different units in CSS and different values for sizes. We have things like names for values: small, medium, large, x-large and so on. We have pixels, em's, percentages, vh's, vw's, cm's, inches, mm's. The good news is that most of these are not used frequently. For now we will just have a look a pixels because it's the easiest to get started with. Afterwards we'll look into the other more appropiate units to use like the relative ones such as: em's, rem's and percentages. Pixels are absolute units and the end result's size when using pixels does not depend on anything else - no other elements, no other parent's font size. It is always going to be the same in your document. If something is 10px and something else is 10px, they will be the same size. One thing to note is that: yes, it is called a pixel but it does not necessarily equal the width of exactly one pixel on your machine as it varies depending on the size of your screen and other factors. It is guaranteed to be very small, 1px will be very tiny. Pixels are not recommended for responsive websites but we'll get to that later and see why. Let's play around with it and change the font-size for our h1.
+
+h1 {
+    text-align: center;
+    font-weight: 400;
+    text-decoration: #f78120 underline wavy;
+    letter-spacing: 15px;
+    font-size: 80px;
+}
+p {
+    line-height: 2;
+}
+
+So we can change the font-size of any text. We can also use other absolute values such as mm's and cm's but those are more often used in print, to print out documents. Pixels have been used for a long time and are very common. They are a better unit to use in today's world.
+
+The last of the font adjacent properties is font-family. This is what we use to actually change the font of an element. We can see some exmaples here https://developer.mozilla.org/en-US/docs/Web/CSS/font-family Changing fonts is not as simple as you might think because it really depents on the fonts that are built in your browser. Until we learn how to include and install custom fonts - which is another topic, we have to rely on browser fonts or web-safe fonts. These are fonts we can assume most users will have in their systems. If we go to https://www.cssfontstack.com/ we'll see the most commonly used fonts and how many Windows machines have them vs how many Mac machines have them. For example Arial has goot spport on both windows and Mac but Franklin Gothic Medium has bad support on Mac: 2.1% and is very common on Windows. If you want one of these fonts and it's the only font you want to use on a given element, you have to keep in mind that it may not be fully supported and some of your users will see something different. If I don't have Franklin Gothic Medium on my Mac, my text will look different. That doesn't mean that the text won't be there but it won't be the same font as you intended it to be. So the way the simplest way to use font-family is picking a common font that is across platforms and writing:
+
+font-family: Arial;
+font-family: Verdana;
+
+That's the simplest option. An advanced option which is commonly found in CSS is something called font stack. This is basically a list of fonts that you would like to use, in order. For the following example we have a Gill Sans Extrabold font, followed by any font that the browser knows of that is sans-serif. The sans-serif is not a specific font, but a family.
+
+font-family: Gill Sans Extrabold, sans-serif;
+
+For macs we could have something like:
+
+font-family: Segoe UI, Futura, Arial, sans-serif;
+
+This means that th browser will try to display Segoe UI, if we do not have this font, it will try to display Futura, then Arial and a last resort, if none of them are available, it will take any font that is sans-serif. What follows the first font is a list of backup fonts or fallback options. If you write a family of fonts like: serif, sans-serif, monospace, the browser will pick a font automatically. Later on we'll have a look on how to include our own fonts so that we can guarantee that the user will have access to the font that we want, such as one that is not available by default on neither Mac or Windows. 
+

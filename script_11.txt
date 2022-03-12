@@ -1,0 +1,362 @@
+
+____________________________________________________________________________
+11_pricing_panel_project__________________________________________________11
+____________________________________________________________________________
+
+So next up we're gonna take what we learned about flex-box and media queries and we're gonna build a simple pricing table. This is something you'll se pretty commonly where we have different pricing plans, different tiers, different subscription levels. It's heavily based upon a codepen https://codepen.io/travisw/pen/EvbKwd from a guy named Travis Williamson and it's a really nice looking codepen. We'll change the assets, with some free pictures just to be safe with the licensing. 
+
+Alright so flex-box comes into play as well as media queries when we shrink the page because it's somewhat responsive. First of all there are three columns and they are all centered vertically and horizontally in this panel and when we resize down to mobile we just go to one big column where everything is 100% wide across the screen and the images and everything else get larger to fill up that screen compared to the centered panel. 
+
+So for this we have some starter code. So we have the index.html file pre-written for us, the three icons and then we have the app.css which is completely empty. In the app.css is where we'll write the code.
+
+The first thing we're going to do here is add in something called a CSS Reset. We haven't talked about this so far but we will see these often in the wild. There are different variations like normalized CSS reset and so on. That does not really matter that much. The goal is to normalize how browser styles work across different browsers. This basically gives you a clean slate because some browsers have some default padding, margin or font-size for headings. https://meyerweb.com/eric/tools/css/reset/ so these are some CSS lines of code that people like to copy and put inside of their stylesheets or make a separate stylesheet with. These set the margin, padding and border to many elements to be 0 and some other settings. This gives us a blank slate to work with. So let's copy the code from that website and add it to our app.css:
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+Let's now begin with some basic stuff like setting the background color. Let's set the body's background-color to #60a9ff
+
+body {
+  background-color: #60a9ff;
+}
+
+There is an Open Sans font link included in the index.html file so all that we need to do now if you are working with the starter code is set the html's font-family to 'Open Sans', with a backup of sans-serif:
+
+html {
+  font-family: 'Open Sans', sans-serif;
+}
+
+Now we need to set the box-sizing to border-box in html. If you remember what that does, if we set the width of an element like 100px, that's going to factor in the width of the border, so we're not just setting the inner content, we're also including the border width, so that the overall width will be 100.
+
+html {
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+Ok, next up if we look at the main content in our index.html we have a div with the class of "panel" and that wraps around everything. It should have a white background to begin with.
+
+.panel {
+  background-color: white;
+}
+
+We also want to change the size of it, center it vertically and horizontally in the body using flexbox. So we're going to give the body a display of flex and then justify-content:center. We also want align-items: center and a min-height of 100vh.
+
+body {
+  background-color: #60a9ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+So we're centering vertically and horizontally in the body using flexbox. Now we're going to make this panel itself a flexbox container, so that we can layout the content inside of it to make it look like the end result. Right now it's just stacked in a column. But before we do that we can add some tiny changes to the panel and give it a border-radius of 10px, some padding of 15px and 25px so that it spaces it out a bit. We'll set the width to be 100% of it's parent but we're add a stipulation which is that max-width is 960px, so that it never gets larger than that.
+
+.panel {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 25px;
+  width: 100%;
+  max-width: 960px;
+}
+
+As we can see, there's a maximum width: it is going to take 100% of the width until we hit 960px width and then it's just centered. 
+
+Now we need to work on the inner content. Now we want to make the content inside look something like the end result where we have some sort of layout: three columns which then stack into one big column on a mobile layout. What we're actually going to do is design our site mobile first: meaning we're going to first create the mobile layout as the default, and then on larger screen sizes, we'll change it to be row based instead of column based. So we're going to make our panel have a display of flex.
+
+.panel {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 25px;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+}
+
+We end up with rows by default. But we want it to be column based. So we can set the flex-direction: column.
+
+.panel {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 25px;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+}
+
+If we refresh it looks bad on a large screen size but on a small one it's actually closer to what we want it to look like. We can also say that up from a certain point: make flex direction to row but we'll come to that in a bit. Next up we'll do a tiny bit of typography stuff, we're going to center align everything in the panel with text-align: center and we'll set it with text-transform to uppercase: 
+
+.panel {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 25px;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+Next step: let's add the borders to deliniate the different sections. If we go take a look at the HTML, each of the sections has a class of "pricing plan". What we're going to do is to add a border-bottom to each one of them of 1px solid #e1f1ff:
+
+.pricing-plan {
+  border-bottom: 1px solid #e1f1ff;
+}
+
+So we see the border-bottom. Maybe we'll decide that we don't want the last border-bottom so we can do last-child and set border-bottom to none to get rid of it.
+
+.pricing-plan:last-child {
+  border-bottom: none;
+}
+
+Okay, so we have our divider from our pricing-plan class. The next thing we'll do is to add just a bit of margin on the images. The markup inside of each pricing plan is an image with a class of pricing-img. We'll select those and give them a margin-bottom: 25px. We'll also give them a width of 100%
+
+.pricing-img {
+  margin-bottom: 25px;
+  max-width: 100%;
+}
+
+Now let's on the typography, the spacing, the colors, the fonts and sizes so that it looks a bit nicer. If we look at our markup we've got a pricing-header class. We're going to give them a color of #888, a font-weight of 600 and a letter-spacing of 1px.
+
+.pricing-header {
+  color: #888;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+Notice the shorthand for #888888 there if you remember it. The next chunk we'll address has the markup of class pricing-features. It is a ul with two li's inside. We're going to select them and add some spacing with a margin of 50px 0 25px and a color of #016ff9 for the stuff inside. 
+
+.pricing-features {
+  margin: 50px 0 25px;
+  color: #016ff9;
+}
+
+The next thing we'll do is select the individual items. The li's are with a class named pricing-features-items. We'll select them and give them a font-weight of 600, a letter-spacing of 1px. We'll make them smaller by giving them font-size: 12px and then we'll ad a line-height of 1.5
+
+.pricing-features-item {
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+We'll also add some padding 15px 0 and a border-top of 1px solid #e1f1ff
+
+.pricing-features-item {
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 15px 0;
+  border-top: 1px solid #e1f1ff;
+}
+
+Alright, now we have the buttons. In the markup we have free inside a span and under an <a></a> tag with the text "Sign up" and class "pricing-button". We want to make that anchor tag look like a button and the text "Free" bigger. So let's start with that "Free" text and select the "pricing-price" class and give it a color: #016ff9, set display: block, font-size: 32px and font-weight: 700.
+
+.pricing-price {
+  color: #016ff9; 
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+We also forgot to add the bottom border on the last one of the li items. So right now we only have two, if we had five of them, we want them all to have a top bordor and the bottom one should have it's own bottom border. So we have to select the last-child of pricing-features-item and give it a border of 1px solid #e1f1ff:
+
+.pricing-features-item:last-child{
+  border-bottom: 1px solid #e1f1ff;
+}
+
+Then we've got the button. It's the anchor tag that has the classname of "pricing-button". So we're going to make it look like a button. We'll give it a border of 1px solid #9dd1ff, a border-radius: 10px and color #348efe:
+
+.pricing-button {
+  border: 1px solid #9dd1ff;
+  border-radius: 10px;
+  color: #348efe;
+}
+
+We'll set it's display to be inline-block and give it a padding 15px 35px. So top down 15px and 35px left and right. We're also going to get rid of the text-decoration by setting it to none.
+
+.pricing-button {
+  border: 1px solid #9dd1ff;
+  border-radius: 10px;
+  color: #348efe;
+  display: inline-block;
+  padding: 15px 35px;
+  text-decoration: none;
+ }
+
+We're also going to add a margin to top and bottom of 25px.
+
+.pricing-button {
+  border: 1px solid #9dd1ff;
+  border-radius: 10px;
+  color: #348efe;
+  display: inline-block;
+  padding: 15px 35px;
+  text-decoration: none;
+  margin: 25px 0;
+}
+
+Now at this point it looks decent, all we need to do now is set the hover effect. It's just a change in background color. So when we hover over the pricing-button and when it's focused upon, we're going to change the background-color: #e1f1ff
+
+.pricing-button:hover, .pricing-button:focus {
+  background-color: #e1f1ff;
+}
+
+Now we're going to add a transition on the button itself with background-color 200mx ease-in-out:
+
+.pricing-button {
+  border: 1px solid #9dd1ff;
+  border-radius: 10px;
+  color: #348efe;
+  display: inline-block;
+  padding: 15px 35px;
+  text-decoration: none;
+  margin: 25px 0;
+  transition: background-color 200ms ease-in-out;
+}
+
+So this looks alright on the smaller sizes. So we're pretty much there with the styling aside from our responsive stuff. There's one more thing about the middle button and it's that it has an extra class called "is-featured" so this means that we want it to behave differently. In fact, everything that has a class of "is-featured" should behave differently. So let's give the "pricing-button" that has "is-featured" as well the background-color of #48aaff and a color of white:
+
+.pricing-button.is-featured {
+  background-color: #48aaff;
+  color: white;
+}
+
+Ok, now let's add in it's own hover effect. So if we hover over a button that "is-featured" or if we focus on it, we whould get a different background-color of #269aff:
+
+.pricing-button.is-featured:hover, .pricing-button.is-featured:focus{
+  background-color: #269aff;
+  color: white;
+}
+
+So now there is a slight change when we hover over it. There is another change we have when we hover non-featured buttons.
+
+The last thing we need to do is make this look good on larger screen sizes. So we're gonna go to a row-based layout instead which we can actually just visualize by setting flex-direction: row in the panel class.
+
+.panel {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 25px;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+That's pretty close to what we want when we have the page enlarged. We need to tweak some things though and also we don't want that to happen on all screen sizes. When we make it smaller we want it to go to a column layout. So let's set that flex-direction: row back to column as the default
+
+.panel {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 25px;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+So we begin with mobile first and at a breakpoint of 900px and above we will set it to be a row.
+
+@media (min-width: 900px){
+  .panel {
+    flex-direction: row;
+  }
+}
+
+So small looks good and when we make it larger it goes to row as we wanted it. But there are some things that we would like to change in addition. We have the bottom border that acts like a divider when these are in a column layout, but when we go to a row layout it doesn't really make sense. So let's remove the bottom border and add a right border of 1px solid #e1f1ff on the first two. The class was "pricing-plan":
+
+@media (min-width: 900px){
+  .panel {
+    flex-direction: row;
+  }
+  .pricing-plan {
+    border-bottom: none;
+    border-right: 1px solid #e1f1ff;
+  }
+}
+
+Now the last pricing plan also has a right border, which we'll want to remove just as we removed the bottom border from the column layout. So the class is "pricing-plan" and we'll need the last-child and set the border-right: none
+
+@media (min-width: 900px){
+  .panel {
+    flex-direction: row;
+  }
+  .pricing-plan {
+    border-bottom: none;
+    border-right: 1px solid #e1f1ff;
+  }
+  .pricing-plan:last-child {
+    border-right: none;
+  }
+}
+
+We'll also set more padding to our "pricing-plan". Let's give it a padding of 25px and 50px.
+
+@media (min-width: 900px){
+  .panel {
+    flex-direction: row;
+  }
+  .pricing-plan {
+    border-bottom: none;
+    border-right: 1px solid #e1f1ff;
+    padding: 25px 50px;
+  }
+  .pricing-plan:last-child {
+    border-right: none;
+  }
+}
+
+And it looks pretty good. At this point we are done. We used flexbox to center the entire thing, first of all the panel or rather the body which is a flexbox where we're centering the content. Inside the panel we go from a row to a column layout or from a column to a row, depending on a breakpoint for media queries. OK and that wraps it up for this tiny project.
+
